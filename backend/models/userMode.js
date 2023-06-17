@@ -1,19 +1,25 @@
 const mongoose = require("mongoose");
-
-// user schema
+var Schema = mongoose.Schema;
 const UserSchema = new mongoose.Schema({
-  // email field
-  email: {
-    type: String,
-    required: [true, "Please provide an Email!"],
-    unique: [true, "Email Exist"],
-  },
+    email:{
+        type:String,
+        required: [true, "Please provide an Email"],
+        unique:[true, "Email exists"]
+    },
 
-  //   password field
-  password: {
-    type: String,
-    required: [true, "Please provide a password!"],
-    unique: false,
-  },
+    password:{
+        type:String,
+        required: [true, "Please provide a password!"],
+        unique:false
+    },
+    username:{
+        type:String,
+        required:[true, "Please provide a unique username."],
+        unique:[true,"Username already exists."]
+    }
+    ,
+
+    favorites:[{type:Schema.Types.ObjectId, ref: 'movies'}]
 });
-module.exports = mongoose.model.Users || mongoose.model("Users", UserSchema);
+ 
+module.exports = mongoose.model.Users || mongoose.model('Users',UserSchema);
