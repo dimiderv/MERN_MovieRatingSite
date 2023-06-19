@@ -1,6 +1,6 @@
 sudo docker exec -it movieapp_mongodb_1 /bin/sh
 
-mongosh --username "dejvi" --password --authenticationDatabase admin 
+mongosh --username "admin" --password --authenticationDatabase admin 
 db.stats()
 db.goals.find().pretty()
 show tables

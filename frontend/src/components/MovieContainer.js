@@ -10,16 +10,17 @@ const jwt = require("jsonwebtoken");
 //   }});;
 
 const token = cookies.get("TOKEN");
+console.log(cookies.get('jwt'))
 const MovieContainer = () => {
-  const [active, setActive] = useState(false);
+  //const [active, setActive] = useState(false);
   const [loadedGoals, setLoadedGoals] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  //const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   // console.log(active,isLoading,error)
   // setActive(active)
   useEffect(function () {
     async function fetchData() {
-      setIsLoading(true);
+      //setIsLoading(true);
 
       try {
         const response = await fetch('http://localhost/movies',{
@@ -39,7 +40,7 @@ const MovieContainer = () => {
             'Fetching goals failed - the server responsed with an error.'
         );
       }
-      setIsLoading(false);
+      //setIsLoading(false);
     }
 
     fetchData();
@@ -88,7 +89,7 @@ const MovieContainer = () => {
 
 if(cookies.get("TOKEN")){
   const decodedToken = jwt.verify(cookies.get("TOKEN"),"RANDOM-TOKEN");
-console.log(decodedToken.userEmail)
+console.log(decodedToken.userEmail,decodedToken.userName)
 }
 
   return(

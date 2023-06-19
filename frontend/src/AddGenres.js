@@ -2,10 +2,11 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Row } from "react-bootstrap";
 import { useState,useEffect } from "react";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 
-
-
+const token = cookies.get("TOKEN");
 const AddGenres = ({ movie, addGoalHandler }) => {
 //   const { title, year, thumbnail, cast, genres } = movie;
   const [active, setActive] = useState(false);
@@ -19,7 +20,9 @@ const AddGenres = ({ movie, addGoalHandler }) => {
       setIsLoading(true);
 
       try {
-        const response = await fetch('http://localhost/genre');
+        const response = await fetch('http://localhost/genre',{
+          headers: {Authorization: `Bearer ${token}`}
+        });
 
         const resData = await response.json();
 

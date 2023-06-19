@@ -15,14 +15,14 @@ const AddMovies = () => {
     // setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost/addmovie', {
+      const response = await fetch('http://localhost:80/addmovie', {
         method: 'POST',
         body: JSON.stringify({
           movieData: movie,
         }),
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
       });
 
       const resData = await response.json();

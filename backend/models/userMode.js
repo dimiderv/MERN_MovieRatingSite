@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema({
         unique:[true,"Username already exists."]
     }
     ,
-
+    refreshToken:String,
     favorites:[{type:Schema.Types.ObjectId, ref: 'movies'}]
 });
  
