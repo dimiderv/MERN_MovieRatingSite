@@ -4,7 +4,7 @@ import { Row } from "react-bootstrap";
 import { useState,useEffect } from "react";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
-
+const data = require('./data/genres.json')
 
 const token = cookies.get("TOKEN");
 const AddGenres = ({ movie, addGoalHandler }) => {
@@ -43,6 +43,46 @@ const AddGenres = ({ movie, addGoalHandler }) => {
     fetchData();
   }, []);
 
+  async function initGenre (data){
+
+    for (var i=0; i<data.length;i++){
+      const result = await addGoalHandler(data[i]);
+    }
+  }
+
+  async function addGoalHandler(genre) {
+    // setIsLoading(true);
+
+    try {
+      const response = await fetch('http://localhost:80/genre', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: genre,
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+
+      const resData = await response.json();
+      // console.log(resData.movies)
+      if (!response.ok) {
+        alert(resData.message)
+        throw new Error(resData.message || 'Adding the goal failed.');
+      }
+      // console.log(resData)
+      // setLoadedGoals(resData.movies.results.map((a)=>  
+      // a.title));
+
+    } catch (err) {
+      console.log(err)
+      // setError(
+      //   err.message ||
+      //     'Adding a goal failed - the server responsed with an error.'
+      // );
+    }
+    // setIsLoading(false);
+  }
 
   function handleModal() {
     setActive(!active);
@@ -59,6 +99,7 @@ const AddGenres = ({ movie, addGoalHandler }) => {
     </div>
   ):!loadedGoals.length ?(<div>
     Hello mf 
+    <Button onClick={()=> initGenre(data)}></Button>
   </div>): (
     <Card border='secondary'style={{ width: "18rem", margin: "10px" }}>
       <Card.Img

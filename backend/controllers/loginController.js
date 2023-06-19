@@ -33,7 +33,7 @@ const handleLogin = async (req,res) => {
             
           },
           "RANDOM-TOKEN",
-          { expiresIn: "10s" }
+          { expiresIn: "1000s" }
         );
         const refreshToken = jwt.sign(
             { "username": user.username },
