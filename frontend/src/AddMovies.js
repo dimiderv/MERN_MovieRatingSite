@@ -9,19 +9,21 @@ const data = require('./data/movies.json').slice(0,20).filter((movie)=>{
   }
 return ''});;
 
-
+const token = cookies.get("TOKEN");
 const AddMovies = () => {
   async function addGoalHandler(movie) {
     // setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost/addmovie', {
+      const response = await fetch('http://localhost:80/addmovie', {
         method: 'POST',
         body: JSON.stringify({
           movieData: movie,
         }),
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+          
         }
       });
 
