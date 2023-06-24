@@ -1,9 +1,9 @@
-import MovieAdd from './components/MovieAdd';
-import './components/movie.css';
+import MovieAdd from './MovieAdd';
+import '../movie.css';
 import Cookies from "universal-cookie";
 const jwt = require("jsonwebtoken");
 const cookies = new Cookies();
-const data = require('./data/movies.json').slice(0,20).filter((movie)=>{
+const data = require('../../data/movies.json').slice(0,20).filter((movie)=>{
   if(movie.thumbnail && movie.cast.length >0 && movie.thumbnail_height>360 && movie.thumbnail_width>240){
     return movie
   }

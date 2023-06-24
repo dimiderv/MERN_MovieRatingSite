@@ -9,7 +9,7 @@ function MyVerticallyCenteredModal(props) {
   const { title, year, thumbnail, cast, genre, extract } = props.movie;
   let genres='';
   for(var i=0; i<genre.length;i++){
-    if(i+1==genre.length){
+    if(i+1===genre.length){
       genres+=genre[i].name+'.'
     }else{
       genres+= genre[i].name+', '

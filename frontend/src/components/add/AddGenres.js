@@ -3,17 +3,20 @@ import Card from "react-bootstrap/Card";
 import { Row } from "react-bootstrap";
 import { useState,useEffect } from "react";
 import Cookies from "universal-cookie";
+
 const cookies = new Cookies();
-const data = require('./data/genres.json')
+const data = require('../../data/genres.json')
 
 const token = cookies.get("TOKEN");
 const AddGenres = ({ movie, addGoalHandler }) => {
 //   const { title, year, thumbnail, cast, genres } = movie;
+
+
   const [active, setActive] = useState(false);
   const [loadedGoals, setLoadedGoals] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
+// console.log(auth)
 
   useEffect(function () {
     async function fetchData() {
@@ -44,13 +47,15 @@ const AddGenres = ({ movie, addGoalHandler }) => {
   }, []);
 
   async function initGenre (data){
-
+    let x;
     for (var i=0; i<data.length;i++){
-      const result = await addGoalHandler(data[i]);
+      const result = await addGoalHandlers(data[i]);
+      x= result;
     }
+    console.log(x && false)
   }
-
-  async function addGoalHandler(genre) {
+  
+  async function addGoalHandlers(genre) {
     // setIsLoading(true);
 
     try {

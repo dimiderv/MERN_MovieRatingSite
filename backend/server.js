@@ -9,15 +9,23 @@ const morgan = require("morgan");
 const axios = require("axios").default;
 const Goal = require("./models/Goal");
 const app = express();
+const verifyJWT = require('./middleware/verifyJWT');
 // required for registration
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require('./models/userMode');
 const mySchemas = require('./models/schemas');
 const auth = require('./auth');
+const credentials = require('./middleware/credentials');
+const corsOptions = require('./config/corsOptions');
 // Could be a possible error with new Header
 var cors = require("cors");
-app.use(cors());
+
+// Handle options credentials check - before CORS!
+// and fetch cookies credentials requirement
+app.use(credentials);
+
+app.use(cors(corsOptions));
 //const accessLogStream = fs.createWriteStream(
 //  path.join(__dirname, "logs", "access.log"),
 //  { flags: "a" }
@@ -29,18 +37,18 @@ app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, DELETE,PUT, PATCH, OPTIONS"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-  );
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader(
+//     "Access-Control-Allow-Methods",
+//     "GET, POST, DELETE,PUT, PATCH, OPTIONS"
+//   );
+//   res.setHeader(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+//   );
+//   next();
+// });
 
 
 
@@ -49,7 +57,38 @@ app.use('/register', require('./routes/register'));
 app.use('/login',require('./routes/login'));
 app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
+
+app.use(verifyJWT)
 /**====================================End of Authentication===========================**/
+app.get("/movies", async (req, res) => {
+  console.log("TRYING TO FETCH Movies");
+  try {
+    const movieData = await mySchemas.movies.find().populate('genre');
+    res.status(200).json({
+      movies: movieData.map((movie) => ({
+        id: movie.id,
+        title: movie.title,
+        thumbnail:movie.thumbnail,
+        genre: movie.genre, 
+        extract: movie.extract, 
+        year: movie.year, 
+        cast: movie.cast
+        
+
+      })),
+    });
+    console.log("FETCHED Movies");
+    //console.log(movieData)
+  } catch (err) {
+    console.error("ERROR FETCHING GOALS");
+    console.error(err.message);
+    res.status(500).json({ message: "Failed to load goals." });
+  }
+});
+
+
+
+
 app.get("/goals", async (req, res) => {
   console.log("TRYING TO FETCH GOALS");
   try {
@@ -68,7 +107,7 @@ app.get("/goals", async (req, res) => {
     res.status(500).json({ message: "Failed to load goals." });
   }
 });
-app.get("/favorites",auth, async (req, res) => {
+app.get("/favorites", async (req, res) => {
   console.log("TRYING TO FETCH GOALS");
   try {
     const goals = await Goal.find();
@@ -188,31 +227,7 @@ app.delete('/deleteUsers',async (req,res)=>{
   }
 })
 
-app.get("/movies",auth, async (req, res) => {
-  console.log("TRYING TO FETCH Movies");
-  try {
-    const movieData = await mySchemas.movies.find().populate('genre');
-    res.status(200).json({
-      movies: movieData.map((movie) => ({
-        id: movie.id,
-        title: movie.title,
-        thumbnail:movie.thumbnail,
-        genre: movie.genre, 
-        extract: movie.extract, 
-        year: movie.year, 
-        cast: movie.cast
-        
 
-      })),
-    });
-    console.log("FETCHED Movies");
-    console.log(movieData)
-  } catch (err) {
-    console.error("ERROR FETCHING GOALS");
-    console.error(err.message);
-    res.status(500).json({ message: "Failed to load goals." });
-  }
-});
 app.get('/actor', async (req,res)=>{
   try {
     const movieData = await mySchemas.movies.findOne({cast:'Stephan James'});

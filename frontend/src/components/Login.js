@@ -1,45 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {  useNavigate, useLocation } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 import { Form, Button } from "react-bootstrap";
-import axios from "axios";
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
+import axios from '../api/axios';
+
+
 
 export default function Login() {
   // initial state
+  const { setAuth,persist,setPersist } = useAuth();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login, setLogin] = useState(false);
 
-  const handleSubmit = (e) => {
+
+  const togglePersist = ()=>{
+    setPersist(prev => !prev);
+  }
+
+  useEffect(()=>{
+    localStorage.setItem('persist',persist);
+  },[persist]);
+  
+  const handleSubmit = async (e) => {
     // prevent the form from refreshing the whole page
     e.preventDefault();
 
     // set configurations
-    const configuration = {
-      method: "post",
-      url: "http://localhost:80/login",
-      data: {
-        email,
-        password,
-      },
-    };
 
-    // make the API call
-    axios(configuration)
-      .then((result) => {
-        // set the cookie
-        cookies.set("TOKEN", result.data.token, {
-          path: "/",
-        });
-        // redirect user to the auth page
-        window.location.href = "/auth";
+    try {
+      const response = await axios.post(
+        "http://localhost:80/login",
+          JSON.stringify({ email, password }),
+          {
+              headers: { 'Content-Type': 'application/json' },
+              withCredentials: true
+          }
+      );
+      console.log(JSON.stringify(response?.data));
+      //console.log(JSON.stringify(response));
+      const token = response?.data?.token;
+      //console.log(email,token)
+      
+    setAuth({email,token});
+      // cookies.set("TOKEN",token, {
+      //   path: "/",
+      // });
+      setEmail('');
+      setPassword('');
+      setLogin(true);
+      navigate(from, { replace: true });
+  } catch (error) {
+    console.log(error.message)
+  }
 
-        setLogin(true);
-      })
-      .catch((error) => {
-        error = new Error(error);
-        
-      });
   };
 
   return (
@@ -78,7 +98,9 @@ export default function Login() {
         >
           Login
         </Button>
-
+        <Form.Check type='switch' id="persist" label='Trust this device'
+        onChange={togglePersist}
+        checked={persist} />
         {/* display success message */}
         {login ? (
           <p className="text-success">You Are Logged in Successfully</p>

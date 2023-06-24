@@ -33,22 +33,23 @@ const handleLogin = async (req,res) => {
             
           },
           "RANDOM-TOKEN",
-          { expiresIn: "25s" }
+          { expiresIn: "10m" }
         );
         const refreshToken = jwt.sign(
             { "username": user.username },
            "REFRESH-TOKEN",
-            { expiresIn: '1d' }
+            { expiresIn: '60m' }
         );
 
         user.refreshToken = refreshToken;
         user.save()
             .then((result)=>{
                 console.log(result);
-                res.cookie('jwt',refreshToken, { httpOnly: true, secure: false, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
+                res.cookie('jwt',refreshToken, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
                 res.status(200).send({
                     message: "Login Successful",
                     email: user.email,
+                    username: user.username,
                     token,
                 });
             }).catch((error) => {

@@ -1,50 +1,44 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useContext } from 'react';
 import Movie from './Movie';
 import './movie.css';
-import Cookies from "universal-cookie";
-const jwt = require("jsonwebtoken");
-  const cookies = new Cookies();
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import AuthContext from "../context/AuthProvider";
 // const data = require('../data/movies.json').slice(0,20).filter((movie)=>{
 //   if(movie.thumbnail && movie.cast.length >0 && movie.thumbnail_height>360 && movie.thumbnail_width>240){
 //     return movie
 //   }});;
 
-const token = cookies.get("TOKEN");
-console.log(cookies.get('jwt'))
+
+
+
 const MovieContainer = () => {
-  //const [active, setActive] = useState(false);
+  const { auth } = useContext(AuthContext);
   const [loadedGoals, setLoadedGoals] = useState([]);
-  //const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  // console.log(active,isLoading,error)
-  // setActive(active)
+  const axiosPrivate = useAxiosPrivate();
+  
   useEffect(function () {
     async function fetchData() {
-      //setIsLoading(true);
 
       try {
-        const response = await fetch('http://localhost/movies',{
-          headers: {Authorization: `Bearer ${token}`}
+        const response = await axiosPrivate.get('http://localhost/movies',{
+          headers: {Authorization: `Bearer ${auth?.token}`}
         });
+        const resData = response;
+        setLoadedGoals(resData.data.movies);
 
-        const resData = await response.json();
-
-        if (!response.ok) {
-          throw new Error(resData.message || 'Fetching the goals failed.');
-        }
-        console.log(resData.movies)
-        setLoadedGoals(resData.movies);
       } catch (err) {
         setError(
           err.message ||
             'Fetching goals failed - the server responsed with an error.'
         );
       }
-      //setIsLoading(false);
+      
     }
 
     fetchData();
-  }, []);
+    console.log(auth)
+  }, [auth, axiosPrivate]);
 
 
   async function addGoalHandler(goalText) {
@@ -87,22 +81,18 @@ const MovieContainer = () => {
   //   window.location.href = "/";
   // }
 
-if(cookies.get("TOKEN")){
-  const decodedToken = jwt.verify(cookies.get("TOKEN"),"RANDOM-TOKEN");
-console.log(decodedToken.userEmail,decodedToken.userName)
-}
+
 
   return(
     <div className="movie-container">
-      <h2>Movies</h2>
+      <h2>Movies</h2>      
       <ul className ="movie-list">
         {loadedGoals.map((movie,i) => (
           <Movie movie={movie} key={i} addGoalHandler={addGoalHandler}/>
         ))}
       </ul> 
-      {/* <Button type="submit" variant="danger" onClick={() => logout()}>
-        Logout
-      </Button>      */}
+
+      {false && error}
     </div>
   );
 };

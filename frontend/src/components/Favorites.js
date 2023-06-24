@@ -1,9 +1,11 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Row } from "react-bootstrap";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 // const genres = require('./data/genres.json')
+import { useNavigate, useLocation } from "react-router-dom";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 function MyVerticallyCenteredModal(props) {
   const { title, year, thumbnail, cast, genres, extract } = props.movie;
@@ -31,12 +33,14 @@ function MyVerticallyCenteredModal(props) {
         style={{ display: "block", marginLeft: "auto", marginRight: "auto" }}
       >
         <img
-          alt=''
+          alt=""
           src={thumbnail}
           style={{ display: "block", marginLeft: "auto", marginRight: "auto" }}
         />
         <h4>Genres: {genres}</h4>
-        <p>{year} {extract}</p>
+        <p>
+          {year} {extract}
+        </p>
         <p>{cast}</p>
       </Modal.Body>
       <Modal.Footer>
@@ -47,38 +51,48 @@ function MyVerticallyCenteredModal(props) {
 }
 
 const Favorites = ({ movie, addGoalHandler }) => {
-//   const { title, year, thumbnail, cast, genres } = movie;
+  //   const { title, year, thumbnail, cast, genres } = movie;
+  // const {auth} = useAuth();
+  // const token=cookies.get("TOKEN")
+  //  const { auth } = useContext(AuthContext);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState(null);
   const [active, setActive] = useState(false);
   const [loadedGoals, setLoadedGoals] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  //console.log(isLoading,error)
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   useEffect(function () {
-    async function fetchData() {
-      setIsLoading(true);
+    const controller = new AbortController();
+    let isMounted = true;
 
+    const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost/movies');
+        const response = await axiosPrivate.get("/movies", {
+          signal: controller.signal,
+        });
 
-        const resData = await response.json();
+        const resData = response;
 
-        if (!response.ok) {
-          throw new Error(resData.message || 'Fetching the goals failed.');
-        }
-        console.log(resData.movies)
-        setLoadedGoals(resData.movies);
+        isMounted && setLoadedGoals(resData.data.movies);
       } catch (err) {
-        setError(
-          err.message ||
-            'Fetching goals failed - the server responsed with an error.'
-        );
+        console.log(err);
+        // setError(
+        //   err.message ||
+        //     "Fetching goals failed - the server responsed with an error."
+        // );
+        navigate("/login", { state: { from: location }, replace: true });
       }
-      setIsLoading(false);
-    }
+    };
 
     fetchData();
-  }, []);
 
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, [axiosPrivate, location, navigate]);
 
   function handleModal() {
     setActive(!active);
@@ -88,23 +102,14 @@ const Favorites = ({ movie, addGoalHandler }) => {
     <MyVerticallyCenteredModal
       show={active}
       onHide={handleModal}
-    //   movie={movie}
+      //   movie={movie}
     />
-  ) :! loadedGoals.length?(
-    <div>
-        Nothing happened
-    </div>
-  ): (
+  ) : !loadedGoals.length ? (
+    <div>Nothing happened</div>
+  ) : (
     <Card style={{ width: "18rem", margin: "10px" }}>
-      <Card.Img
-        variant="top"
-        src={""}
-        alt={'ds'}
-        width={259}
-        height={380}
-      />
+      <Card.Img variant="top" src={""} alt={"ds"} width={259} height={380} />
       <Card.Body>
-
         <Card.Title>{loadedGoals[0].year}</Card.Title>
         <Card.Title>{loadedGoals[0].extract}</Card.Title>
       </Card.Body>
