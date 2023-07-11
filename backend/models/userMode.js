@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 var Schema = mongoose.Schema;
+const _ = require('underscore');
 const UserSchema = new mongoose.Schema({
     email:{
         type:String,
@@ -22,4 +23,8 @@ const UserSchema = new mongoose.Schema({
     favorites:[{type:Schema.Types.ObjectId, ref: 'movies'}]
 });
  
+UserSchema.pre('save', function (next) {
+    this.favorites = _.uniq(this.favorites);
+    next();
+});
 module.exports = mongoose.model.Users || mongoose.model('Users',UserSchema);

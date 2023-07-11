@@ -18,6 +18,7 @@ const mySchemas = require('./models/schemas');
 const auth = require('./auth');
 const credentials = require('./middleware/credentials');
 const corsOptions = require('./config/corsOptions');
+
 // Could be a possible error with new Header
 var cors = require("cors");
 
@@ -58,76 +59,8 @@ app.use('/login',require('./routes/login'));
 app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
 
-app.use(verifyJWT)
-/**====================================End of Authentication===========================**/
-app.get("/movies", async (req, res) => {
-  console.log("TRYING TO FETCH Movies");
-  try {
-    const movieData = await mySchemas.movies.find().populate('genre');
-    res.status(200).json({
-      movies: movieData.map((movie) => ({
-        id: movie.id,
-        title: movie.title,
-        thumbnail:movie.thumbnail,
-        genre: movie.genre, 
-        extract: movie.extract, 
-        year: movie.year, 
-        cast: movie.cast
-        
 
-      })),
-    });
-    console.log("FETCHED Movies");
-    //console.log(movieData)
-  } catch (err) {
-    console.error("ERROR FETCHING GOALS");
-    console.error(err.message);
-    res.status(500).json({ message: "Failed to load goals." });
-  }
-});
-
-
-
-
-app.get("/goals", async (req, res) => {
-  console.log("TRYING TO FETCH GOALS");
-  try {
-    const goals = await Goal.find();
-    res.status(200).json({
-      goals: goals.map((goal) => ({
-        id: goal.id,
-        text: goal.text,
-      })),
-    });
-    console.log("FETCHED GOALS");
-    console.log(goals)
-  } catch (err) {
-    console.error("ERROR FETCHING GOALS");
-    console.error(err.message);
-    res.status(500).json({ message: "Failed to load goals." });
-  }
-});
-app.get("/favorites", async (req, res) => {
-  console.log("TRYING TO FETCH GOALS");
-  try {
-    const goals = await Goal.find();
-    res.status(200).json({
-      goals: goals.map((goal) => ({
-        id: goal.id,
-        text: goal.text,
-      })),
-    });
-    console.log("FETCHED GOALS");
-    console.log(goals)
-  } catch (err) {
-    console.error("ERROR FETCHING GOALS");
-    console.error(err.message);
-    res.status(500).json({ message: "Failed to load goals." });
-  }
-});
-
-
-app.post("/goals",auth, async (req, res) => {
+app.post("/goals", async (req, res) => {
   console.log("TRYING TO STORE GOAL");
   const goalText = req.body.text;
 
@@ -152,32 +85,7 @@ app.post("/goals",auth, async (req, res) => {
     res.status(500).json({ message: "Failed to save goal." });
   }
 });
-// I am here
-app.post("/favorites", async (req, res) => {
-  console.log("TRYING TO FAvorites");
-  const movieTitle = req.body.title;
 
-  if (!movieTitle || movieTitle.trim().length === 0) {
-    console.log("INVALID INPUT - NO TEXT");
-    return res.status(422).json({ message: "Invalid goal text." });
-  }
-
-  const user = new mySchemas.User({
-    text: movieTitle,
-  });
-
-  try {
-    await goal.save();
-    res
-      .status(201)
-      .json({ message: "Goal saved", goal: { id: goal.id, text: goalText } });
-    console.log("STORED NEW GOAL");
-  } catch (err) {
-    console.error("ERROR FETCHING GOALS");
-    console.error(err.message);
-    res.status(500).json({ message: "Failed to save goal." });
-  }
-});
 app.post("/genre", async (req, res) => {
   console.log("TRYING TO STORE Genre");
   const postGenre = req.body.name;
@@ -204,6 +112,128 @@ app.post("/genre", async (req, res) => {
     res.status(500).json({ message: "Failed to save goal." });
   }
 });
+
+app.use(verifyJWT)
+/**====================================End of Authentication===========================**/
+app.get("/movies", async (req, res) => {
+  console.log("TRYING TO FETCH Movies");
+  try {
+    const movieData = await mySchemas.movies.find().populate('genre');
+    res.status(200).json({
+      movies: movieData.map((movie) => ({
+        id: movie.id,
+        title: movie.title,
+        thumbnail:movie.thumbnail,
+        genre: movie.genre, 
+        extract: movie.extract, 
+        year: movie.year, 
+        cast: movie.cast
+        
+
+      })),
+    });
+    console.log("FETCHED Movies");
+    //console.log(movieData)
+  } catch (err) {
+    console.error("ERROR FETCHING Movies");
+    console.error(err.message);
+    res.status(500).json({ message: "Failed to load goals." });
+  }
+});
+
+
+
+
+app.get("/goals", async (req, res) => {
+  console.log("TRYING TO FETCH GOALS");
+  try {
+    const goals = await Goal.find();
+    res.status(200).json({
+      goals: goals.map((goal) => ({
+        id: goal.id,
+        text: goal.text,
+      })),
+    });
+    console.log("FETCHED GOALS");
+    console.log(goals)
+  } catch (err) {
+    console.error("ERROR FETCHING GOALS");
+    console.error(err.message);
+    res.status(500).json({ message: "Failed to load goals." });
+  }
+});
+
+
+app.get("/favorites", async (req, res) => {
+  console.log("TRYING TO get Favorites to user populate('favorites')");
+  User.findOne({_id: req.user.userId}).populate({
+    path: 'favorites',
+    populate: {
+      path: 'genre',
+    }
+  })
+  .exec(function(err, result) {
+    if (err) {
+      // Handle error
+      res.status(500).json({message: 'Failed to get favorites.'})
+    } else {
+      // Access the populated favorites with genre information
+      console.log("Before attempting to add to favorites",result)
+      res.status(200).json(result.favorites)
+    }
+  });
+    // .then((result)=>{
+    //     console.log("Before attempting to add to favorites",result.favorites[0].genre)
+    //     res.status(200).json(result.favorites)
+    // }).catch(()=>{
+    //     res.status(500).json({message: 'Failed to get favorites.'})
+    // })
+
+});
+
+
+
+// I am here
+app.post("/favorites", async (req, res) => {
+  console.log("TRYING TO add FAvorites to user");
+  const movieTitle = req.body.title || "";  
+  if (!movieTitle || movieTitle.trim().length === 0) {
+    console.log("INVALID INPUT - NO TEXT");
+    return res.status(422).json({ message: "Invalid goal text." });
+  }
+  const foundMovie = await mySchemas.movies.findOne({title:movieTitle}).exec();
+  if(!foundMovie){
+    console.log("didnt work")
+    res.status(422).json({ message: `No movie with title ${movieTitle}.` });
+  }
+  console.log(foundMovie)
+  console.log(req.user);
+  const user = await User.findOne({_id: req.user.userId})
+  console.log("Before attempting to add to favorites",user)
+  if(user.favorites.includes(foundMovie._id)){
+    console.log(`${movieTitle} already exists in Favorites`);
+    res.status(422).json({ message: `${movieTitle} Already exists in favorites.` });
+  }else{
+      user.favorites.push(foundMovie._id)
+      console.log(user)
+  user.save()
+    .then((result)=>{
+      console.log(result);
+      res.status(200).send({
+        message:"Successfully saved movie to favorites"
+      })
+    }).catch((error)=>{
+      console.log(error)
+      res.status(500).send({
+        message: "Error adding to favorites.",
+        error
+      })
+    })
+  }
+
+});
+
+
 app.delete('/delete',async (req,res)=>{
   try {
     await mySchemas.movies.deleteMany()

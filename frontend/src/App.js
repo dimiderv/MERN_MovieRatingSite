@@ -17,6 +17,8 @@ import LinkPage from "./components/LinkPage";
 import Home from "./components/Home";
 import Missing from "./components/Missing";
 import PersistLogin from "./components/PersistLogin";
+import Footer from "./components/Footer";
+import useAuth from "./hooks/useAuth";
 // const jwt = require("jsonwebtoken");
 // const cookies = new Cookies();
 
@@ -48,10 +50,11 @@ function App() {
   //     setUserName(decodedToken.username);
   //   }
   // }, []);
-
+  const { auth } = useAuth();
+  document.body.style.backgroundColor = "rgb(25, 25, 37)";
   return (
-    <Container>
-      <NavigationBar />
+    <Container className='container' flex='1'>
+      {auth.token && <NavigationBar />}
 
       <Routes>
         <Route path="/" element={<Layout />}>
@@ -77,6 +80,7 @@ function App() {
           <Route path="*" element={<Missing />} />
         </Route>
       </Routes>
+      <Footer />
     </Container>
   );
 }

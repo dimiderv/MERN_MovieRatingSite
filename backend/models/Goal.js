@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const goalSchema = new Schema({
-    text:String
+    text:{type:String,unique:[true, "Movie already exists"]}
 });
 
 const GoalModel = mongoose.model('Goal',goalSchema);

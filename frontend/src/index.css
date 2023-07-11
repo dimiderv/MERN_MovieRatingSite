@@ -1,12 +1,21 @@
+
 body {
+  background: url("https://img.freepik.com/free-photo/movie-background-collage_23-2149876030.jpg?w=1380&t=st=1688693533~exp=1688694133~hmac=7193c595f60e70e66aafa328385f8436a4a11e5da5fef45d6114a03934c2f688") no-repeat center center fixed;
   margin: 0;
+  background-size: cover;
+  height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
 }
-
+@media print {
+  body {
+      background: url("https://img.freepik.com/free-vector/cinema-room-background_1017-8728.jpg?w=1060&t=st=1688692283~exp=1688692883~hmac=56b4f5a13754e4fc83b487a3c0d675e889cbf1b9df0e00a1da7f3414963d3ace");
+  }
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -68,4 +77,92 @@ thead th {
   padding: 0.25rem;
   position: relative;
   bottom: -10px;
+}
+.cardMovie {
+  width: "18rem"; margin: "10px";background:'yellow' 
+}
+.card{
+  box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+  background: rgb(62, 62, 102) !important;
+  
+}
+
+.my-modal .modal-content {
+  background-color: rgb(25, 25, 37);
+}
+
+.Auth-form-container {
+  /* background-image: url("https://img.freepik.com/free-vector/cinema-room-background_1017-8728.jpg?w=1060&t=st=1688692283~exp=1688692883~hmac=56b4f5a13754e4fc83b487a3c0d675e889cbf1b9df0e00a1da7f3414963d3ace"); */
+  /* background-color:  rgb(25, 25, 37); */
+
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  padding-top: 20px;
+  align-items: center;
+  width: 100vw;
+  height: 80vh; /* Side on phone looks bad*/
+}
+
+.Auth-form {
+  width: 420px;
+  box-shadow: rgba(158, 132, 132, 0.16) 1px 1px 10px;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.Auth-form-content {
+  padding-left: 12%;
+  padding-right: 12%;
+}
+
+.Auth-form-title {
+  text-align: center;
+  margin-bottom: 1em;
+  font-size: 24px;
+  color: rgb(34, 34, 34);
+  font-weight: 800;
+}
+.Auth-form-logo {
+  text-align: center;
+  margin-bottom: 1em;
+  font-size: 28px;
+  color: rgb(149, 179, 44);
+  /* font-weight: 800; */
+}
+
+.social-container {
+  background: #e4e9f1;
+  margin-top: auto;
+  padding: 25px 50px;
+  border-radius: 20px;
+  opacity: 0.8;
+}
+a.social {
+  margin: 0 1rem;
+  transition: transform 250ms;
+  display: inline-block;
+}
+a.social:hover {
+  transform: translateY(-2px);
+}
+a.social:hover {
+  transform: translateY(-2px);
+}
+a.youtube {
+  color: #eb3223;
+}
+
+a.facebook {
+  color: #4968ad;
+}
+
+a.twitter {
+  color: #49a1eb;
+}
+
+a.instagram {
+  color: black;
 }

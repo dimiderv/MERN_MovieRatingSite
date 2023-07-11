@@ -1,3 +1,4 @@
+
 li {
     list-style: none;
   }
@@ -5,6 +6,7 @@ li {
   .movie-container {
     display: flex;
     flex-direction: column;
+    /* background-color: rgb(38, 38, 190); */
   }
   
   .movie-list {
@@ -13,24 +15,28 @@ li {
     flex-wrap: wrap;
     align-content: center;
     justify-content: center;
+    /* background-color: rgb(168, 160, 160); */
   }
   
   .movie {
     flex: 1;
     margin: 10px;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #271b1b;
     border-radius: 5px;
     background-color: #fff;
   }
-  
+  .container {
+    /* background-color: rgb(76, 76, 119); */
+  }
+  /* background-color: rgb(126, 172, 96); */
   .movie img {
    align-self: center;
   }
 
   .card:hover {
-    transform: scale(1.05);
-
+    transform: scale(1.03);
     transition-duration: 0.4s;
-    
+    box-shadow: 0 0 11px rgba(235, 226, 226, 0.795)
   }
+  

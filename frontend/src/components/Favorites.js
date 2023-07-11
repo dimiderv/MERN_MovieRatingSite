@@ -6,49 +6,9 @@ import Modal from "react-bootstrap/Modal";
 // const genres = require('./data/genres.json')
 import { useNavigate, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-
-function MyVerticallyCenteredModal(props) {
-  const { title, year, thumbnail, cast, genres, extract } = props.movie;
-  return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title
-          style={{
-            textAlign: "center",
-            marginLeft: "auto%",
-            marginRight: "auto",
-          }}
-          id="contained-modal-title-vcenter"
-        >
-          {title}
-        </Modal.Title>
-      </Modal.Header>
-
-      <Modal.Body
-        style={{ display: "block", marginLeft: "auto", marginRight: "auto" }}
-      >
-        <img
-          alt=""
-          src={thumbnail}
-          style={{ display: "block", marginLeft: "auto", marginRight: "auto" }}
-        />
-        <h4>Genres: {genres}</h4>
-        <p>
-          {year} {extract}
-        </p>
-        <p>{cast}</p>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
-      </Modal.Footer>
-    </Modal>
-  );
-}
+import Movie from "./Movie";
+import MyModal from "./templates/MyModal";
+import MyCarousel from "./templates/MyCarousel";
 
 const Favorites = ({ movie, addGoalHandler }) => {
   //   const { title, year, thumbnail, cast, genres } = movie;
@@ -69,13 +29,13 @@ const Favorites = ({ movie, addGoalHandler }) => {
 
     const fetchData = async () => {
       try {
-        const response = await axiosPrivate.get("/movies", {
+        const response = await axiosPrivate.get("/favorites", {
           signal: controller.signal,
         });
 
         const resData = response;
 
-        isMounted && setLoadedGoals(resData.data.movies);
+        isMounted && setLoadedGoals(resData.data);
       } catch (err) {
         console.log(err);
         // setError(
@@ -98,45 +58,50 @@ const Favorites = ({ movie, addGoalHandler }) => {
     setActive(!active);
   }
 
-  return active ? (
-    <MyVerticallyCenteredModal
-      show={active}
-      onHide={handleModal}
-      //   movie={movie}
-    />
-  ) : !loadedGoals.length ? (
+  return  !loadedGoals.length ? (
     <div>Nothing happened</div>
   ) : (
-    <Card style={{ width: "18rem", margin: "10px" }}>
-      <Card.Img variant="top" src={""} alt={"ds"} width={259} height={380} />
-      <Card.Body>
-        <Card.Title>{loadedGoals[0].year}</Card.Title>
-        <Card.Title>{loadedGoals[0].extract}</Card.Title>
-      </Card.Body>
-      <Card.Footer>
-        <Row>
-          <Button
-            className="lml-auto"
-            variant="primary"
-            type="submit"
-            value="Send"
-            onClick={() => addGoalHandler("title")}
-          >
-            Post
-          </Button>
-          <Button
-            className="ml-auto"
-            variant="primary"
-            type="submit"
-            value="Send"
-            onClick={handleModal}
-          >
-            More
-          </Button>
-        </Row>
-      </Card.Footer>
-    </Card>
+    <div className="movie-container">
+      <h2>Favorites</h2> 
+           
+      <ul className ="movie-list p-2">
+        {loadedGoals.map((movie,i) => (
+          <Movie movie={movie} key={i} addGoalHandler={()=>{}}/>
+        ))}
+      </ul> 
+        {/* <MyCarousel /> */}
+    </div>
   );
 };
 
 export default Favorites;
+
+{/* <Card style={{ width: "18rem", margin: "10px" }}>
+<Card.Img variant="top" src={""} alt={"ds"} width={259} height={380} />
+<Card.Body>
+  <Card.Title>{loadedGoals[0].year}</Card.Title>
+  <Card.Title>{loadedGoals[1].extract}</Card.Title>
+</Card.Body>
+<Card.Footer>
+  <Row>
+    <Button
+      className="lml-auto"
+      variant="primary"
+      type="submit"
+      value="Send"
+      onClick={() => addGoalHandler("title")}
+    >
+      Post
+    </Button>
+    <Button
+      className="ml-auto"
+      variant="primary"
+      type="submit"
+      value="Send"
+      onClick={handleModal}
+    >
+      More
+    </Button>
+  </Row>
+</Card.Footer>
+</Card> */}

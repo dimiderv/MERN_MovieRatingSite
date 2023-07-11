@@ -4,17 +4,19 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthProvider";
-
+import { SearchProvider } from "./context/SearchProvider";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <Routes>
-          <Route path="/*" element={<App />} />
-        </Routes>
+        <SearchProvider>
+          <Routes>
+            <Route path="/*" element={<App />} />
+          </Routes>
+        </SearchProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,

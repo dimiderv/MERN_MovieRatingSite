@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {  useNavigate, useLocation } from "react-router-dom";
+import {  useNavigate, useLocation ,Link} from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button ,Row} from "react-bootstrap";
 import axios from '../api/axios';
-
+import * as Icon from "react-bootstrap-icons";
 
 
 export default function Login() {
@@ -63,11 +63,19 @@ export default function Login() {
   };
 
   return (
-    <>
-      <h2>Login</h2>
-      <Form onSubmit={(e) => handleSubmit(e)}>
+    <Row className="justify-content-md-center">
+    <div className="Auth-form-container">
+      {/* <h2>Login</h2> */}
+      <Form className="Auth-form " onSubmit={(e) => handleSubmit(e)}>
         {/* email */}
-        <Form.Group controlId="formBasicEmail">
+        <div className="Auth-form-content">
+        <h2 className="Auth-form-logo"><Icon.Film />MOvieDb</h2>
+        <h3 className="Auth-form-title">Sign In</h3>
+        <div className="text-center">
+              Already registered?{" "}
+              <Link to="/register">Sign Up</Link>
+        </div>
+        <Form.Group className="form-group mt-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
             type="email"
@@ -79,7 +87,7 @@ export default function Login() {
         </Form.Group>
 
         {/* password */}
-        <Form.Group controlId="formBasicPassword">
+        <Form.Group className="form-group mt-3"controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -92,6 +100,7 @@ export default function Login() {
 
         {/* submit button */}
         <Button
+          className="d-grid gap-2 mt-3"
           variant="primary"
           type="submit"
           onClick={(e) => handleSubmit(e)}
@@ -107,7 +116,9 @@ export default function Login() {
         ) : (
           <p className="text-danger">You Are Not Logged in</p>
         )}
+        </div>
       </Form>
-    </>
+    </div>
+    </Row>
   );
 }

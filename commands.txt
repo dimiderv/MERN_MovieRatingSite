@@ -1,4 +1,4 @@
-sudo docker exec -it movieapp_mongodb_1 /bin/sh
+sudo docker exec -it mern_movieratingsite_mongodb_1 /bin/sh
 
 mongosh --username "admin" --password --authenticationDatabase admin 
 db.stats()

@@ -1,0 +1,51 @@
+
+  
+  h1 {
+    margin: 3rem auto 4rem;
+    /* background-color: rgb(201, 183, 183); */
+    font-family: 'Monaco','Brush Script MT', cursive;
+    color: white;
+   
+  }
+  
+  .product--image {
+    width: 100%;
+    height: 16em;
+    object-fit: cover;
+  }
+  /* boxShadow: '1px 2px 9px #F4AAB9' */
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 18rem;
+    margin: 30px;
+    gap: 5px;
+    text-align: center;
+    font-family: arial;
+    z-index: inherit;
+  }
+  
+  .price {
+    color: grey;
+    font-size: 22px;
+  }
+  
+  .card button {
+    border: none;
+    outline: 0;
+    padding: 12px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+  }
+  Based on your preferences
+  .card button:hover {
+    opacity: 0.7;
+    /* z-index: 3; */
+    
+  }
+
+
+  

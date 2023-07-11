@@ -21,7 +21,7 @@ const handleRefreshToken = async (req, res) => {
                     userName:foundUser.username
                 },
                 'RANDOM-TOKEN',
-                { expiresIn: '10m' }
+                { expiresIn: '30m' }
             );
             res.json({token })
         }

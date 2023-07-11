@@ -7,7 +7,7 @@ import { Container, Col, Row, Button } from "react-bootstrap";
 import { Link,useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useLogout from "../hooks/useLogout";
-
+import useSearch from "../hooks/useSearch";
 const jwt = require("jsonwebtoken");
 
 
@@ -26,11 +26,12 @@ const NavigationBar = ()=>{
   const navigate = useNavigate();
   const {auth} = useAuth();
   const logout=useLogout();
+  const {search,setSearch} = useSearch();
   const signOut = async () => {
       // if used in more components, this should be in context 
       // axios to /logout endpoint 
       await logout();
-      navigate('/linkpage');
+      navigate('/login');
   }
 
 const confirmAction = () => {
@@ -38,7 +39,7 @@ const confirmAction = () => {
   
     if (response) {
       signOut();
-      alert("Ok was pressed");
+      //alert("Ok was pressed");
     } else {
       alert("Cancel was pressed");
     }
@@ -47,7 +48,16 @@ const confirmAction = () => {
   if(auth.token){
     decodedToken = jwt.verify(auth.token,"RANDOM-TOKEN");
   }
-  
+
+  function searchHandler(e){
+    // e.preventDefault();
+    // console.log("filer works.")
+    setSearch(e.target.value);
+    // console.log(search)
+    // search.filter(movie => movie.title.toLowerCase().includes(e.target.value.toLowerCase()));
+    // console.log(search.filter(movie => movie.title.toLowerCase().includes(e.target.value.toLowerCase())))
+    //setSearch(search.filter(movie => movie.title.toLowerCase().includes(e.target.value.toLowerCase())))
+  }
     return (
         <Row xs={12} sm={12} md={12} lg={12}>
         <Container fluid>
@@ -79,6 +89,7 @@ const confirmAction = () => {
                       placeholder="Search"
                       className="me-2"
                       aria-label="Search"
+                      onChange={(e) =>searchHandler(e)}
                     />
                     <Button variant="outline-success">Search</Button>
                   </Form>
@@ -104,7 +115,7 @@ const confirmAction = () => {
                         </NavDropdown.Item>
                         <NavDropdown.Divider />
                         {decodedToken.userName && <NavDropdown.Item
-                          href="#action5"
+                          href="login"
                           onClick={() => confirmAction()}
                         >
                           Logout

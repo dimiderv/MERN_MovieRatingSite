@@ -1,9 +1,10 @@
 import React, { useState,useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Link,useNavigate,useLocation } from "react-router-dom";
+import { Form, Button,Row } from "react-bootstrap";
 import axios from "../api/axios";
 import {faCheck, faTimes, faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-
+import * as Icon from "react-bootstrap-icons";
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{3,24}$/;
 const REGISTER_URL = '/register';
@@ -11,6 +12,10 @@ const REGISTER_URL = '/register';
 export default function Register() {
   // initial state
   const [email, setEmail] = useState("");
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/login";
 
   const [password, setPassword] = useState("");
   const [validPassword, setValidPassword] = useState(false);
@@ -70,6 +75,7 @@ export default function Register() {
       setUsername('');
       setPassword('');
       setMatchPwd('');
+      navigate(from, { replace: true });
   } catch (err) {
       if (!err?.response) {
           setErrMsg('No Server Response');
@@ -111,13 +117,20 @@ export default function Register() {
   };
 
   return (
-    <>
-      <h2>Register</h2>
-      <h3>Already registered? Press to login <a href="/login"> here</a></h3>
+  <Row className="justify-content-md-center">
+    <div className="Auth-form-container">
+
       <p className={errMsg ? "errmsg" : "offscreen"} >{errMsg}</p>
-      <Form onSubmit={(e) => handleSubmit(e)}>
-        {/* email */}
-        <Form.Group controlId="formBasicEmail">
+      <Form className="Auth-form" onSubmit={(e) => handleSubmit(e)}>
+        {/* email */}      
+        <div className="Auth-form-content">
+        <h2 className="Auth-form-logo"><Icon.Film />MOvieDb</h2>
+        <h3 className="Auth-form-title">Register</h3>
+        <div className="text-center">
+              Already registered?{" "}
+              <Link to="/login">Sign In</Link>
+        </div>
+        <Form.Group className="form-group mt-3" controlId="formBasicEmail">
           <Form.Label>Email address: </Form.Label>
           <Form.Control
             type="email"
@@ -129,7 +142,7 @@ export default function Register() {
         </Form.Group>
 
         {/* username */}
-        <Form.Group controlId="formBasicUsername">
+        <Form.Group className="form-group mt-3" controlId="formBasicUsername">
           <Form.Label>Username: 
               <FontAwesomeIcon icon={faCheck} className={validUserName ? "valid" : "hide"} />
               <FontAwesomeIcon icon={faTimes} className={validUserName || !username ? "hide" : "invalid"} />
@@ -149,7 +162,7 @@ export default function Register() {
           </p>
         </Form.Group>
         {/* password */}
-        <Form.Group controlId="formBasicPassword">
+        <Form.Group className="form-group mt-3" controlId="formBasicPassword">
           <Form.Label>Password: 
             <FontAwesomeIcon icon={faCheck} className={validPassword ? "valid" : "hide"} />
             <FontAwesomeIcon icon={faTimes} className={validPassword || !password ? "hide" : "invalid"} />            
@@ -172,7 +185,7 @@ export default function Register() {
           </p>
 
         </Form.Group>
-        <Form.Group controlId="formBasicRetypePassword">
+        <Form.Group className="form-group mt-3" controlId="formBasicRetypePassword">
           <Form.Label>Confirm Password:
             <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
             <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
@@ -196,6 +209,7 @@ export default function Register() {
         {/* submit button */}
         <Button
           disabled={!validUserName || !validPassword || !validMatch ? true : false}
+          className="d-grid gap-2 mt-3"
           variant="primary"
           type="submit"
           onClick={(e) => handleSubmit(e)}
@@ -209,7 +223,9 @@ export default function Register() {
         ) : (
           <p className="text-danger">You Are Not Registered</p>
         )}
+        </div>
       </Form>
-    </>
+    </div>
+    </Row>
   );
 }
