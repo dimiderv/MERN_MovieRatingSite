@@ -1,7 +1,5 @@
 const fs = require("fs");
 const cookieParser = require('cookie-parser')
-const path = require("path");
-var ObjectId = require('mongodb').ObjectId; 
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -14,6 +12,7 @@ const verifyJWT = require('./middleware/verifyJWT');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require('./models/userMode');
+const TrySchema = require('./models/trySchemas');
 const mySchemas = require('./models/schemas');
 const auth = require('./auth');
 const credentials = require('./middleware/credentials');
@@ -27,37 +26,40 @@ var cors = require("cors");
 app.use(credentials);
 
 app.use(cors(corsOptions));
-//const accessLogStream = fs.createWriteStream(
-//  path.join(__dirname, "logs", "access.log"),
-//  { flags: "a" }
-//);
+
 
 //app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(bodyParser.json());
+
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET, POST, DELETE,PUT, PATCH, OPTIONS"
-//   );
-//   res.setHeader(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-//   );
-//   next();
-// });
 
 
 
 
+app.get('/hello', async (req, res) => {
+  await User.findOne({$or: [{ email: "try" }, {username: "try"}]})
+  .exec(function(err, result) {
+    if (err) {
+      // Handle error
+      res.status(501).json({message: 'Failed to get favorites.'})
+    } else {
+      // Access the populated favorites with genre information
+      console.log("This is the user document",result)
+      res.status(200).json(result)
+    }
+  });
+
+});
+
+// +++++++++======================================++++++++++++++++++++++++++++===================++++++++++++
 app.use('/register', require('./routes/register'));
 app.use('/login',require('./routes/login'));
 app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
+
 
 
 app.post("/goals", async (req, res) => {
@@ -77,7 +79,7 @@ app.post("/goals", async (req, res) => {
     await goal.save();
     res
       .status(201)
-      .json({ message: "Goal saved", goal: { id: goal.id, text: goalText } });
+      .json({ message: "Goal save•••••••••••••••d", goal: { id: goal.id, text: goalText } });
     console.log("STORED NEW GOAL");
   } catch (err) {
     console.error("ERROR FETCHING GOALS");
@@ -141,7 +143,21 @@ app.get("/movies", async (req, res) => {
   }
 });
 
-
+app.get("/user",async (req,res)=>{
+  // console.log(req)
+  // should add await i believe
+  User.findOne({$or: [{ email: req.user.userEmail }, {username: req.user.userName}]})
+  .exec(function(err, result) {
+    if (err) {
+      // Handle error
+      res.status(500).json({message: 'Failed to get favorites.'})
+    } else {
+      // Access the populated favorites with genre information
+      console.log("This is the user document",result)
+      res.status(200).json(result)
+    }
+  });
+})
 
 
 app.get("/goals", async (req, res) => {
@@ -166,6 +182,7 @@ app.get("/goals", async (req, res) => {
 
 app.get("/favorites", async (req, res) => {
   console.log("TRYING TO get Favorites to user populate('favorites')");
+  // console.log(req)
   User.findOne({_id: req.user.userId}).populate({
     path: 'favorites',
     populate: {
@@ -192,6 +209,94 @@ app.get("/favorites", async (req, res) => {
 });
 
 
+app.post("/updateUserDetails", async (req,res)=>{
+  // (More efficient) 2. Check if the data have changed (might do it on the frontend)
+
+  
+  const {firstName, lastName, birthday,email} = req.body.dataObj;
+  const user = await User.findOne({_id: req.user.userId});
+  console.log(user)
+  // Should not be allowed any requests. Fix from frontend
+  let areTheSame = 0;
+  user.firstName != firstName ? 
+    (user.firstName = firstName): 
+    areTheSame++
+  user.lastName != lastName ? 
+    (user.lastName = lastName): 
+    areTheSame++
+    
+  const prevEmail = user.email;
+  user.email != email ? 
+    (user.email = email): 
+    areTheSame++
+  
+  user.birthday != birthday ? 
+    (user.birthday = birthday): 
+    areTheSame++
+  
+  if(areTheSame===4){
+    res.status(500).send({
+      message: "You didn't change any information.",
+      prevEmail:prevEmail,
+    })
+  }else{
+    user.save()
+    .then((result)=>{
+      console.log(result);
+      res.status(200).send({
+        message:"Successfully updated details!"
+        
+      })
+    }).catch((error)=>{
+
+      // Try throw error or if condition on frontend
+      res.status(500).send({
+        message: `Error code ${error.code}. Email already exists.`,
+        prevEmail:prevEmail,
+        error
+      })
+    })
+
+  }
+})
+
+
+app.post('/updatePassword',async (req,res)=>{
+  const userID= req.user.userId; 
+  const {currentPassword,newPassword} = req.body.dataObj;
+  console.log(currentPassword,newPassword)
+  console.log(currentPassword,newPassword, userID)
+  await User.findOne({_id:userID}).then((user)=>{
+    bcrypt.compare(currentPassword, user.password)
+      .then(( passwordCheck)=>{
+        if(!passwordCheck){
+          return res.status(400).send({
+            message:'Passwords do not match'
+          });
+        }
+        if(currentPassword === newPassword){
+          return res.status(400).send({
+            message:'Current and new password cant be the same'
+          })
+        }
+        bcrypt
+        .hash(newPassword, 10)
+        .then((hashedPassword)=>{
+          user.password = hashedPassword;
+          console.log(user)
+          user.save().then(result=>{
+            res.status(200).json({
+              message:"Successfully updated password"
+            })
+          })
+        })
+  }).catch((err)=>{
+    console.error(err)
+  })
+
+
+})
+})
 
 // I am here
 app.post("/favorites", async (req, res) => {
@@ -337,6 +442,9 @@ app.get("/genre",auth, async (req, res) => {
     res.status(500).json({ message: "Failed to load Genres." });
   }
 });
+
+
+
 mongoose.connect(
     `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@mongodb:27017/course-goals?authSource=admin`,
     {
@@ -350,6 +458,9 @@ mongoose.connect(
       } else {
         console.log("CONNECTED TO MONGODB!!");
         app.listen(80);
+        // app2.listen(4000)
       }
     }
   );
+
+ module.exports = {app,mongoose}

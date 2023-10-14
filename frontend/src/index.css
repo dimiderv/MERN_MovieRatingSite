@@ -1,6 +1,6 @@
-
+/* https://img.freepik.com/free-photo/movie-background-collage_23-2149876030.jpg?w=1380&t=st=1688693533~exp=1688694133~hmac=7193c595f60e70e66aafa328385f8436a4a11e5da5fef45d6114a03934c2f688 */
 body {
-  background: url("https://img.freepik.com/free-photo/movie-background-collage_23-2149876030.jpg?w=1380&t=st=1688693533~exp=1688694133~hmac=7193c595f60e70e66aafa328385f8436a4a11e5da5fef45d6114a03934c2f688") no-repeat center center fixed;
+  background: url("./images/movie-background-collage.jpg") no-repeat center center fixed;
   margin: 0;
   background-size: cover;
   height: 100%;
@@ -25,7 +25,13 @@ code {
   margin-top: 5%;
   margin-bottom: 5%;
 }
-
+h2{
+  margin: 3rem auto 4rem;
+  margin-top: 4rem;
+  /* background-color: rgb(201, 183, 183); */
+  font-family: 'Monaco','Brush Script MT', cursive;
+  color: white;
+}
 #navigation a {
   margin-right: 10%;
 }

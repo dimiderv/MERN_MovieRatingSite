@@ -8,6 +8,8 @@ import { Link,useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useLogout from "../hooks/useLogout";
 import useSearch from "../hooks/useSearch";
+import { useEffect } from "react";
+
 const jwt = require("jsonwebtoken");
 
 
@@ -44,10 +46,13 @@ const confirmAction = () => {
       alert("Cancel was pressed");
     }
   };
-  let decodedToken='';
-  if(auth.token){
-    decodedToken = jwt.verify(auth.token,"RANDOM-TOKEN");
-  }
+
+  // let decodedToken='';
+  // let useExists = Object.keys(auth).length !== 0
+  // console.log(auth['token'])
+  // if(useExists  ){
+  //   decodedToken = jwt.verify(auth.token,"RANDOM-TOKEN");
+  // }
 
   function searchHandler(e){
     // e.preventDefault();
@@ -58,6 +63,7 @@ const confirmAction = () => {
     // console.log(search.filter(movie => movie.title.toLowerCase().includes(e.target.value.toLowerCase())))
     //setSearch(search.filter(movie => movie.title.toLowerCase().includes(e.target.value.toLowerCase())))
   }
+  // console.log(search)
     return (
         <Row xs={12} sm={12} md={12} lg={12}>
         <Container fluid>
@@ -65,7 +71,7 @@ const confirmAction = () => {
             <Col xs={12}>
               <Navbar bg="light" expand="sm">
                 <Icon.Film />
-                <Navbar.Brand as={Link} to="/">MOvieDb</Navbar.Brand>
+                <Navbar.Brand as={Link} to="home">MOvieDb</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                   <Nav
@@ -73,10 +79,10 @@ const confirmAction = () => {
                     style={{ maxHeight: "100px" }}
                     navbarScroll
                   >
-                    <Nav.Link as={Link} to="/">Home</Nav.Link>
-                    {!auth && <Nav.Link as={Link} to="register">Register</Nav.Link>}
-                    {!auth && <Nav.Link as={Link} to="genre">Genre</Nav.Link>}
-                    {!auth && <Nav.Link as={Link} to="addmovies">Add Movies</Nav.Link>}
+                    <Nav.Link as={Link} to="home">Home</Nav.Link>
+                    {/* {!useExists && <Nav.Link as={Link} to="register">Register</Nav.Link>}
+                    {!useExists && <Nav.Link as={Link} to="genre">Genre</Nav.Link>}
+                    {!useExists && <Nav.Link as={Link} to="addmovies">Add Movies</Nav.Link>} */}
                     <Nav.Link as={Link} to="auth">Movies</Nav.Link>
                     <Nav.Link as={Link} to="upcoming">Upcoming</Nav.Link>
 
@@ -89,6 +95,7 @@ const confirmAction = () => {
                       placeholder="Search"
                       className="me-2"
                       aria-label="Search"
+                      value={search}
                       onChange={(e) =>searchHandler(e)}
                     />
                     <Button variant="outline-success">Search</Button>
@@ -100,12 +107,12 @@ const confirmAction = () => {
                         title={<Icon.PersonCircle />}
                         id="navbarScrollingDropdown"
                       >
-                        <NavDropdown.Item disabled href="#">
+                        {/* <NavDropdown.Item disabled href="#">
                           {decodedToken.userName}
-                        </NavDropdown.Item>
-                     { !auth &&  <NavDropdown.Item as={Link} to="/login">
+                        </NavDropdown.Item> */}
+                     {/* { !auth &&  <NavDropdown.Item as={Link} to="/login">
                           Login
-                        </NavDropdown.Item>}
+                        </NavDropdown.Item>} */}
                         <NavDropdown.Item as={Link} to="settings">Settings</NavDropdown.Item>
                         <NavDropdown.Item as={Link} to="favorites">
                           Favorites
@@ -114,12 +121,12 @@ const confirmAction = () => {
                           linkpage
                         </NavDropdown.Item>
                         <NavDropdown.Divider />
-                        {decodedToken.userName && <NavDropdown.Item
-                          href="login"
+                        <NavDropdown.Item
+                          // href="login"
                           onClick={() => confirmAction()}
                         >
                           Logout
-                        </NavDropdown.Item>}
+                        </NavDropdown.Item>
                       </NavDropdown>
                     </Nav>
                   </Col>

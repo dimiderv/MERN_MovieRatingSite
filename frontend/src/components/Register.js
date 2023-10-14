@@ -16,7 +16,7 @@ export default function Register() {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/login";
-
+  
   const [password, setPassword] = useState("");
   const [validPassword, setValidPassword] = useState(false);
   const [passwordFocus,setPasswordFocus]= useState(false);
@@ -31,6 +31,9 @@ export default function Register() {
   const [errMsg, setErrMsg] = useState('');
 
   const [register, setRegister] = useState(false);
+
+  const [firstName,setFirstName] = useState("Dejvi");
+  const [lastName, setLastName] = useState("Dervishi");
 
 
 
@@ -62,7 +65,7 @@ export default function Register() {
     }
     try {
       const response = await axios.post(REGISTER_URL,
-          JSON.stringify({ email, password,username }),
+          JSON.stringify({ email, password,username,firstName,lastName }),
           {
               headers: { 'Content-Type': 'application/json' },
               withCredentials: true

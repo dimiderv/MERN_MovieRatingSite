@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Row } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Modal from "react-bootstrap/Modal";
 // const genres = require('./data/genres.json')
 import { useNavigate, useLocation } from "react-router-dom";
@@ -9,6 +9,7 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import Movie from "./Movie";
 import MyModal from "./templates/MyModal";
 import MyCarousel from "./templates/MyCarousel";
+import SearchContext from "../context/SearchProvider";
 
 const Favorites = ({ movie, addGoalHandler }) => {
   //   const { title, year, thumbnail, cast, genres } = movie;
@@ -19,10 +20,13 @@ const Favorites = ({ movie, addGoalHandler }) => {
   // const [error, setError] = useState(null);
   const [active, setActive] = useState(false);
   const [loadedGoals, setLoadedGoals] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState([])
+  const {search,setSearch} = useContext(SearchContext);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
-
+  // const from = location.state?.from?.pathname || "/login";
+  const from = '/login'
   useEffect(function () {
     const controller = new AbortController();
     let isMounted = true;
@@ -42,7 +46,7 @@ const Favorites = ({ movie, addGoalHandler }) => {
         //   err.message ||
         //     "Fetching goals failed - the server responsed with an error."
         // );
-        navigate("/login", { state: { from: location }, replace: true });
+        navigate(from, { state: { from: location }, replace: true });
       }
     };
 
@@ -53,6 +57,24 @@ const Favorites = ({ movie, addGoalHandler }) => {
       controller.abort();
     };
   }, [axiosPrivate, location, navigate]);
+
+
+// Clears the filter option, when it first renders. Deletes previous inputs from other pages. 
+  useEffect(()=>{
+    setSearch('')
+  },[])
+  useEffect(()=>{
+
+    setFilteredMovies(loadedGoals.filter((movie) =>{
+      if(search==""){
+        return movie
+      }else if (movie.title.toLowerCase().includes(search.toLowerCase())){
+        return movie
+      }
+      
+    }
+    ))
+  },[search,loadedGoals])
 
   function handleModal() {
     setActive(!active);
@@ -65,7 +87,7 @@ const Favorites = ({ movie, addGoalHandler }) => {
       <h2>Favorites</h2> 
            
       <ul className ="movie-list p-2">
-        {loadedGoals.map((movie,i) => (
+        {filteredMovies.map((movie,i) => (
           <Movie movie={movie} key={i} addGoalHandler={()=>{}}/>
         ))}
       </ul> 

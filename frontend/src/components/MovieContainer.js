@@ -1,6 +1,7 @@
 import { useEffect, useState,useContext } from 'react';
 import Movie from './Movie';
 import './movie.css';
+import { useNavigate,useLocation } from 'react-router-dom';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import AuthContext from "../context/AuthProvider";
 import SearchContext from '../context/SearchProvider';
@@ -20,6 +21,10 @@ const MovieContainer = () => {
   const axiosPrivate = useAxiosPrivate();
   const {search,setSearch} = useContext(SearchContext);
   const [filteredMovies, setFilteredMovies] = useState([])
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/login";
   useEffect(function () {
     async function fetchData() {
 
@@ -36,6 +41,7 @@ const MovieContainer = () => {
           err.message ||
             'Fetching goals failed - the server responsed with an error.'
         );
+        navigate(from, { state: { from: location }, replace: true });
       }
       
     }
@@ -43,6 +49,11 @@ const MovieContainer = () => {
     fetchData();
     console.log(auth)
   }, [auth, axiosPrivate]);
+
+// Clears the filter option, when it first renders. Deletes previous inputs from other pages. 
+  useEffect(()=>{
+    setSearch('')
+  },[])
 
   useEffect(()=>{
 

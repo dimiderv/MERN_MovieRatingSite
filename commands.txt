@@ -1,6 +1,7 @@
 sudo docker exec -it mern_movieratingsite_mongodb_1 /bin/sh
 
 mongosh --username "admin" --password --authenticationDatabase admin 
+use course-goals
 db.stats()
 db.goals.find().pretty()
 show tables

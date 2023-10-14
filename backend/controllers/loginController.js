@@ -1,6 +1,8 @@
 const User = require('../models/userMode');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const accessTokenTime = '10min';
+const refreshTokenTime = '60min';
 const handleLogin = async (req,res) => {
   const { email, password } = req.body;
   if (!email || !password) return res.status(400).json({ 'message': 'Username and password are required.' });
@@ -33,12 +35,12 @@ const handleLogin = async (req,res) => {
             
           },
           "RANDOM-TOKEN",
-          { expiresIn: "30m" }
+          { expiresIn: accessTokenTime }
         );
         const refreshToken = jwt.sign(
             { "username": user.username },
            "REFRESH-TOKEN",
-            { expiresIn: '1d' }
+            { expiresIn: refreshTokenTime }
         );
 
         user.refreshToken = refreshToken;

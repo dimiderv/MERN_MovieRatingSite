@@ -19,27 +19,7 @@ import Missing from "./components/Missing";
 import PersistLogin from "./components/PersistLogin";
 import Footer from "./components/Footer";
 import useAuth from "./hooks/useAuth";
-// const jwt = require("jsonwebtoken");
-// const cookies = new Cookies();
-
-// const logout = () => {
-//   // destroy the cookie
-
-//   cookies.remove("TOKEN", { path: "/" });
-//   // redirect user to the landing page
-//   window.location.href = "/";
-// };
-
-// const confirmAction = () => {
-//   const response = window.confirm("Are you sure you want to do that?");
-
-//   if (response) {
-//     logout();
-//     alert("Ok was pressed");
-//   } else {
-//     alert("Cancel was pressed");
-//   }
-// };
+import Panel from "./components/UserPanel/Panel/Panel";
 
 function App() {
   // const [username, setUserName] = useState("");
@@ -64,15 +44,16 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="print" element={<PrintComponent />} />
-
+          <Route path="/" element={<LinkPage />} />
           {/* Protected Routes */}
           
             <Route element={<RequireAuth />}>
-              <Route path="/" element={<Home />} />
+              <Route path="home" element={<Home />} />
               <Route path="genre" element={<AddGenres />} />
               <Route path="addmovies" element={<AddMovies />} />
               <Route path="auth" element={<MovieContainer />} />
               <Route path="favorites" element={<Favorites />} />
+              <Route path="settings" element={<Panel />} />
             </Route>
           </Route>
           {/* <ProtectedRoutes  path="auth" element={<MovieContainer/>} />

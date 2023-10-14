@@ -9,11 +9,10 @@ const LinkPage = () => {
             <h1>Links</h1>
             <br />
             <h2>Public</h2>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
+            <p>This a movie site where users can customise their details, add movies to favorites and will add many mor things.</p>
             <br />
             <h2>Private</h2>
-            <Link to="/">Home (is going to be login)</Link>
+            <Link to="home">Home (is going to be login)</Link>
             <Link to="/favorites">favorites</Link>
             <Link to="/auth">Shows movies</Link>
             

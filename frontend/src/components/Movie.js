@@ -18,7 +18,7 @@ const Movie = ({ movie, addGoalHandler }) => {
       title={title}
       thumbnail={thumbnail}
       handleModal={handleModal}
-      addGoalHandler={() => alert("You pressed the button")}
+      addGoalHandler={() => addGoalHandler(title)}
     />
   );
 };

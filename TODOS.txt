@@ -1,0 +1,6 @@
+Things I have to do. 
+
+* Make the navigation bar disappear when token has expired.
+* Favorites should be able to undo from their favorites. 
+* Make a frontpage. 
+* Favorites button doesnt work on home page! 

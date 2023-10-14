@@ -5,24 +5,21 @@ import "react-multi-carousel/lib/styles.css";
 
 
 const responsive = {
-  superLargeDesktop: {
-    // the naming can be any, depends on you.
-    breakpoint: { max: 4000, min: 1080 },
-    items: 3,
-    slidesToSlide: 2,
-  },
   desktop: {
-    breakpoint: { max: 1024, min: 800 },
-    items: 2,
+    breakpoint: { max: 3000, min: 1024 },
+    items: 3,
+    slidesToSlide: 2 // optional, default to 1.
   },
   tablet: {
-    breakpoint: { max: 800, min: 464 },
+    breakpoint: { max: 1024, min: 464 },
     items: 2,
+    slidesToSlide: 2 // optional, default to 1.
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
     items: 1,
-  },
+    slidesToSlide: 1 // optional, default to 1.
+  }
 };
 
 export default function TryCard({headline,indexStart, indexEnd}) {
@@ -62,15 +59,19 @@ export default function TryCard({headline,indexStart, indexEnd}) {
     <div>
       <h1>{headline}</h1>
       <MultiCarousel
-        showDots={true}
-        autoPlay={true}
+        showDots={false}
+        autoPlay={false}
         autoPlaySpeed={2000}
         infinite={true}
         responsive={responsive}
-        transitionDuration={2500}
+        transitionDuration={1000}
+        
+        
+        containerClass="container"
+        // itemClass="mx-0"
         customTransition="all 1s linear"
         // draggable
-        arrows={false}
+        arrows={true}
         focusOnSelect={false}
       >
         {product}

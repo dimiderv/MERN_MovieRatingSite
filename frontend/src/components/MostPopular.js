@@ -61,18 +61,20 @@ export default function MostPopular({headline,indexStart=10, indexEnd=20, genreF
       ));
 
   return (
+    // previous transitionDuration was 2500
     <div>
       <h1>{headline}</h1>
       <MultiCarousel
-        showDots={true}
-        autoPlay={true}
+        showDots={false}
+        autoPlay={false}
         autoPlaySpeed={2000}
         infinite={true}
+        containerClass="container"
         responsive={responsive}
-        transitionDuration={2500}
+        transitionDuration={1000} 
         customTransition="all 1s linear"
         // draggable
-        arrows={false}
+        arrows={true}
         focusOnSelect={false}
       >
         {product}

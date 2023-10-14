@@ -14,9 +14,9 @@ const data = require("../../data/movies.json")
     }
     return "";
   });
-console.log(data.map(movie=>{
-     return movie.title
-}))
+// console.log(data.map(movie=>{
+//      return movie.title
+// }))
 
 const CarouselSlide = ({ key, thumbnail, title, extract }) => (
   <Carousel.Item key={key}>

@@ -1,21 +1,120 @@
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link,useLocation } from "react-router-dom";
 import MostPopular from "./MostPopular";
 import TryCard from "./TryCard";
 import useLogout from "../hooks/useLogout";
+import SearchContext from "../context/SearchProvider"; 
+import { useEffect,useState,useContext } from "react";
+import Movie from "./Movie";
+import Product from "./Product";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import AuthContext from "../context/AuthProvider";
 const Home = () => {
   const navigate = useNavigate();
   const logout = useLogout();
+  const {search,setSearch} = useContext(SearchContext);
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  const movies = require("../data/movies.json")
+  .slice(1200, 1250)
+  .filter((movie) => {
+    if (
+      movie.thumbnail &&
+      movie.cast.length > 0 &&
+      movie.thumbnail_height > 360 &&
+      movie.thumbnail_width > 240 
+    ) {
+      return movie;
+    }
+    return "";
+  });
+  const { auth } = useContext(AuthContext);
   const signOut = async () => {
     // if used in more components, this should be in context
     // axios to /logout endpoint
     await logout();
     navigate("/linkpage");
   };
+  const axiosPrivate = useAxiosPrivate();
 
-  return (
+
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/login";
+  useEffect(function () {
+    async function fetchData() {
+
+      try {
+        const response = await axiosPrivate.get('http://localhost/movies',{
+          headers: {Authorization: `Bearer ${auth?.token}`}
+        });
+        const resData = response;
+        // setLoadedGoals(resData.data.movies);
+        // setSearch(resData.data.movies);
+
+      } catch (err) {
+        // setError(
+        //   err.message ||
+        //     'Fetching goals failed - the server responsed with an error.'
+        // );
+        navigate(from, { state: { from: location }, replace: true });
+      }
+      
+    }
+
+    fetchData();
+    console.log(auth)
+  }, [auth, axiosPrivate]);
+  
+  // Clears the filter option, when it first renders. Deletes previous inputs from other pages. 
+  useEffect(()=>{
+    setSearch('')
+  },[])
+  useEffect(()=>{
+    
+    setFilteredMovies(movies.filter((movie)=>{
+      if(search==""){
+        return movie
+      }else if(movie.title.toLowerCase().includes(search.toLowerCase())){
+        return movie
+      }
+
+    }
+    ))
+  },[search])
+  
+
+  return search ?
+  (
+    
+    <div className="movie-container">
+      {/* <h2>Search results</h2>  */}
+           
+      <ul className ="movie-list p-2">
+        {filteredMovies.map((movie,i) => (
+              <Product
+              title={movie.title}
+              thumbnail={movie.thumbnail}
+              price={"9.99$"}
+              extract={movie.extract}
+              key={i}
+              movie ={{
+                title : movie.title,
+                thumbnail:movie.thumbnail,
+                cast: movie.cast,
+                extract: movie.extract,
+                genre: movie.genres, 
+                year: movie.year
+              }}
+            />
+        ))}
+      </ul> 
+        {/* <MyCarousel /> */}
+    </div>
+    
+  )
+  :(
     <section>
+
       <div className="justify-content-center ">
-        <TryCard headline="Newest" indexStart={1239} indexEnd={1249} />
+        <TryCard headline="Newest" indexStart={1237} indexEnd={1247} />
       </div>
       <div className="justify-content-center ">
         <MostPopular

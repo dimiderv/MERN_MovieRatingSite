@@ -5,11 +5,12 @@ import {
   faFacebook,
   faTwitter,
   faInstagram,
+  faLinkedin,
   faGithub
 } from "@fortawesome/free-brands-svg-icons";
 export default function Social() {
   return (
-    <div class="social-container text-center">
+    <div className="social-container text-center">
 
       <a
         href="https://www.youtube.com/"
@@ -17,14 +18,14 @@ export default function Social() {
       >
         <FontAwesomeIcon icon={faYoutube} size="2x" />
       </a>
-      <a
-        href="https://www.facebook.com/"
-        className="facebook social"
-      >
-        <FontAwesomeIcon icon={faFacebook} size="2x" />
-      </a>
       <a href="https://www.twitter.com/" className="twitter social">
         <FontAwesomeIcon icon={faTwitter} size="2x" />
+      </a>
+      <a
+        href="https://www.linkedin.com/"
+        className="linkedin social"
+      >
+        <FontAwesomeIcon icon={faLinkedin} size="2x" />
       </a>
       <a
         href="https://www.github.com/dimiderv"
