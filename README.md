@@ -3,4 +3,4 @@
 Containerized Full-Stack application source code.  (In progress)
 CSRF & XSS protection,  
 
-Finishing touches
+Finishing touches. Now 
