@@ -23,7 +23,7 @@ import Panel from "./components/UserPanel/Panel/Panel";
 
 function App() {
   // const [username, setUserName] = useState("");
-
+  //
   // useEffect(() => {
   //   if (cookies.get("TOKEN")) {
   //     const decodedToken = jwt.verify(cookies.get("TOKEN"), "RANDOM-TOKEN");
