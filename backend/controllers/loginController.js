@@ -21,8 +21,7 @@ const handleLogin = async (req,res) => {
         // check if password matches
         if(!passwordCheck) {
           return res.status(400).send({
-            message: "Passwords does not match",
-            error,
+            message: "Passwords do not match",
           });
         }
 
@@ -63,10 +62,11 @@ const handleLogin = async (req,res) => {
         //   return success res
 
       })
-      // catch error if password do not match
+        // Catches the error from the bcrypt.compare, since passwordsMatch checks if passwords match
       .catch((error) => {
-        res.status(400).send({
-          message: "Passwords does not match",
+
+        res.status(500).send({
+          message: "Error comparing passwords",
           error,
         });
       });

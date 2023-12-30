@@ -35,7 +35,7 @@ li {
   }
 
   .card:hover {
-    transform: scale(1.03);
+    transform: scale(1.02);
     transition-duration: 0.4s;
     box-shadow: 0 0 11px rgba(235, 226, 226, 0.795)
   }

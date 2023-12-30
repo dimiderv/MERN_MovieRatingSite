@@ -27,12 +27,14 @@ export default function TryCard({headline,indexStart, indexEnd}) {
   const productData = require("../data/movies.json")
   .slice(indexStart, indexEnd)
   .filter((movie) => {
-    if (
+
+      if (
       movie.thumbnail &&
       movie.cast.length > 0 &&
       movie.thumbnail_height > 360 &&
       movie.thumbnail_width > 240 
     ) {
+
       return movie;
     }
     return "";

@@ -1,12 +1,24 @@
-import { Card, Button } from "react-bootstrap"
+import { Card } from "react-bootstrap"
 import { Link } from "react-router-dom";
+import React from "react";
 export default function CardTemplate  (props){
-
+    const header = {
+        background: "white",
+        "font-size":"1.2rem",
+        color:"red"
+    }
 
 
     return(
         <Card>     
-            <Card.Header>{props.title} </Card.Header>
+            <Card.Header  style={header}>{props.title} </Card.Header>
+            <Card.Img
+                variant="top"
+                src={props.thumbnail}
+                alt={props.title}
+                width='100%'
+                height={200}
+            />
             <Card.Body>
                 <Card.Text>
                     {props.bodyText}

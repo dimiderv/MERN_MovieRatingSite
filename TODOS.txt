@@ -5,3 +5,6 @@ Things I have to do.
 * Make a frontpage. 
 * Favorites button doesn't work on home page!
 
+Bugs
+
+* When I don't persist login, if i leave page navigation bar can be used to still have access to data. If it's on my PC it's fine but on another PC that is not good. Also Navigation bar appears with Login component.

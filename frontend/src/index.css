@@ -13,7 +13,7 @@ body {
 }
 @media print {
   body {
-      background: url("https://img.freepik.com/free-vector/cinema-room-background_1017-8728.jpg?w=1060&t=st=1688692283~exp=1688692883~hmac=56b4f5a13754e4fc83b487a3c0d675e889cbf1b9df0e00a1da7f3414963d3ace");
+      /*background: url("https://img.freepik.com/free-vector/cinema-room-background_1017-8728.jpg?w=1060&t=st=1688692283~exp=1688692883~hmac=56b4f5a13754e4fc83b487a3c0d675e889cbf1b9df0e00a1da7f3414963d3ace");*/
   }
 }
 code {
@@ -31,6 +31,12 @@ h2{
   /* background-color: rgb(201, 183, 183); */
   font-family: 'Monaco','Brush Script MT', cursive;
   color: white;
+}
+img {
+  -webkit-backface-visibility: hidden;
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+
 }
 #navigation a {
   margin-right: 10%;
@@ -85,7 +91,7 @@ thead th {
   bottom: -10px;
 }
 .cardMovie {
-  width: "18rem"; margin: "10px";background:'yellow' 
+  width: "18rem"; margin: "10px";background:'yellow'
 }
 .card{
   box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
@@ -162,13 +168,51 @@ a.youtube {
 }
 
 a.facebook {
-  color: #4968ad;
+  /*color: #4968ad;*/
 }
 
 a.twitter {
-  color: #49a1eb;
+  /*color: #49a1eb;*/
 }
 
 a.instagram {
   color: black;
 }
+.favBody {
+  display: flex ;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+.favButton, .dislike {
+  /*position: absolute;*/
+  /*bottom: 0;*/
+  /*right: 0;*/
+  /*margin-bottom: 10px;*/
+  /*margin-right: 10px;*/
+  color: #49a1eb
+}
+.favHeart {
+  color: #49a1eb
+  /*position: absolute;*/
+  /*bottom: 0;*/
+  /*right: 0;*/
+  /*margin-bottom: 10px;*/
+  /*margin-right: 10px;*/
+}
+.favHeart:hover {
+  color: red;
+}
+.favHeartLike, .dislikeClicked {
+  color: red;
+}
+
+.dislike:hover {
+  color: red;
+}
+.star {
+  color: #49a1eb;
+}
+.starClicked, .star:hover {
+  color: gold;
+}
+

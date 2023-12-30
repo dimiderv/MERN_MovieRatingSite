@@ -19,10 +19,12 @@ const credentials = require('./middleware/credentials');
 const corsOptions = require('./config/corsOptions');
 
 // Could be a possible error with new Header
-var cors = require("cors");
+const cors = require("cors");
 
 // Handle options credentials check - before CORS!
 // and fetch cookies credentials requirement
+
+// Check how it works exactly. Files in case are corsOptions, allowedOrigins, credentials
 app.use(credentials);
 
 app.use(cors(corsOptions));

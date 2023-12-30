@@ -40,12 +40,12 @@ function App() {
         <Route path="/" element={<Layout />}>
           {/* public routes */}
           <Route element={<PersistLogin />}>
-          <Route path="linkpage" element={<LinkPage />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="print" element={<PrintComponent />} />
-          <Route path="/" element={<LinkPage />} />
-          {/* Protected Routes */}
+            <Route path="linkpage" element={<LinkPage />} />
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="print" element={<PrintComponent />} />
+            <Route path="/" element={<LinkPage />} />
+            {/* Protected Routes */}
           
             <Route element={<RequireAuth />}>
               <Route path="home" element={<Home />} />

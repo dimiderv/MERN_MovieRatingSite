@@ -27,7 +27,8 @@ export default function Login() {
   useEffect(()=>{
     localStorage.setItem('persist',persist);
   },[persist]);
-  
+
+
   const handleSubmit = async (e) => {
     // prevent the form from refreshing the whole page
     e.preventDefault();
@@ -57,7 +58,7 @@ export default function Login() {
       setLogin(true);
       navigate(from, { replace: true });
   } catch (error) {
-    console.log(error.message)
+    console.log(error.message,"\n",error.response.data.message)
   }
 
   };
@@ -69,7 +70,7 @@ export default function Login() {
       <Form className="Auth-form " onSubmit={(e) => handleSubmit(e)}>
         {/* email */}
         <div className="Auth-form-content">
-        <h2 className="Auth-form-logo"><Icon.Film />MOvieDb</h2>
+        <h2 className="Auth-form-logo"><Icon.Film />MovieDb</h2>
         <h3 className="Auth-form-title">Sign In</h3>
         <div className="text-center">
               Already registered?{" "}
@@ -87,7 +88,7 @@ export default function Login() {
         </Form.Group>
 
         {/* password */}
-        <Form.Group className="form-group mt-3"controlId="formBasicPassword">
+        <Form.Group className="form-group mt-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"

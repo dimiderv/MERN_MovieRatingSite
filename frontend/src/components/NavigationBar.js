@@ -33,14 +33,16 @@ const NavigationBar = ()=>{
       // if used in more components, this should be in context 
       // axios to /logout endpoint 
       await logout();
-      navigate('/login');
+      navigate('/');
   }
 
 const confirmAction = () => {
     const response = window.confirm("Are you sure you want to do that?");
   
     if (response) {
-      signOut();
+       signOut().then(()=>{
+         console.log("Loging out")
+       });
       //alert("Ok was pressed");
     } else {
       alert("Cancel was pressed");
@@ -71,7 +73,7 @@ const confirmAction = () => {
             <Col xs={12}>
               <Navbar bg="light" expand="sm">
                 <Icon.Film />
-                <Navbar.Brand as={Link} to="home">MOvieDb</Navbar.Brand>
+                <Navbar.Brand as={Link} to="home">MovieDb</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                   <Nav
