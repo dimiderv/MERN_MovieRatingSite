@@ -6,6 +6,7 @@ import MultiCarousel from "react-multi-carousel";
 
 
 function IntroCards() {
+
     const cardTitles =[
          {
             title:"This is a movieDB project",
