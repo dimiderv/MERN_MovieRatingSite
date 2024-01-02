@@ -1,6 +1,3 @@
-
-import { Card, Button } from "react-bootstrap"
-import { Link } from "react-router-dom"
 import CardTemplate from "./CardTemplate"
 import MultiCarousel from "react-multi-carousel";
 
@@ -33,7 +30,7 @@ function IntroCards() {
     ]
     
     const cards = cardTitles.map((card,i)=>{
-       return <CardTemplate title={card.title} bodyText={card.bodyText} link={card.link} thumbnail={card.thumbnail}/>
+       return <CardTemplate i={i} title={card.title} bodyText={card.bodyText} link={card.link} thumbnail={card.thumbnail}/>
     })
     const responsive = {
         desktop: {

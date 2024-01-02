@@ -1,17 +1,15 @@
 import { useEffect, useState,useContext } from 'react';
-import Movie from './Movie';
-import './movie.css';
+import Movie from '../notNeeded/Movie';
+import '../movie.css';
 import { useNavigate,useLocation } from 'react-router-dom';
-import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import AuthContext from "../context/AuthProvider";
-import SearchContext from '../context/SearchProvider';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import AuthContext from "../../context/AuthProvider";
+import SearchContext from '../../context/SearchProvider';
+import Product from "../templates/Product";
 // const data = require('../data/movies.json').slice(0,20).filter((movie)=>{
 //   if(movie.thumbnail && movie.cast.length >0 && movie.thumbnail_height>360 && movie.thumbnail_width>240){
 //     return movie
 //   }});;
-import GridExample from './GridExample';
-import TryCard from './TryCard';
-import MostPopular from './MostPopular';
 
 
 const MovieContainer = () => {
@@ -43,14 +41,14 @@ const MovieContainer = () => {
         );
         navigate(from, { state: { from: location }, replace: true });
       }
-      
+
     }
 
     fetchData();
     console.log(auth)
   }, [auth, axiosPrivate]);
 
-// Clears the filter option, when it first renders. Deletes previous inputs from other pages. 
+// Clears the filter option, when it first renders. Deletes previous inputs from other pages.
   useEffect(()=>{
     setSearch('')
   },[])
@@ -58,12 +56,12 @@ const MovieContainer = () => {
   useEffect(()=>{
 
     setFilteredMovies(loadedGoals.filter((movie) =>{
-      if(search==""){
+      if(search===""){
         return movie
       }else if (movie.title.toLowerCase().includes(search.toLowerCase())){
         return movie
       }
-      
+
     }
     ))
   },[search,loadedGoals])
@@ -92,16 +90,30 @@ const MovieContainer = () => {
   //   window.location.href = "/";
   // }
 
-  
+
 
   return(
     <div className="movie-container justify-content-center">
 
-      <h2>Movies</h2>  
+      <h2>Movies</h2>
       {/* <GridExample/>     */}
       <ul className ="movie-list p-2">
         {filteredMovies.map((movie,i) => (
-          <Movie movie={movie} key={i} addGoalHandler={addGoalHandler}/>
+            <Product
+                title={movie.title}
+                thumbnail={movie.thumbnail}
+                price={"9.99$"}
+                extract={movie.extract}
+                key={i}
+                movie ={{
+                  title : movie.title,
+                  thumbnail:movie.thumbnail,
+                  cast: movie.cast,
+                  extract: movie.extract,
+                  genre: movie.genre,
+                  year: movie.year
+                }}
+            />
         ))}
       </ul> 
 

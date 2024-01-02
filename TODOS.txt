@@ -1,10 +1,27 @@
 Things I have to do. 
 
-* Make the navigation bar disappear when token has expired.
+* Make the navigation bar disappear when token has expired. (See bug no 1)
 * Favorites should be able to undo from their favorites. 
 * Make a frontpage. 
 * Favorites button doesn't work on home page!
 
+*Register needs fixing (I changed some data that the user needs)
+*Birthday currently is a string should be a Date.
+*Make favorites and intro page have same layout (/home since its carousel they are spaced out evenly cover more space)
+
+
+Progress
+
+1/01/24
+*Added separate state for each movie icon.
+*Cleaned some components that I don't use.
+
+Ideas
+
+*Should I keep track of what each user likes? How?
+*Focusable buttons, cards, etc. (gave it a short try but couldn't make it work)
+*Users can upload their profile picture
+
 Bugs
 
-* When I don't persist login, if i leave page navigation bar can be used to still have access to data. If it's on my PC it's fine but on another PC that is not good. Also Navigation bar appears with Login component.
+1. When I don't persist login, if I leave page navigation bar can be used to still have access to data. If it's on my PC it's fine but on another PC that is not good. Also ,Navigation bar appears with Login component.

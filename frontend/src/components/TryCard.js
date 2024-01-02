@@ -1,5 +1,5 @@
 import MultiCarousel from "react-multi-carousel";
-import Product from "./Product";
+import Product from "./templates/Product";
 import "./trycard.css";
 import "react-multi-carousel/lib/styles.css";
 

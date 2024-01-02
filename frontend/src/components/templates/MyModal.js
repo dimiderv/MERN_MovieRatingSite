@@ -2,9 +2,10 @@
 import { Modal,Button } from "react-bootstrap";
 
 function MyModal(props) {
+    // Need to be careful with object deconstruction because API returns movie.genre and objects from movie.json file return movie.genres. See Favorites.js and Home.js
     const { title, year, thumbnail, cast, genre, extract } = props.movie;
     let genres='';
-    // console.log(props.movie.genre)
+    // console.log(props.movie)
     if(genre[0].name){
       for(var i=0; i<genre.length;i++){
         if(i+1===genre.length){

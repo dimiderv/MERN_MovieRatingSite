@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {  useNavigate, useLocation ,Link} from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import { Form, Button ,Row} from "react-bootstrap";
-import axios from '../api/axios';
+import axios from '../../api/axios';
 import * as Icon from "react-bootstrap-icons";
 
 

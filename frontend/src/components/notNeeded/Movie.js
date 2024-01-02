@@ -1,6 +1,6 @@
 import { useState } from "react";
-import MyCard from "./templates/MyCard";
-import MyModal from "./templates/MyModal";
+import MyCard from "./MyCard";
+import MyModal from "../templates/MyModal";
 
 const Movie = ({ movie, addGoalHandler }) => {
   const { title, thumbnail } = movie;

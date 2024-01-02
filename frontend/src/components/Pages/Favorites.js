@@ -1,24 +1,17 @@
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import { Row } from "react-bootstrap";
 import { useState, useEffect, useContext } from "react";
-import Modal from "react-bootstrap/Modal";
-// const genres = require('./data/genres.json')
 import { useNavigate, useLocation } from "react-router-dom";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import Movie from "./Movie";
-import MyModal from "./templates/MyModal";
-import MyCarousel from "./templates/MyCarousel";
-import SearchContext from "../context/SearchProvider";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import SearchContext from "../../context/SearchProvider";
+import Product from "../templates/Product";
 
-const Favorites = ({ movie, addGoalHandler }) => {
-  //   const { title, year, thumbnail, cast, genres } = movie;
+// { movie, addGoalHandler }
+const Favorites = () => {
+    // const { title, year, thumbnail, cast, genres } = movie;
   // const {auth} = useAuth();
   // const token=cookies.get("TOKEN")
   //  const { auth } = useContext(AuthContext);
   // const [isLoading, setIsLoading] = useState(false);
   // const [error, setError] = useState(null);
-  const [active, setActive] = useState(false);
   const [loadedGoals, setLoadedGoals] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([])
   const {search,setSearch} = useContext(SearchContext);
@@ -37,14 +30,14 @@ const Favorites = ({ movie, addGoalHandler }) => {
           signal: controller.signal,
         });
 
-        const resData = response;
 
-        isMounted && setLoadedGoals(resData.data);
+
+        isMounted && setLoadedGoals(response.data);
       } catch (err) {
         console.log(err);
         // setError(
         //   err.message ||
-        //     "Fetching goals failed - the server responsed with an error."
+        //     "Fetching goals failed - the server response with an error."
         // );
         navigate(from, { state: { from: location }, replace: true });
       }
@@ -62,7 +55,7 @@ const Favorites = ({ movie, addGoalHandler }) => {
 // Clears the filter option, when it first renders. Deletes previous inputs from other pages. 
   useEffect(()=>{
     setSearch('')
-  },[])
+  },[setSearch])
   useEffect(()=>{
 
     setFilteredMovies(loadedGoals.filter((movie) =>{
@@ -76,9 +69,6 @@ const Favorites = ({ movie, addGoalHandler }) => {
     ))
   },[search,loadedGoals])
 
-  function handleModal() {
-    setActive(!active);
-  }
 
   return  !loadedGoals.length ? (
     <div>Nothing happened</div>
@@ -88,7 +78,21 @@ const Favorites = ({ movie, addGoalHandler }) => {
            
       <ul className ="movie-list p-2">
         {filteredMovies.map((movie,i) => (
-          <Movie movie={movie} key={i} addGoalHandler={()=>{}}/>
+            <Product
+                title={movie.title}
+                thumbnail={movie.thumbnail}
+                price={"9.99$"}
+                extract={movie.extract}
+                key={i}
+                movie ={{
+                  title : movie.title,
+                  thumbnail:movie.thumbnail,
+                  cast: movie.cast,
+                  extract: movie.extract,
+                  genre: movie.genre,
+                  year: movie.year
+                }}
+            />
         ))}
       </ul> 
         {/* <MyCarousel /> */}

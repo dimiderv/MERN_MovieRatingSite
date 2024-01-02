@@ -1,16 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import {Card, Button, Row} from "react-bootstrap";
-import {useState} from "react";
-import MyModal from "./templates/MyModal";
-import * as Icon from "react-bootstrap-icons";
-import {faTwitter} from "@fortawesome/free-brands-svg-icons";
+import MyModal from "./MyModal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar, faHeart, faThumbsDown} from "@fortawesome/free-solid-svg-icons";
 
 export default function Product(props) {
     // className="card" style={{ width: "18rem", margin: "10px"}}
     const [active, setActive] = useState(false);
-    const [style, setStyle] = useState(false)
+    const [heartClicked, setHeartClicked] = useState(false);
+    const [starClicked, setStarClicked] = useState(false);
+    const [dislikeClicked, setDislikeClicked] = useState(false)
 
     function handleModal() {
         setActive(!active);
@@ -27,6 +26,7 @@ export default function Product(props) {
                 alt={props.title}
                 width={259}
                 height={380}
+                title={props.title}
             />
 
             {/* <Card.Body>
@@ -46,7 +46,7 @@ export default function Product(props) {
                             type="submit"
                             value="Send"
                             onClick={() => setActive(!active)}
-                            // className={"align-items-start"}
+                            title={"Click for more information"}
                         >More
                         </Button>
                     </div>
@@ -54,13 +54,15 @@ export default function Product(props) {
 
                     <div className={"col-auto"}>
 
-                        <FontAwesomeIcon icon={faHeart} className={!style ? 'favHeart m-2' : 'favHeartLike m-2'}
-                                         onClick={() => setStyle(!style)} size="xl" title={"Add to Favorites"}/>
+                        <FontAwesomeIcon icon={faHeart} className={!heartClicked ? 'favHeart m-2' : 'favHeartLike m-2'}
+                                         onClick={() => setHeartClicked(!heartClicked)} size="xl"
+                                         title={"Add to Favorites"}/>
 
-                        <FontAwesomeIcon icon={faStar} className={!style ? 'star m-2' : 'starClicked m-2'}
-                                         onClick={() => setStyle(!style)} size="xl" title={"Star"}/>
-                        <FontAwesomeIcon icon={faThumbsDown} className={!style ? 'dislike m-2' : 'dislikeClicked m-2'}
-                                         onClick={() => setStyle(!style)} size="xl"/>
+                        <FontAwesomeIcon icon={faStar} className={!starClicked ? 'star m-2' : 'starClicked m-2'}
+                                         onClick={() => setStarClicked(!starClicked)} size="xl" title={"Star"}/>
+                        <FontAwesomeIcon icon={faThumbsDown}
+                                         className={!dislikeClicked ? 'dislike m-2' : 'dislikeClicked m-2'}
+                                         onClick={() => setDislikeClicked(!dislikeClicked)} size="xl" title={"Dislike"}/>
                     </div>
                 </Row>
 
@@ -94,7 +96,7 @@ export default function Product(props) {
 * */
 
 /*
-* If i want to put them in the footer
+* If I want to put them in the footer
 *     <Card.Footer className={"favBody "} bg='Dark'>
       <Row>
           <div className={"col-auto"}>

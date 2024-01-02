@@ -1,19 +1,18 @@
-import { useNavigate, Link,useLocation } from "react-router-dom";
-import MostPopular from "./MostPopular";
-import TryCard from "./TryCard";
-import useLogout from "../hooks/useLogout";
-import SearchContext from "../context/SearchProvider"; 
+import { useNavigate,useLocation } from "react-router-dom";
+import MostPopular from "../templates/MostPopular";
+import TryCard from "../TryCard";
+import useLogout from "../../hooks/useLogout";
+import SearchContext from "../../context/SearchProvider";
 import { useEffect,useState,useContext } from "react";
-import Movie from "./Movie";
-import Product from "./Product";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import AuthContext from "../context/AuthProvider";
+import Product from "../templates/Product";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import AuthContext from "../../context/AuthProvider";
 const Home = () => {
   const navigate = useNavigate();
   const logout = useLogout();
   const {search,setSearch} = useContext(SearchContext);
   const [filteredMovies, setFilteredMovies] = useState([]);
-  const movies = require("../data/movies.json")
+  const movies = require("../../data/movies.json")
   .slice(1200, 1250)
   .filter((movie) => {
     if (
@@ -27,12 +26,12 @@ const Home = () => {
     return "";
   });
   const { auth } = useContext(AuthContext);
-  const signOut = async () => {
-    // if used in more components, this should be in context
-    // axios to /logout endpoint
-    await logout();
-    navigate("/linkpage");
-  };
+  // const signOut = async () => {
+  //   // if used in more components, this should be in context
+  //   // axios to /logout endpoint
+  //   await logout();
+  //   navigate("/linkpage");
+  // };
   const axiosPrivate = useAxiosPrivate();
 
 

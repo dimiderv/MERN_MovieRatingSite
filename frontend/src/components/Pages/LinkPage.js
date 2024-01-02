@@ -1,10 +1,6 @@
 import { Link } from "react-router-dom"
-import MyCarousel from "./templates/MyCarousel"
-import CarouselWithMultipleCards from './templates/CarouselWithMultipleCards'
-import TryCard from "./TryCard"
-import { Card } from "react-bootstrap"
-import IntroCards from "./templates/IntroCards"
-import {Nav,Button} from "react-bootstrap"
+import TryCard from "../TryCard"
+import IntroCards from "../templates/IntroCards"
 const LinkPage = () => {
 
 

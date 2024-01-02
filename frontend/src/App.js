@@ -1,25 +1,26 @@
 import { Route, Routes } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import MovieContainer from "./components/MovieContainer";
+import MovieContainer from "./components/Pages/MovieContainer";
 import NavigationBar from "./components/NavigationBar";
 // import Cookies from "universal-cookie";
-import Login from "./components/Login";
+import Login from "./components/Pages/Login";
 // import { useState, useEffect } from "react";
-import Register from "./components/Register";
-import Favorites from "./components/Favorites";
+import Register from "./components/Pages/Register";
+import Favorites from "./components/Pages/Favorites";
 import Layout from "./components/Layout";
 // import { decode } from "jsonwebtoken";
 import AddGenres from "./components/add/AddGenres";
 import AddMovies from "./components/add/AddMovies";
 import PrintComponent from "./PrintComponent";
-import RequireAuth from "./components/RequireAuth";
-import LinkPage from "./components/LinkPage";
-import Home from "./components/Home";
-import Missing from "./components/Missing";
-import PersistLogin from "./components/PersistLogin";
+import RequireAuth from "./components/authComponents/RequireAuth";
+import LinkPage from "./components/Pages/LinkPage";
+import Home from "./components/Pages/Home";
+import Missing from "./components/Pages/Missing";
+import PersistLogin from "./components/authComponents/PersistLogin";
 import Footer from "./components/Footer";
 import useAuth from "./hooks/useAuth";
 import Panel from "./components/UserPanel/Panel/Panel";
+
 
 function App() {
   // const [username, setUserName] = useState("");

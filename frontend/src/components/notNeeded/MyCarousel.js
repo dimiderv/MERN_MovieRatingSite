@@ -1,5 +1,5 @@
 import React from "react";
-import { Carousel,Card } from "react-bootstrap";
+import { Carousel } from "react-bootstrap";
 import MyCard from "./MyCard";
 const data = require("../../data/movies.json")
   .slice(100, 110)
@@ -18,14 +18,14 @@ const data = require("../../data/movies.json")
 //      return movie.title
 // }))
 
-const CarouselSlide = ({ key, thumbnail, title, extract }) => (
-  <Carousel.Item key={key}>
-    <img className="w-100" src={"thumbnail"} alt={title} />
-    <Carousel.Caption>
-      <p>HELLO RE MLK{extract}</p>
-    </Carousel.Caption>
-  </Carousel.Item>
-);
+// const CarouselSlide = ({ key, thumbnail, title, extract }) => (
+//   <Carousel.Item key={key}>
+//     <img className="w-100" src={"thumbnail"} alt={title} />
+//     <Carousel.Caption>
+//       <p>HELLO RE MLK{extract}</p>
+//     </Carousel.Caption>
+//   </Carousel.Item>
+// );
 
 function MyCarousel() {
   return (

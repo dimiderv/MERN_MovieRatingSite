@@ -14,13 +14,14 @@
     object-fit: cover;
   }
   /* boxShadow: '1px 2px 9px #F4AAB9' */
+  /*Affects all cards. Should look more into it*/
   .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     width: 18rem;
-    margin: 30px;
+    margin: 10px;
     gap: 5px;
     text-align: center;
-    font-family: arial;
+    font-family: Arial, serif;
     z-index: inherit;
   }
   

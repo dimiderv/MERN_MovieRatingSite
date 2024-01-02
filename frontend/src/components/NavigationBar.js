@@ -5,12 +5,10 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Container, Col, Row, Button } from "react-bootstrap";
 import { Link,useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
 import useLogout from "../hooks/useLogout";
 import useSearch from "../hooks/useSearch";
-import { useEffect } from "react";
 
-const jwt = require("jsonwebtoken");
+
 
 
 // const logout = () => {
@@ -26,7 +24,6 @@ const jwt = require("jsonwebtoken");
 
 const NavigationBar = ()=>{
   const navigate = useNavigate();
-  const {auth} = useAuth();
   const logout=useLogout();
   const {search,setSearch} = useSearch();
   const signOut = async () => {
@@ -41,7 +38,7 @@ const confirmAction = () => {
   
     if (response) {
        signOut().then(()=>{
-         console.log("Loging out")
+         console.log("Logging out")
        });
       //alert("Ok was pressed");
     } else {

@@ -1,6 +1,6 @@
 import MultiCarousel from "react-multi-carousel";
 import Product from "./Product";
-import "./trycard.css";
+import "../trycard.css";
 import "react-multi-carousel/lib/styles.css";
 
 
@@ -27,7 +27,7 @@ const responsive = {
 
 export default function MostPopular({headline,indexStart=10, indexEnd=20, genreFilter}) {
 
-  const productData = require("../data/movies.json")
+  const productData = require("../../data/movies.json")
   .slice(indexStart, indexEnd)
   .filter((movie) => {
     if (
