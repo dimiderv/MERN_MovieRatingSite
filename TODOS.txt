@@ -12,6 +12,9 @@ Check if linux branch will upload
 
 
 Progress
+2/01/24
+*Updated branches.
+
 
 1/01/24
 *Added separate state for each movie icon.
