@@ -1,5 +1,6 @@
 Things I have to do. 
-Check if linux branch will upload
+
+I will create a pull request through command line
 
 * Make the navigation bar disappear when token has expired. (See bug no 1)
 * Favorites should be able to undo from their favorites. 
@@ -12,6 +13,9 @@ Check if linux branch will upload
 
 
 Progress
+2/01/24
+*Updated branches.
+
 
 1/01/24
 *Added separate state for each movie icon.
