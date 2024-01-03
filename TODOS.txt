@@ -1,4 +1,5 @@
 Things I have to do. 
+Check if linux branch will upload
 
 * Make the navigation bar disappear when token has expired. (See bug no 1)
 * Favorites should be able to undo from their favorites. 
