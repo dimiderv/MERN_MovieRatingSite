@@ -29,7 +29,7 @@ function Panel() {
         const response = await axiosPrivate.get('http://localhost/user',{
           headers: {Authorization: `Bearer ${auth?.token}`}
         });
-        // const resData = response;
+        //const resData = response;
         // response.birthday = "2023-09-01"
         // console.log(response.data)
         setUserDetails(response.data);
