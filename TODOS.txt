@@ -1,18 +1,32 @@
-Things I have to do. 
+Things I have to do.
 
-I will create a pull request through command line
+Ideas/Improvements
 
+*Should I keep track of what each user likes? How?
+*Focusable buttons, cards, etc. (gave it a short try but couldn't make it work)
+*Users can upload their profile picture
+
+Must do:
 * Make the navigation bar disappear when token has expired. (See bug no 1)
 * Favorites should be able to undo from their favorites. 
 * Make a frontpage. 
 * Favorites button doesn't work on home page!
 
+Not so important:
 *Register needs fixing (I changed some data that the user needs)
 *Birthday currently is a string should be a Date.
 *Make favorites and intro page have same layout (/home since its carousel they are spaced out evenly cover more space)
 
 
 Progress
+
+3/01/24
+*might add localState to disable NavigationBar
+
+*Checked routing and persist login to understand re-routing and redirecting when not persisting login.(Used debug on Chrome dev tool, and checked Sources)
+*Found logout bug! Redirects 2 times once when auth is deleted cause of the RequiredAuth component.
+
+
 2/01/24
 *Updated branches.
 
@@ -21,11 +35,7 @@ Progress
 *Added separate state for each movie icon.
 *Cleaned some components that I don't use.
 
-Ideas
 
-*Should I keep track of what each user likes? How?
-*Focusable buttons, cards, etc. (gave it a short try but couldn't make it work)
-*Users can upload their profile picture
 
 Bugs
 

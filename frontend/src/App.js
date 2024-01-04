@@ -35,7 +35,7 @@ function App() {
   document.body.style.backgroundColor = "rgb(25, 25, 37)";
   return (
     <Container className='container' flex='1'>
-      {auth.token && <NavigationBar />}
+      {auth.token &&  <NavigationBar />}
 
       <Routes>
         <Route path="/" element={<Layout />}>

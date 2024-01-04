@@ -2,7 +2,12 @@ import axios from '../api/axios';
 import useAuth from './useAuth';
 
 const useRefreshToken = () => {
-    const { setAuth } = useAuth();
+    const { setAuth,persist } = useAuth();
+    const currentDate = new Date();
+    const currentTime = currentDate.getTime();
+    console.log(currentTime)
+// Get the current time
+
 
     const refresh = async () => {
         const response = await axios.get('/refresh', {
@@ -10,11 +15,14 @@ const useRefreshToken = () => {
         });
         setAuth(prev => {
             console.log("Previous auth context: ",JSON.stringify(prev));
+            console.log(persist)
             console.log(response.data.token);
-            return { ...prev, token: response.data.token }
+            console.log(currentDate.getTime())
+                    return { ...prev, token: response.data.token }
         });
         return response.data.token;
     }
+
     return refresh;
 };
 

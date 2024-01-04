@@ -5,7 +5,7 @@ import useAuth from './useAuth'
     const {setAuth} = useAuth();
     
     const logout = async ()=>{
-        setAuth({});
+        setAuth({status:"logout"});
         try{
             const response = await axios('/logout',{
                 withCredentials:true

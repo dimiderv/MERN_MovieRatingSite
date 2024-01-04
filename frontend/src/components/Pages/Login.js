@@ -48,11 +48,7 @@ export default function Login() {
       //console.log(JSON.stringify(response));
       const token = response?.data?.token;
       //console.log(email,token)
-      
-    setAuth({email,token});
-      // cookies.set("TOKEN",token, {
-      //   path: "/",
-      // });
+      setAuth({email,token});
       setEmail('');
       setPassword('');
       setLogin(true);

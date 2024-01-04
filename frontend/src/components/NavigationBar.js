@@ -29,8 +29,9 @@ const NavigationBar = ()=>{
   const signOut = async () => {
       // if used in more components, this should be in context 
       // axios to /logout endpoint 
-      await logout();
-      navigate('/');
+      await logout().then(()=>{
+        navigate('/');
+      })
   }
 
 const confirmAction = () => {
