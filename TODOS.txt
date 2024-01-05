@@ -2,6 +2,7 @@ Things I have to do.
 
 Ideas/Improvements
 
+*Add small announcement if I added to favorites (ex. "Just added to favorites")
 *Should I keep track of what each user likes? How?
 *Focusable buttons, cards, etc. (gave it a short try but couldn't make it work)
 *Users can upload their profile picture
@@ -19,6 +20,9 @@ Not so important:
 
 
 Progress
+
+4/01/24
+*Checking for improvements
 
 3/01/24
 *might add localState to disable NavigationBar
