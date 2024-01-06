@@ -3,7 +3,7 @@ import {Card, Button, Row, Toast, Col} from "react-bootstrap";
 import MyModal from "./MyModal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar, faHeart, faThumbsDown} from "@fortawesome/free-solid-svg-icons";
-
+import ToastMessage from "./ToastMessage";
 export default function Product(props) {
     // className="card" style={{ width: "18rem", margin: "10px"}}
     const [active, setActive] = useState(false);
@@ -22,33 +22,7 @@ export default function Product(props) {
         // bg={'Dark'} style={{ width: "18rem", margin: "10px",background:'black'}}
         <div>
             {/*I have to fix this error, message looks fine for now, the idea is looking good*/}
-            <div
-                style={{
-                    position: 'fixed',
-                    bottom: '0',
-                    right: '0',
-                    padding: '1rem', // Adjust padding as needed
-                    zIndex: 9999, // Make sure it's above other elements
-                }}
-            >
-                <Row>
-                    <Col xs={12}>
-                        <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
-                            <Toast.Header>
-
-
-                                    <strong className="mr-auto">Bootstrap</strong>
-                                    <small>11 mins ago</small>
-
-                            </Toast.Header>
-                            <Toast.Body>Woohoo, you're reading this text in a Toast!</Toast.Body>
-                        </Toast>
-                    </Col>
-                    {/*<Col xs={6}>*/}
-                    {/*    /!*<Button onClick={() => setShow(true)}>Show Toast</Button>*!/*/}
-                    {/*</Col>*/}
-                </Row>
-            </div>
+            <ToastMessage setShow={setShow} show={show}/>
             <Card>
                 <Card.Img
                     variant="top"
@@ -87,7 +61,10 @@ export default function Product(props) {
                             <FontAwesomeIcon icon={faHeart}
                                              className={!heartClicked ? 'favHeart m-2' : 'favHeartLike m-2'}
                                              onClick={() => {
-                                                 setShow(true)
+                                                 setTimeout(()=>{
+                                                     setShow(true)
+                                                 },2000)
+
                                                  setHeartClicked(!heartClicked)
                                              }} size="xl"/>
 

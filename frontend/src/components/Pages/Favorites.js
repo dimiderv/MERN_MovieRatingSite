@@ -59,12 +59,12 @@ const Favorites = () => {
   useEffect(()=>{
 
     setFilteredMovies(loadedGoals.filter((movie) =>{
-      if(search==""){
+      if(search===""){
         return movie
       }else if (movie.title.toLowerCase().includes(search.toLowerCase())){
         return movie
       }
-      
+      return movie
     }
     ))
   },[search,loadedGoals])
@@ -102,7 +102,7 @@ const Favorites = () => {
 
 export default Favorites;
 
-{/* <Card style={{ width: "18rem", margin: "10px" }}>
+/* <Card style={{ width: "18rem", margin: "10px" }}>
 <Card.Img variant="top" src={""} alt={"ds"} width={259} height={380} />
 <Card.Body>
   <Card.Title>{loadedGoals[0].year}</Card.Title>
@@ -130,4 +130,4 @@ export default Favorites;
     </Button>
   </Row>
 </Card.Footer>
-</Card> */}
+</Card> */

@@ -89,8 +89,9 @@ const confirmAction = () => {
 
                   </Nav>
 
-                  <Form className="d-flex">
+                  <Form className="d-flex" >
                     <Form.Control
+                        id={"searchForm"}
                       type="search"
                       placeholder="Search"
                       className="me-2"

@@ -11,7 +11,7 @@ import Layout from "./components/Layout";
 // import { decode } from "jsonwebtoken";
 import AddGenres from "./components/add/AddGenres";
 import AddMovies from "./components/add/AddMovies";
-import PrintComponent from "./PrintComponent";
+import PrintComponent from "./components/notNeeded/PrintComponent";
 import RequireAuth from "./components/authComponents/RequireAuth";
 import LinkPage from "./components/Pages/LinkPage";
 import Home from "./components/Pages/Home";
