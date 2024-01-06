@@ -1,28 +1,44 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Col, Row, Toast} from "react-bootstrap";
 
-const ToastMessage = () => {
-    const [show, setShow] = useState(false)
+const ToastMessage = ({show,setShow}) => {
+    useEffect(() => {
+        let timer;
+        if (show) {
+            timer = setTimeout(() => {
+                setShow(false);
+            }, 3000); // Adjust the duration as needed
+        }
+        return () => {
+            clearTimeout(timer);
+        };
+    }, [show, setShow]);
     return (
-        <div>
+        <div
+            style={{
+                position: 'fixed',
+                bottom: '0',
+                right: '0',
+                padding: '1rem', // Adjust padding as needed
+                zIndex: 9999, // Make sure it's above other elements
+            }}
+        >
             <Row>
-                <Col xs={6}>
-                    <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
+                <Col xs={12}>
+                    <Toast onClose={() => setShow(false)} show={show} animation={false}>
                         <Toast.Header>
-                            <img
-                                src="holder.js/20x20?text=%20"
-                                className="rounded me-2"
-                                alt=""
-                            />
-                            <strong className="me-auto">Bootstrap</strong>
+
+
+                            <strong className="mr-auto">Bootstrap</strong>
                             <small>11 mins ago</small>
+
                         </Toast.Header>
                         <Toast.Body>Woohoo, you're reading this text in a Toast!</Toast.Body>
                     </Toast>
                 </Col>
-                <Col xs={6}>
-                    <Button onClick={() => setShow(true)}>Show Toast</Button>
-                </Col>
+                {/*<Col xs={6}>*/}
+                {/*    /!*<Button onClick={() => setShow(true)}>Show Toast</Button>*!/*/}
+                {/*</Col>*/}
             </Row>
         </div>
     );

@@ -44,8 +44,8 @@ const MovieContainer = () => {
 
     }
 
-    fetchData();
-    console.log(auth)
+     fetchData().then(); // promise is ignored. Might be wrong
+
   }, [auth, axiosPrivate]);
 
 // Clears the filter option, when it first renders. Deletes previous inputs from other pages.
@@ -104,7 +104,7 @@ const MovieContainer = () => {
                 thumbnail={movie.thumbnail}
                 price={"9.99$"}
                 extract={movie.extract}
-                key={i}
+                key={movie.title}
                 movie ={{
                   title : movie.title,
                   thumbnail:movie.thumbnail,

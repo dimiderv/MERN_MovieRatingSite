@@ -20,6 +20,8 @@ Not so important:
 
 
 Progress
+5/01/24
+*Toasted message works. Disabled animation of Toasted message so that it doesn't trigger the findDOMNode.
 
 4/01/24
 *Checking for improvements
