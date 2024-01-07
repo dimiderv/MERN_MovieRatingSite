@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Row, Toast} from "react-bootstrap";
 
-const ToastMessage = ({show,setShow}) => {
+const ToastMessage = ({show,setShow,test}) => {
     useEffect(() => {
         let timer;
         if (show) {
@@ -33,7 +33,7 @@ const ToastMessage = ({show,setShow}) => {
                             <small>11 mins ago</small>
 
                         </Toast.Header>
-                        <Toast.Body>Woohoo, you're reading this text in a Toast!</Toast.Body>
+                        <Toast.Body>{test.title}</Toast.Body>
                     </Toast>
                 </Col>
                 {/*<Col xs={6}>*/}

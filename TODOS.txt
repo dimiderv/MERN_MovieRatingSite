@@ -20,6 +20,10 @@ Not so important:
 
 
 Progress
+
+6/01/24
+*Should make toast message appear after api call.
+
 5/01/24
 *Toasted message works. Disabled animation of Toasted message so that it doesn't trigger the findDOMNode.
 

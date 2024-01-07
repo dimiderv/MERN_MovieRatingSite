@@ -69,7 +69,7 @@ const Home = () => {
   useEffect(()=>{
     
     setFilteredMovies(movies.filter((movie)=>{
-      if(search==""){
+      if(search===""){
         return movie
       }else if(movie.title.toLowerCase().includes(search.toLowerCase())){
         return movie
