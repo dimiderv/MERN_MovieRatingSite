@@ -2,6 +2,7 @@ import MultiCarousel from "react-multi-carousel";
 import Product from "./Product";
 import "../trycard.css";
 import "react-multi-carousel/lib/styles.css";
+import ToastMessage from "./ToastMessage";
 
 
 const responsive = {
@@ -64,6 +65,8 @@ export default function MostPopular({headline,indexStart=10, indexEnd=20, genreF
     // previous transitionDuration was 2500
     <div>
       <h1>{headline}</h1>
+        <ToastMessage show={false} setShow={()=>({})} test={{title: "SUp fellow"}}/>
+
       <MultiCarousel
         showDots={false}
         autoPlay={false}
@@ -76,6 +79,7 @@ export default function MostPopular({headline,indexStart=10, indexEnd=20, genreF
         // draggable
         arrows={true}
         focusOnSelect={false}
+
       >
         {product}
       </MultiCarousel>

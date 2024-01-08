@@ -216,3 +216,9 @@ a.instagram {
   color: gold;
 }
 
+.ToastMessage {
+  position: fixed !important;
+  bottom: 10px !important; /* Adjust the distance from the bottom */
+  right: 10px !important; /* Adjust the distance from the right */
+  z-index: 9999 !important; /* Ensure a high z-index to appear above other elements */
+}

@@ -11,7 +11,7 @@ export default function Product(props) {
     const [starClicked, setStarClicked] = useState(false);
     const [dislikeClicked, setDislikeClicked] = useState(false)
     const [show, setShow] = useState(false)
-    const [test, setTest] = useState([])
+        const [test, setTest] = useState([])
     function handleModal() {
         setActive(!active);
     }

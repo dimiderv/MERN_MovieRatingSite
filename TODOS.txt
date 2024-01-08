@@ -21,6 +21,9 @@ Not so important:
 
 Progress
 
+7/01/24
+*Looks like whatever is inside the MultiCarousel component cant render outside of it.
+* I should change Structure of my Components if I want to use MultiCarousel
 6/01/24
 *Should make toast message appear after api call.
 
