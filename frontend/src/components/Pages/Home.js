@@ -7,6 +7,7 @@ import { useEffect,useState,useContext } from "react";
 import Product from "../templates/Product";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import AuthContext from "../../context/AuthProvider";
+import ToastMessage from "../templates/ToastMessage";
 const Home = () => {
   const navigate = useNavigate();
   const logout = useLogout();
@@ -93,7 +94,7 @@ const Home = () => {
               thumbnail={movie.thumbnail}
               price={"9.99$"}
               extract={movie.extract}
-              key={i}
+              key={movie.title}
               movie ={{
                 title : movie.title,
                 thumbnail:movie.thumbnail,
