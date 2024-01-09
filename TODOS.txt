@@ -20,6 +20,9 @@ Not so important:
 
 
 Progress
+8/01/24
+*Solved the styling issue by using React.Portal to style a child independently from its parent. (Should troubleshoot to be sure about functionality of it)
+*Deleted React.Portal and used ToastContext to render a new component completely. Stacks messages correctly but can't delete them.
 
 7/01/24
 *Looks like whatever is inside the MultiCarousel component cant render outside of it.

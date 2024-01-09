@@ -1,6 +1,6 @@
 import MultiCarousel from "react-multi-carousel";
-import Product from "./templates/Product";
-import "./trycard.css";
+import Product from "./Product";
+import "../trycard.css";
 import "react-multi-carousel/lib/styles.css";
 
 
@@ -24,7 +24,7 @@ const responsive = {
 
 export default function TryCard({headline,indexStart, indexEnd}) {
 
-  const productData = require("../data/movies.json")
+  const productData = require("../../data/movies.json")
   .slice(indexStart, indexEnd)
   .filter((movie) => {
 

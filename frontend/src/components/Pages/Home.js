@@ -1,6 +1,6 @@
 import { useNavigate,useLocation } from "react-router-dom";
-import MostPopular from "../templates/MostPopular";
-import TryCard from "../TryCard";
+import FilterMovies from "../templates/FilterMovies";
+import TryCard from "../templates/TryCard";
 import useLogout from "../../hooks/useLogout";
 import SearchContext from "../../context/SearchProvider";
 import { useEffect,useState,useContext } from "react";
@@ -8,7 +8,9 @@ import Product from "../templates/Product";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import AuthContext from "../../context/AuthProvider";
 import ToastMessage from "../templates/ToastMessage";
+import {useToast} from "../../context/ToastContext";
 const Home = () => {
+  const { toastMessages } = useToast();
   const navigate = useNavigate();
   const logout = useLogout();
   const {search,setSearch} = useContext(SearchContext);
@@ -111,27 +113,39 @@ const Home = () => {
     
   )
   :(
-    <section>
+          <section>
 
-      <div className="justify-content-center ">
-        <TryCard headline="Newest" indexStart={1237} indexEnd={1247} />
-      </div>
-      <div className="justify-content-center ">
-        <MostPopular
-          headline="Comedies"
-          indexStart={270}
-          indexEnd={300}
-          genreFilter={"Comedy"}
-        />
-      </div>
-      <div className="justify-content-center ">
-        <TryCard headline="For you" indexStart={700} indexEnd={710} />
-      </div>
-      <div className="justify-content-center ">
-        <TryCard headline="Most Popular" indexStart={200} indexEnd={210} />
-      </div>
 
-      {/* <h1>Home</h1>
+            <div className="justify-content-center ">
+              <TryCard headline="Newest" indexStart={1237} indexEnd={1247}/>
+              <div style={{
+                position: 'fixed',
+                bottom: '0',
+                right: '0',
+                padding: '1rem', // Adjust padding as needed
+                zIndex: 9999, // Make sure it's above other elements
+              }}>
+                {toastMessages.map((message, index) => (
+                    <ToastMessage key={index} index={index} test={{title: message}}/>
+                ))}
+              </div>
+            </div>
+            <div className="justify-content-center ">
+              <FilterMovies
+                  headline="Comedies"
+                  indexStart={270}
+                  indexEnd={300}
+                  genreFilter={"Comedy"}
+              />
+            </div>
+            <div className="justify-content-center ">
+              <TryCard headline="For you" indexStart={700} indexEnd={710}/>
+            </div>
+            <div className="justify-content-center ">
+              <TryCard headline="Most Popular" indexStart={200} indexEnd={210}/>
+            </div>
+
+            {/* <h1>Home</h1>
       <br />
       <p>You are logged in!</p>
       <br />
@@ -146,8 +160,8 @@ const Home = () => {
       <div className="flexGrow">
         <button onClick={signOut}>Sign Out</button>
       </div> */}
-    </section>
-  );
+          </section>
+      );
 };
 
 export default Home;

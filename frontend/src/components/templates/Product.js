@@ -4,6 +4,8 @@ import MyModal from "./MyModal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar, faHeart, faThumbsDown} from "@fortawesome/free-solid-svg-icons";
 import ToastMessage from "./ToastMessage";
+import {useToast} from "../../context/ToastContext";
+
 export default function Product(props) {
     // className="card" style={{ width: "18rem", margin: "10px"}}
     const [active, setActive] = useState(false);
@@ -11,18 +13,23 @@ export default function Product(props) {
     const [starClicked, setStarClicked] = useState(false);
     const [dislikeClicked, setDislikeClicked] = useState(false)
     const [show, setShow] = useState(false)
-        const [test, setTest] = useState([])
+    const [test, setTest] = useState([])
+
+    const {showToast} = useToast();
     function handleModal() {
         setActive(!active);
     }
-
+    const addToFavorites = async () => {
+        const apiCall = fetch('https://jsonplaceholder.typicode.com/todos/1');
+        showToast(apiCall, `Added ${props.movie.title} to favorites`,"error");
+    };
     return active ? (
         <MyModal show={active} onHide={handleModal} movie={props.movie}/>
     ) : (
         // bg={'Dark'} style={{ width: "18rem", margin: "10px",background:'black'}}
         <div>
             {/*I have to fix this error, message looks fine for now, the idea is looking good*/}
-            <ToastMessage setShow={setShow} show={show} test={test}/>
+            <ToastMessage setShow={setShow} show={show} test={"Hello"}/>
             <Card>
                 <Card.Img
                     variant="top"
@@ -61,16 +68,16 @@ export default function Product(props) {
                             <FontAwesomeIcon icon={faHeart}
                                              className={!heartClicked ? 'favHeart m-2' : 'favHeartLike m-2'}
                                              onClick={() => {
-
-                                                 setTimeout(()=>{
-                                                     fetch('https://jsonplaceholder.typicode.com/todos/1')
-                                                         .then(response => response.json())
-                                                         .then(json => {
-                                                             console.log(json);
-                                                             setTest(json);
-                                                             setShow(true)
-                                                         })
-                                                 },1000)
+                                                 addToFavorites()
+                                                 // setTimeout(()=>{
+                                                 //     fetch('https://jsonplaceholder.typicode.com/todos/1')
+                                                 //         .then(response => response.json())
+                                                 //         .then(json => {
+                                                 //             console.log(json);
+                                                 //             setTest(json);
+                                                 //             setShow(true)
+                                                 //         })
+                                                 // },1000)
 
                                                  setHeartClicked(!heartClicked)
                                              }} size="xl"/>

@@ -26,7 +26,7 @@ const responsive = {
   },
 };
 
-export default function MostPopular({headline,indexStart=10, indexEnd=20, genreFilter}) {
+export default function FilterMovies({headline,indexStart=10, indexEnd=20, genreFilter}) {
 
   const productData = require("../../data/movies.json")
   .slice(indexStart, indexEnd)

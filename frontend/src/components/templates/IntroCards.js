@@ -30,7 +30,7 @@ function IntroCards() {
     ]
     
     const cards = cardTitles.map((card,i)=>{
-       return <CardTemplate i={i} title={card.title} bodyText={card.bodyText} link={card.link} thumbnail={card.thumbnail}/>
+       return <CardTemplate i={card.title} title={card.title} bodyText={card.bodyText} link={card.link} thumbnail={card.thumbnail}/>
     })
     const responsive = {
         desktop: {
