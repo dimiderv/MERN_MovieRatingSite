@@ -20,6 +20,9 @@ Not so important:
 
 
 Progress
+9/01/24
+*Solved multiStacking issue. Added a new Container component for toast messages and works fine.(Should check rendering maybe there is a bug there).
+
 8/01/24
 *Solved the styling issue by using React.Portal to style a child independently from its parent. (Should troubleshoot to be sure about functionality of it)
 *Deleted React.Portal and used ToastContext to render a new component completely. Stacks messages correctly but can't delete them.
