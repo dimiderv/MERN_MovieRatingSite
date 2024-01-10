@@ -9,6 +9,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import AuthContext from "../../context/AuthProvider";
 import ToastMessage from "../templates/ToastMessage";
 import {useToast} from "../../context/ToastContext";
+import ToastMsgContainer from "../ToastMsgContainer";
 const Home = () => {
   const { toastMessages } = useToast();
   const navigate = useNavigate();
@@ -62,7 +63,7 @@ const Home = () => {
     }
 
     fetchData();
-    console.log(auth)
+    // console.log(auth)
   }, [auth, axiosPrivate]);
   
   // Clears the filter option, when it first renders. Deletes previous inputs from other pages. 
@@ -118,17 +119,7 @@ const Home = () => {
 
             <div className="justify-content-center ">
               <TryCard headline="Newest" indexStart={1237} indexEnd={1247}/>
-              <div style={{
-                position: 'fixed',
-                bottom: '0',
-                right: '0',
-                padding: '1rem', // Adjust padding as needed
-                zIndex: 9999, // Make sure it's above other elements
-              }}>
-                {toastMessages.map((message, index) => (
-                    <ToastMessage key={index} index={index} test={{title: message}}/>
-                ))}
-              </div>
+
             </div>
             <div className="justify-content-center ">
               <FilterMovies

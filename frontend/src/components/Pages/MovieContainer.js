@@ -12,6 +12,7 @@ import ToastMessage from "../templates/ToastMessage";
 //     return movie
 //   }});;
 import {useToast} from "../../context/ToastContext";
+import ToastMsgContainer from "../ToastMsgContainer";
 
 const MovieContainer = () => {
   const { auth } = useContext(AuthContext);
@@ -117,17 +118,7 @@ const MovieContainer = () => {
               />
           ))}
         </ul>
-        <div style={{
-          position: 'fixed',
-          bottom: '0',
-          right: '0',
-          padding: '1rem', // Adjust padding as needed
-          zIndex: 9999, // Make sure it's above other elements
-        }}>
-          {toastMessages.map((message, index) => (
-              <ToastMessage key={index} index={index} test={{title: message}}/>
-          ))}
-        </div>
+
         {false && error}
       </div>
 

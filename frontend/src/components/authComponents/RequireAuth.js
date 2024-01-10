@@ -7,13 +7,13 @@ const RequireAuth = () => {
     const location = useLocation();
     // console.log(auth)
     // email doesnt persist
-    console.log(auth?.token)
-    const currentDate = new Date();
-
-// Get the current time
-    const currentTime = currentDate.getTime();
-    console.log(currentTime)
-    
+//     console.log(auth?.token)
+//     const currentDate = new Date();
+//
+// // Get the current time
+//     const currentTime = currentDate.getTime();
+//     console.log(currentTime)
+//
     return (
         auth?.token
             ? <Outlet />

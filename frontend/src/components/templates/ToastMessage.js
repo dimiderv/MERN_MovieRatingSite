@@ -3,30 +3,32 @@ import {Button, Col, Row, Toast} from "react-bootstrap";
 import ReactDOM from 'react-dom';
 import {useToast} from "../../context/ToastContext";
 const ToastMessage = ({show,setShow,test, index}) => {
+
     //doesnt delete the index. Something isn't triggering the effect.
-    const {hideToast} = useToast();
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            hideToast(index);
-        }, 2000); // Adjust the duration as needed
+    const {hideToast,toastMessages  } = useToast();
 
-        return () => {
-            clearTimeout(timer);
-        };
-    }, [show]);
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         hideToast(index);
+    //     }, 2000); // Adjust the duration as needed
+    //     console.log("heheh")
+    //     return () => {
+    //         clearTimeout(timer);
+    //     };
+    // }, []);
 
 
-    useEffect(() => {
-        let timer;
-        if (show) {
-            timer = setTimeout(() => {
-                setShow(false);
-            }, 3000); // Adjust the duration as needed
-        }
-        return () => {
-            clearTimeout(timer);
-        };
-    }, [show, setShow]);
+    // useEffect(() => {
+    //     let timer;
+    //     if (show) {
+    //         timer = setTimeout(() => {
+    //             setShow(false);
+    //         }, 1000); // Adjust the duration as needed
+    //     }
+    //     return () => {
+    //         clearTimeout(timer);
+    //     };
+    // }, [show, setShow]);
     // ReactDOM.createPortal(
     return (
         <div
@@ -40,7 +42,7 @@ const ToastMessage = ({show,setShow,test, index}) => {
         >
             <Row>
                 <Col xs={12}>
-                    <Toast onClose={() => hideToast(index)} show={show} animation={false}>
+                    <Toast onClose={() => hideToast(index)} show={show} animation={false} autohide >
                         <Toast.Header>
 
 

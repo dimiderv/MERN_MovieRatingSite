@@ -29,7 +29,7 @@ export default function Product(props) {
         // bg={'Dark'} style={{ width: "18rem", margin: "10px",background:'black'}}
         <div>
             {/*I have to fix this error, message looks fine for now, the idea is looking good*/}
-            <ToastMessage setShow={setShow} show={show} test={"Hello"}/>
+            {/*//<ToastMessage setShow={setShow} show={show} test={"Hello"}/>*/}
             <Card>
                 <Card.Img
                     variant="top"

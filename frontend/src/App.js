@@ -20,6 +20,7 @@ import PersistLogin from "./components/authComponents/PersistLogin";
 import Footer from "./components/Footer";
 import useAuth from "./hooks/useAuth";
 import Panel from "./components/UserPanel/Panel/Panel";
+import ToastMsgContainer from "./components/ToastMsgContainer";
 
 
 function App() {
@@ -36,7 +37,7 @@ function App() {
   return (
     <Container className='container' flex='1'>
       {auth.token &&  <NavigationBar />}
-
+      <ToastMsgContainer/>
       <Routes>
         <Route path="/" element={<Layout />}>
           {/* public routes */}

@@ -1,7 +1,7 @@
 // ToastContext.js
 import { createContext, useContext, useState } from 'react';
 
-const ToastContext = createContext();
+const ToastContext = createContext({});
 
 export const ToastProvider = ({ children }) => {
     const [toastMessages, setToastMessages] = useState([]);
@@ -11,7 +11,7 @@ export const ToastProvider = ({ children }) => {
             const response = await promise;
             const successMessage = await response.json(); // Assuming the success message is in the JSON response
             // const successMessage = "Stack "+ Math.random();
-            setToastMessages((prevMessages) => [...prevMessages, movie]);
+            setToastMessages((prevMessages) => [...prevMessages, successMessage.title]);
         } catch (error) {
             setToastMessages((prevMessages) => [...prevMessages, errorMessage]);
         }

@@ -3,8 +3,8 @@ import useAuth from './useAuth';
 
 const useRefreshToken = () => {
     const { setAuth,persist } = useAuth();
-    const currentDate = new Date();
-    const currentTime = currentDate.getTime();
+    // const currentDate = new Date();
+    // const currentTime = currentDate.getTime();
 // Get the current time
 
 
@@ -14,7 +14,7 @@ const useRefreshToken = () => {
         });
         setAuth(prev => {
             console.log("Previous auth context: ",JSON.stringify(prev));
-            console.log(response.data.token);
+            // console.log(response.data.token);
                     return { ...prev, token: response.data.token }
         });
         return response.data.token;
