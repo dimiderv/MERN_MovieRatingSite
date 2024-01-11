@@ -39,7 +39,32 @@ app.use(cookieParser());
 
 
 
+app.get('/apicall', async (req, res) => {
+  try {
+    // Your asynchronous code, for example, a database query
+    // In this case, we're simulating a promise-based asynchronous operation
+    const result = await someAsyncOperation(); // Replace with your actual asynchronous operation
 
+    // If the operation is successful, respond with a success message
+    res.status(200).json({ message: 'API call works!', result });
+  } catch (error) {
+    // If an error occurs, respond with an error message
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Simulating an asynchronous operation (replace this with your actual code)
+function someAsyncOperation() {
+  return new Promise((resolve, reject) => {
+    // Simulating a successful asynchronous operation
+    // Replace the following line with your actual asynchronous logic
+    resolve('Simulated successful result');
+    // Simulating an error in the asynchronous operation
+    // Uncomment the following line to simulate an error
+    // reject(new Error('Simulated error'));
+  });
+}
 
 app.get('/hello', async (req, res) => {
   await User.findOne({$or: [{ email: "try" }, {username: "try"}]})
@@ -308,18 +333,25 @@ app.post("/favorites", async (req, res) => {
     console.log("INVALID INPUT - NO TEXT");
     return res.status(422).json({ message: "Invalid goal text." });
   }
+  console.log("title of movie trying to add ",movieTitle )
   const foundMovie = await mySchemas.movies.findOne({title:movieTitle}).exec();
   if(!foundMovie){
     console.log("didnt work")
-    res.status(422).json({ message: `No movie with title ${movieTitle}.` });
+    return res.status(422).json({ message: `No movie with title ${movieTitle}.` }); //added the return keyword. 10/01
   }
   console.log(foundMovie)
   console.log(req.user);
-  const user = await User.findOne({_id: req.user.userId})
+  const user = await User.findOne({_id: req.user.userId});
   console.log("Before attempting to add to favorites",user)
+  //added it 10/01
+  if (!user) {
+    console.log("User not found");
+    return res.status(404).json({ message: "User not found." });
+  }
+  //crashes if the movie doesn't exist
   if(user.favorites.includes(foundMovie._id)){
     console.log(`${movieTitle} already exists in Favorites`);
-    res.status(422).json({ message: `${movieTitle} Already exists in favorites.` });
+    res.status(422).json({ message: `${movieTitle} already exists in favorites.` });
   }else{
       user.favorites.push(foundMovie._id)
       console.log(user)
@@ -327,7 +359,7 @@ app.post("/favorites", async (req, res) => {
     .then((result)=>{
       console.log(result);
       res.status(200).send({
-        message:"Successfully saved movie to favorites"
+        message:`Successfully saved ${movieTitle} to favorites`
       })
     }).catch((error)=>{
       console.log(error)
@@ -339,7 +371,17 @@ app.post("/favorites", async (req, res) => {
   }
 
 });
+app.delete("/deletefavorites", async (req, res) => {
+  try {
+    // Delete all documents in the "favorites" collection
+    await User.updateMany({}, { $set: { favorites: [] } });
 
+    res.status(200).json({ message: "All favorites deleted successfully." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error deleting favorites.", error });
+  }
+});
 
 app.delete('/delete',async (req,res)=>{
   try {

@@ -6,14 +6,17 @@ const ToastContext = createContext({});
 export const ToastProvider = ({ children }) => {
     const [toastMessages, setToastMessages] = useState([]);
 
-    const showToast =  async (promise, movie,errorMessage="This is an error") => {
+    const showToast =  async (promise, movie,errorMessage) => {
+        console.log(promise)
         try {
             const response = await promise;
-            const successMessage = await response.json(); // Assuming the success message is in the JSON response
+            const successMessage =  response; // Assuming the success message is in the JSON response
+            // console.log(successMessage.data)
             // const successMessage = "Stack "+ Math.random();
-            setToastMessages((prevMessages) => [...prevMessages, successMessage.title]);
+            setToastMessages((prevMessages) => [...prevMessages, successMessage.data.message]);
         } catch (error) {
-            setToastMessages((prevMessages) => [...prevMessages, errorMessage]);
+            // console.log(error.response.data.message)
+            setToastMessages((prevMessages) => [...prevMessages, error.response.data.message]);
         }
     };
 

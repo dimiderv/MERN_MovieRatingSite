@@ -5,6 +5,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar, faHeart, faThumbsDown} from "@fortawesome/free-solid-svg-icons";
 import ToastMessage from "./ToastMessage";
 import {useToast} from "../../context/ToastContext";
+import axios from "axios";
+import {axiosPrivate} from "../../api/axios";
 
 export default function Product(props) {
     // className="card" style={{ width: "18rem", margin: "10px"}}
@@ -20,9 +22,18 @@ export default function Product(props) {
         setActive(!active);
     }
     const addToFavorites = async () => {
-        const apiCall = fetch('https://jsonplaceholder.typicode.com/todos/1');
-        showToast(apiCall, `Added ${props.movie.title} to favorites`,"error");
+       const apiCall =   axiosPrivate.post('http://localhost/favorites',
+            JSON.stringify({ 'title': props.movie.title }),
+            {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            }
+        );
+        // console.log(apiCall)
+        showToast(apiCall, `Added ${props.movie.title} to favorites`,'');
     };
+
+
     return active ? (
         <MyModal show={active} onHide={handleModal} movie={props.movie}/>
     ) : (

@@ -15,7 +15,7 @@ const ToastMsgContainer = () => {
         if (toastMessages.length > 0) {
             const timer = setTimeout(() => {
                 hideToast(0);
-            }, 1000);
+            }, 2000);
 
             // Clean up the timer when the component unmounts or when toastMessages change
             return () => clearTimeout(timer);
