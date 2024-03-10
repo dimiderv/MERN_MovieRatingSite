@@ -1,23 +1,18 @@
 import { useLocation,Navigate, Outlet } from "react-router-dom"
 import useAuth from "../../hooks/useAuth"
+import {useSelector} from "react-redux";
+import {selectCurrentToken} from "../../features/auth/authSlice";
 
 
 const RequireAuth = () => {
     const { auth } = useAuth();
     const location = useLocation();
-    // console.log(auth)
-    // email doesnt persist
-//     console.log(auth?.token)
-//     const currentDate = new Date();
-//
-// // Get the current time
-//     const currentTime = currentDate.getTime();
-//     console.log(currentTime)
-//
+    const token = useSelector(selectCurrentToken)
+    console.log(token)
     return (
-        auth?.token
+        token
             ? <Outlet />
-            : auth.status ==='logout' // it never goes to link page
+            : auth?.status ==='logout' // it never goes to link page
                 ? <Navigate to="/" state={{ from: location }} replace />
                 : <Navigate to="/login" state={{ from: location }} replace />
     );

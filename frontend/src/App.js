@@ -21,6 +21,8 @@ import Footer from "./components/Footer";
 import useAuth from "./hooks/useAuth";
 import Panel from "./components/UserPanel/Panel/Panel";
 import ToastMsgContainer from "./components/ToastMsgContainer";
+import {useSelector} from "react-redux";
+import {selectCurrentToken} from "./features/auth/authSlice";
 
 
 function App() {
@@ -32,11 +34,12 @@ function App() {
   //     setUserName(decodedToken.username);
   //   }
   // }, []);
+  const token = useSelector(selectCurrentToken)
   const { auth } = useAuth();
   document.body.style.backgroundColor = "rgb(25, 25, 37)";
   return (
     <Container className='container' flex='1'>
-      {auth.token &&  <NavigationBar />}
+      {token &&  <NavigationBar />}
       <ToastMsgContainer/>
       <Routes>
         <Route path="/" element={<Layout />}>
@@ -46,7 +49,9 @@ function App() {
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="print" element={<PrintComponent />} />
-            <Route path="/" element={<LinkPage />} />
+            <Route path="/" element={<LinkPage />} />\
+            <Route path='/initMovies' element={<AddMovies />}/>
+            <Route path='/initGenres' element={<AddGenres />}/>
             {/* Protected Routes */}
           
             <Route element={<RequireAuth />}>

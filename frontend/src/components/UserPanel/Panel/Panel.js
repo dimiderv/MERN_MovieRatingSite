@@ -8,9 +8,11 @@ import UserCard from './UserCard/UserCard'
 import UserInformation from './UserInformation/UserInformation'
 import UserChangePassword from './UserChangePassword/UserChangePassword'
 import Profile from './Profile/Profile';
-import { axiosPrivate } from '../../../api/axios';
+import { axiosPrivate } from '../../../fetch/api/axios';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import AuthContext from '../../../context/AuthProvider';
+import {useSelector} from "react-redux";
+import {selectCurrentToken} from "../../../features/auth/authSlice";
 
 function Panel() {
    const [userDetails,setUserDetails] = useState([]);
@@ -21,13 +23,13 @@ function Panel() {
    const navigate = useNavigate();
    const location = useLocation();
    const from = location.state?.from?.pathname || "login";
-
+   const token = useSelector(selectCurrentToken)
    useEffect(function () {
     async function fetchData() {
 
       try {
         const response = await axiosPrivate.get('http://localhost/user',{
-          headers: {Authorization: `Bearer ${auth?.token}`}
+          headers: {Authorization: `Bearer ${token}`}
         });
         //const resData = response;
         // response.birthday = "2023-09-01"

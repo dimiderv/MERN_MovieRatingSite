@@ -1,4 +1,4 @@
-import axios from '../api/axios';
+import axios from '../fetch/api/axios';
 import useAuth from './useAuth';
 
 const useRefreshToken = () => {
@@ -14,7 +14,7 @@ const useRefreshToken = () => {
         });
         setAuth(prev => {
             console.log("Previous auth context: ",JSON.stringify(prev));
-            // console.log(response.data.token);
+            console.log(response.data);
                     return { ...prev, token: response.data.token }
         });
         return response.data.token;

@@ -6,7 +6,7 @@ import {faStar, faHeart, faThumbsDown} from "@fortawesome/free-solid-svg-icons";
 import ToastMessage from "./ToastMessage";
 import {useToast} from "../../context/ToastContext";
 import axios from "axios";
-import {axiosPrivate} from "../../api/axios";
+import {axiosPrivate} from "../../fetch/api/axios";
 
 export default function Product(props) {
     // className="card" style={{ width: "18rem", margin: "10px"}}

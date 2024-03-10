@@ -48,9 +48,9 @@ const handleLogin = async (req,res) => {
                 console.log(result);
                 res.cookie('jwt',refreshToken, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
                 res.status(200).send({
-                    message: "Login Successful",
-                    email: user.email,
-                    username: user.username,
+                    // message: "Login Successful",
+                    // email: user.email,
+                    // username: user.username,
                     token,
                 });
             }).catch((error) => {

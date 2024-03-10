@@ -131,8 +131,8 @@ app.post("/genre", async (req, res) => {
   try {
     await genre.save();
     res
-      .status(201)
-      .json({ message: "Genre saved", genre: { id: genre.id, name: postGenre } });
+        .status(201)
+        .json({ message: "Genre saved", genre: { id: genre.id, name: postGenre } });
     console.log("STORED NEW Genre");
     console.log(genre);
   } catch (err) {
@@ -141,6 +141,55 @@ app.post("/genre", async (req, res) => {
     res.status(500).json({ message: "Failed to save goal." });
   }
 });
+
+
+
+// Initialization api. Adds Movies to Database.
+app.post("/addmovie", async (req, res) => {
+  console.log("TRYING TO STORE Movie");
+  const postMovie = req.body.movieData;
+  console.log(postMovie)
+  // if (!postGenre || postGenre.trim().length === 0) {
+  //   console.log("INVALID INPUT - NO TEXT");
+  //   return res.status(422).json({ message: "Invalid genre text." });
+  // }
+  let genreSchema = mySchemas.genre;
+  let tempGenres=[];
+  const genres = postMovie.genres;
+  for( var i=0;  i<genres.length;i++){
+    let genreDB = await genreSchema.findOne({name: genres[i]});
+    tempGenres.push(genreDB.id);
+  }
+  // for( var i=0;  i<genres.length;i++){
+  //   let genreDB = await genreSchema.findOne({_id: tempGenres[i]});
+  //   console.log(genreDB)
+  // }
+  console.log(tempGenres)
+  const movie = new mySchemas.movies({
+    title:postMovie.title,
+    thumbnail: postMovie.thumbnail,
+    extract:postMovie.extract,
+    year: postMovie.year,
+    entryDate:postMovie.entryDate,
+    genre: tempGenres,
+    cast:postMovie.cast,
+
+  });
+  console.log(movie)
+  try {
+    await movie.save();
+    res
+        .status(201)
+        .json({ message: "Movie saved", movie: { id: movie.id , title: movie.title } });
+    console.log("STORED NEW Movie");
+
+  } catch (err) {
+    console.error("ERROR FETCHING Movie");
+    console.error(err.message);
+    res.status(500).json({ message: err.message });
+  }
+});
+
 
 app.use(verifyJWT)
 /**====================================End of Authentication===========================**/

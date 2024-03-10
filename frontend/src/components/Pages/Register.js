@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from "react";
 import { Link,useNavigate,useLocation } from "react-router-dom";
 import { Form, Button,Row } from "react-bootstrap";
-import axios from "../../api/axios";
+import axios from "../../fetch/api/axios";
 import {faCheck, faTimes, faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as Icon from "react-bootstrap-icons";

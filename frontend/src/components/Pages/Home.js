@@ -10,6 +10,8 @@ import AuthContext from "../../context/AuthProvider";
 import ToastMessage from "../templates/ToastMessage";
 import {useToast} from "../../context/ToastContext";
 import ToastMsgContainer from "../ToastMsgContainer";
+import {useSelector} from "react-redux";
+import {selectCurrentToken, selectCurrentUser} from "../../features/auth/authSlice";
 const Home = () => {
   const { toastMessages } = useToast();
   const navigate = useNavigate();
@@ -37,16 +39,18 @@ const Home = () => {
   //   navigate("/linkpage");
   // };
   const axiosPrivate = useAxiosPrivate();
-
+  const token = useSelector(selectCurrentToken)
+  const username = useSelector(selectCurrentUser)
 
   const location = useLocation();
   const from = location.state?.from?.pathname || "/login";
+
   useEffect(function () {
     async function fetchData() {
 
       try {
         const response = await axiosPrivate.get('http://localhost/movies',{
-          headers: {Authorization: `Bearer ${auth?.token}`}
+          headers: {Authorization: `Bearer ${token}`}
         });
         const resData = response;
         // setLoadedGoals(resData.data.movies);
@@ -116,7 +120,7 @@ const Home = () => {
   :(
           <section>
 
-
+            <p style={{color:'white'}}>{username}{token}</p>
             <div className="justify-content-center ">
               <TryCard headline="Newest" indexStart={1237} indexEnd={1247}/>
 

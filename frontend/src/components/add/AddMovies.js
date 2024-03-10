@@ -7,7 +7,7 @@ const data = require('../../data/movies.json').slice(0,20).filter((movie)=>{
   if(movie.thumbnail && movie.cast.length >0 && movie.thumbnail_height>360 && movie.thumbnail_width>240){
     return movie
   }
-return ''});;
+  return ''});;
 
 const token = cookies.get("TOKEN");
 const AddMovies = () => {
@@ -23,16 +23,15 @@ const AddMovies = () => {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
-          
         }
       });
 
       const resData = await response.json();
       // console.log(resData.movies)
-      if (!response.ok) {
-        alert(resData.message)
-        throw new Error(resData.message || 'Adding the goal failed.');
-      }
+      // if (!response.ok) {
+      //   alert(resData.message)
+      //   throw new Error(resData.message || 'Adding the goal failed.');
+      // }
       // console.log(resData)
       // setLoadedGoals(resData.movies.results.map((a)=>  
       // a.title));
@@ -54,23 +53,23 @@ const AddMovies = () => {
 //     window.location.href = "/";
 //   }
 
-if(cookies.get("TOKEN")){
-  const decodedToken = jwt.verify(cookies.get("TOKEN"),"RANDOM-TOKEN");
-console.log(decodedToken.userEmail)
-}
+  if(cookies.get("TOKEN")){
+    const decodedToken = jwt.verify(cookies.get("TOKEN"),"RANDOM-TOKEN");
+    console.log(decodedToken.userEmail)
+  }
 
   return(
-    <div className="movie-container">
-      <h2>Movies</h2>
-      <ul className ="movie-list">
-        {data.map(movie => (
-          <MovieAdd movie={movie} key={movie.title} addGoalHandler={addGoalHandler}/>
-        ))}
-      </ul> 
-      {/* <Button type="submit" variant="danger" onClick={() => logout()}>
+      <div className="movie-container">
+        <h2>Movies</h2>
+        <ul className ="movie-list">
+          {data.map(movie => (
+              <MovieAdd movie={movie} key={movie.title} addGoalHandler={addGoalHandler}/>
+          ))}
+        </ul>
+        {/* <Button type="submit" variant="danger" onClick={() => logout()}>
         Logout
       </Button>      */}
-    </div>
+      </div>
   );
 };
 

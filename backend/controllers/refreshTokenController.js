@@ -23,7 +23,7 @@ const handleRefreshToken = async (req, res) => {
                 'RANDOM-TOKEN',
                 { expiresIn: '10min' }
             );
-            res.json({token })
+            res.json({token }) // added  username:foundUser.username,
         }
     );
 }

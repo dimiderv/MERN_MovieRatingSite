@@ -38,7 +38,7 @@ const AddGenres = ({ movie, addGoalHandler }) => {
         setLoadedGoals(resData.genres);
       } catch (err) {
         setError(
-          err.message ||
+            err.message ||
             'Fetching goals failed - the server responsed with an error.'
         );
       }
@@ -56,7 +56,7 @@ const AddGenres = ({ movie, addGoalHandler }) => {
     }
     console.log(x && false)
   }
-  
+
   async function addGoalHandlers(genre) {
     // setIsLoading(true);
 
@@ -95,59 +95,59 @@ const AddGenres = ({ movie, addGoalHandler }) => {
     setActive(!active);
   }
 
-  
+
   return isLoading ?(
-    
-    <div>
+
+      <div>
         <ul>
-            {error}
+          {error}
         </ul>
 
-    </div>
+      </div>
   ):!loadedGoals.length ?(<div>
-    Hello mf 
+    Hello mf
     <Button onClick={()=> initGenre(data)}></Button>
   </div>): (
-    <Card border='secondary'style={{ width: "18rem", margin: "10px" }}>
-      <Card.Img
-        variant="top"
-        src={""}
-        alt={'ds'}
-        width={259}
-        height={380}
-      />
-      <Card.Body>
-        
-        <Card.Title>{loadedGoals[5].name}</Card.Title>
-        <ul>
+      <Card border='secondary'style={{ width: "18rem", margin: "10px" }}>
+        <Card.Img
+            variant="top"
+            src={""}
+            alt={'ds'}
+            width={259}
+            height={380}
+        />
+        <Card.Body>
+
+          <Card.Title>{loadedGoals[5].name}</Card.Title>
+          <ul>
             {loadedGoals.map((genre,i)=>{
               return <li key={i}> {genre.name}</li>
             })}
-        </ul>
-      </Card.Body>
-      <Card.Footer>
-        <Row>
-          <Button
-            className="lml-auto"
-            variant="primary"
-            type="submit"
-            value="Send"
-            onClick={() => addGoalHandler("title")}
-          >
-            Post
-          </Button>
-          <Button
-            className="ml-auto"
-            variant="primary"
-            type="submit"
-            value="Send"
-            onClick={handleModal}
-          >
-            More
-          </Button>
-        </Row>
-      </Card.Footer>
-    </Card>
+          </ul>
+        </Card.Body>
+        <Card.Footer>
+          <Row>
+            <Button
+                className="lml-auto"
+                variant="primary"
+                type="submit"
+                value="Send"
+                onClick={() => addGoalHandler("title")}
+            >
+              Post
+            </Button>
+            <Button
+                className="ml-auto"
+                variant="primary"
+                type="submit"
+                value="Send"
+                onClick={handleModal}
+            >
+              More
+            </Button>
+          </Row>
+        </Card.Footer>
+      </Card>
   );
 };
 

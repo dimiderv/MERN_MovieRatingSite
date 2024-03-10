@@ -13,6 +13,8 @@ import ToastMessage from "../templates/ToastMessage";
 //   }});;
 import {useToast} from "../../context/ToastContext";
 import ToastMsgContainer from "../ToastMsgContainer";
+import {useSelector} from "react-redux";
+import {selectCurrentToken} from "../../features/auth/authSlice";
 
 const MovieContainer = () => {
   const { auth } = useContext(AuthContext);
@@ -26,12 +28,13 @@ const MovieContainer = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/login";
   const {toastMessages} = useToast()
+  const token = useSelector(selectCurrentToken)
   useEffect(function () {
     async function fetchData() {
 
       try {
         const response = await axiosPrivate.get('http://localhost/movies',{
-          headers: {Authorization: `Bearer ${auth?.token}`}
+          headers: {Authorization: `Bearer ${token}`}
         });
         const resData = response;
         setLoadedGoals(resData.data.movies);
