@@ -90,9 +90,9 @@ thead th {
   position: relative;
   bottom: -10px;
 }
-.cardMovie {
+/* .cardMovie {
   width: "18rem"; margin: "10px";background:'yellow'
-}
+} */
 .card{
   box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
   background: rgb(62, 62, 102) !important;
@@ -216,9 +216,9 @@ a.instagram {
   color: gold;
 }
 
-.ToastMessage {
+/* .ToastMessage {
   position: fixed !important;
-  bottom: 10px !important; /* Adjust the distance from the bottom */
-  right: 10px !important; /* Adjust the distance from the right */
-  z-index: 9999 !important; /* Ensure a high z-index to appear above other elements */
-}
+  bottom: 10px !important; Adjust the distance from the bottom
+  right: 10px !important; Adjust the distance from the right
+  z-index: 9999 !important; Ensure a high z-index to appear above other elements
+} */

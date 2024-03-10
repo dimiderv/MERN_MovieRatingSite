@@ -40,9 +40,10 @@ const ToastMessage = ({show,setShow,test, index}) => {
             //     zIndex: 9999, // Make sure it's above other elements
             // }}
         >
+            {/*// Was in Toast component show={show}*/}
             <Row>
                 <Col xs={12}>
-                    <Toast onClose={() => hideToast(index)} show={show} animation={false} autohide >
+                    <Toast onClose={() => hideToast(index)}  animation={false} autohide >
                         <Toast.Header>
 
 

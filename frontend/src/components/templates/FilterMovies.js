@@ -65,7 +65,7 @@ export default function FilterMovies({headline,indexStart=10, indexEnd=20, genre
     // previous transitionDuration was 2500
     <div>
       <h1>{headline}</h1>
-        <ToastMessage show={false} setShow={()=>({})} test={{title: "SUp fellow"}}/>
+        
 
       <MultiCarousel
         showDots={false}

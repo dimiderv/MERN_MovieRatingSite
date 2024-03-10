@@ -327,7 +327,7 @@ app.post('/updatePassword',async (req,res)=>{
 
 // I am here
 app.post("/favorites", async (req, res) => {
-  console.log("TRYING TO add FAvorites to user");
+  console.log("TRYING TO add favorites to user");
   const movieTitle = req.body.title || "";  
   if (!movieTitle || movieTitle.trim().length === 0) {
     console.log("INVALID INPUT - NO TEXT");
@@ -336,7 +336,7 @@ app.post("/favorites", async (req, res) => {
   console.log("title of movie trying to add ",movieTitle )
   const foundMovie = await mySchemas.movies.findOne({title:movieTitle}).exec();
   if(!foundMovie){
-    console.log("didnt work")
+    console.log(`No movie with title ${movieTitle}.` )
     return res.status(422).json({ message: `No movie with title ${movieTitle}.` }); //added the return keyword. 10/01
   }
   console.log(foundMovie)
