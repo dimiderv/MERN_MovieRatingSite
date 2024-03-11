@@ -1,57 +1,52 @@
-import { Outlet } from 'react-router-dom'
-import { useState,useEffect } from 'react'
+import {Outlet} from 'react-router-dom'
+import {useState, useEffect} from 'react'
 import useRefreshToken from '../../hooks/useRefreshToken'
 import useAuth from '../../hooks/useAuth'
+import {useSelector} from "react-redux";
+import {selectCurrentToken} from "../../features/auth/authSlice";
 
-const PersistLogin = () =>{
-    const [isLoading,setIsLoading] = useState(true);
+const PersistLogin = () => {
+    const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
-    const {auth,persist} = useAuth();
+    const {persist} = useAuth();
+    const token = useSelector(selectCurrentToken)
 
-    useEffect(()=>{
+    useEffect(() => {
         let isMounted = true;
-        const verifyRefreshToken = async ()=>{
-            try{
+        const verifyRefreshToken = async () => {
+            try {
                 await refresh();
-            }catch(err){
-                console.error(err);
-
-            }
-            finally {
+            } catch (err) {
+                console.error(err.message);
+                console.log('Persist login error!')
+            } finally {
                 isMounted && setIsLoading(false);
             }
         }
-        // console.log("!auth?.token is: ",!auth?.token)
-        
-        const currentDate = new Date();
 
-// Get the current time
-//         const currentTime = currentDate.getTime();
-//         console.log(currentTime);
-        !auth?.token ? verifyRefreshToken() : setIsLoading(false);
-        return ()=> isMounted=false;
-    },[refresh,auth])
+        !token ? verifyRefreshToken() : setIsLoading(false);
+        return () => isMounted = false;
+    }, [refresh, token]);
 
-    useEffect(()=>{
+
+    useEffect(() => {
         console.log(`isLoading: ${isLoading}`)
-        console.log(`Token: ${JSON.stringify(auth?.token)}`);
-        // console.log(persist)
+        console.log(`Redux Token: ${JSON.stringify(token)}`);
+    }, [isLoading,token])
 
-    },[isLoading,auth?.token])
+    return (
+        <>
+            {!persist
+                ? <Outlet/>
+                : isLoading
+                    ? <p>Loading....</p>
+                    : <Outlet/>
 
-  return (
-    <>
-        {!persist
-            ? <Outlet /> 
-            : isLoading
-                ? <p>Loading....</p>
-                : <Outlet/>
+            }
 
-        }
-    
-    
-    </>
-  )
+
+        </>
+    )
 }
 
 export default PersistLogin

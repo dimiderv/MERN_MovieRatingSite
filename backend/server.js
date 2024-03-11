@@ -338,7 +338,8 @@ app.post("/updateUserDetails", async (req,res)=>{
 
 
 app.post('/updatePassword',async (req,res)=>{
-  const userID= req.user.userId; 
+  const userID= req.user.userId;
+  console.log(req.body)
   const {currentPassword,newPassword} = req.body.dataObj;
   console.log(currentPassword,newPassword)
   console.log(currentPassword,newPassword, userID)
@@ -346,6 +347,7 @@ app.post('/updatePassword',async (req,res)=>{
     bcrypt.compare(currentPassword, user.password)
       .then(( passwordCheck)=>{
         if(!passwordCheck){
+          console.log('Passwords dont match')
           return res.status(400).send({
             message:'Passwords do not match'
           });
@@ -359,7 +361,8 @@ app.post('/updatePassword',async (req,res)=>{
         .hash(newPassword, 10)
         .then((hashedPassword)=>{
           user.password = hashedPassword;
-          console.log(user)
+          // console.log(user)
+          console.log(`Password was updated successfully!`)
           user.save().then(result=>{
             res.status(200).json({
               message:"Successfully updated password"

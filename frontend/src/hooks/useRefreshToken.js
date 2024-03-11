@@ -1,22 +1,15 @@
 import axios from '../fetch/api/axios';
-import useAuth from './useAuth';
+import {useDispatch} from "react-redux";
+import {setCredentials} from "../features/auth/authSlice";
 
 const useRefreshToken = () => {
-    const { setAuth,persist } = useAuth();
-    // const currentDate = new Date();
-    // const currentTime = currentDate.getTime();
-// Get the current time
-
+    const dispatch= useDispatch()
 
     const refresh = async () => {
         const response = await axios.get('/refresh', {
             withCredentials: true
         });
-        setAuth(prev => {
-            console.log("Previous auth context: ",JSON.stringify(prev));
-            console.log(response.data);
-                    return { ...prev, token: response.data.token }
-        });
+        dispatch(setCredentials({token:response?.data?.token}))
         return response.data.token;
     }
 

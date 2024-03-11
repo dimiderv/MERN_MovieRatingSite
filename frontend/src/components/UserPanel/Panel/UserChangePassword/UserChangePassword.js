@@ -10,6 +10,8 @@ import { useFormik, } from 'formik'
 import { string, object, ref } from 'yup'
 import useAxiosPrivate from '../../../../hooks/useAxiosPrivate';
 import AuthContext from '../../../../context/AuthProvider';
+import {useUpdatePasswordMutation} from "../../../../features/auth/authApiSlice";
+import {useDispatch} from "react-redux";
 const UserChangePassword = ({ password, onChangeInfo }) => {
     const [submit, setSubmit] = useState(false)
     const axiosPrivate = useAxiosPrivate();
@@ -18,6 +20,8 @@ const UserChangePassword = ({ password, onChangeInfo }) => {
     const [newPassword, setNewPassword] = useState('')
     const [matchPassword, setMatchPassword] = useState('')
     const [loading, setLoading] = useState(false)
+    const [updatePassword, {isLoading}] = useUpdatePasswordMutation()
+    const dispatch = useDispatch()
     const formik = useFormik({
         initialValues: {
             currentPassword: '',
@@ -31,7 +35,8 @@ const UserChangePassword = ({ password, onChangeInfo }) => {
                 // .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{4,}$/, 'invalid password'),
                 
             newPassword: string().required('please enter your new password')
-                .min(4, 'your new password must be 4 characters or more')      .test('not-same-as-current', 'New password must be different from the current one', function (value) {
+                .min(4, 'your new password must be 4 characters or more')
+                .test('not-same-as-current', 'New password must be different from the current one', function (value) {
                     // Access form values using formik.values
                     return value !== formik.values.currentPassword;
                   }),
@@ -53,18 +58,20 @@ const UserChangePassword = ({ password, onChangeInfo }) => {
 
             console.log(dataObj)
             try{
-                const response = await axiosPrivate.post('/updatePassword',
-                    JSON.stringify({'dataObj':dataObj}),
-                    {
-                        headers: {"Content-Type": "application/json"},
-                        withCredentials: true
-                    });
+                const response = await updatePassword({'dataObj':dataObj}).unwrap()
+                // const response = await axiosPrivate.post('/updatePassword',
+                //     JSON.stringify({'dataObj':dataObj}),
+                //     {
+                //         headers: {"Content-Type": "application/json"},
+                //         withCredentials: true
+                //     });
                     const resData = response;
-                    console.log(resData.data.message)
-                    alert(resData.data.message)
+                    console.log(resData)
+                    console.log(resData.message)
+                    alert(resData?.message)
                     actions.resetForm()
             }catch(err){
-                alert(err.response.data.message)
+                alert(err.data.message)
                 setSubmit(false)
                 // setCurrentPassword('')
                 // setMatchPassword('')

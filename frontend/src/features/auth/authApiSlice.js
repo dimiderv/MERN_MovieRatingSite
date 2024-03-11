@@ -8,10 +8,18 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 method:'POST',
                 body:{...credentials}
             })
+        }),
+        updatePassword: builder.mutation({
+            query:credentials =>({
+                url: '/updatePassword', //might have to change it to /login, not sure what it does!!
+                method:'POST',
+                body:{...credentials}
+            })
         })
     })
 })
 
 export const {
-    useLoginMutation
+    useLoginMutation,
+    useUpdatePasswordMutation
 } = authApiSlice;

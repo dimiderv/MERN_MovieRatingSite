@@ -4,7 +4,7 @@ import React from "react";
 export default function CardTemplate  (props){
     const header = {
         background: "white",
-        "font-size":"1.2rem",
+        fontSize:"1.2rem",
         color:"red"
     }
 

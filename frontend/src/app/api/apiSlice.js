@@ -7,7 +7,7 @@ const BASE_URL = 'http://localhost:80';
 
 const baseQuery = fetchBaseQuery({
     baseUrl:BASE_URL,
-    credentials:'same-origin',
+    credentials:'include',
     prepareHeaders: (headers, {getState})=>{
         const token = getState().auth.token;
         if(token){
@@ -24,7 +24,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) =>{
         console.log('sending refresh token');
         //send refresh toke to get new access token
         const refreshResult = await baseQuery('/refresh',api,extraOptions)
-        console.log(refreshResult)
+        // console.log(refreshResult)
         if(refreshResult?.data){
             const user = api.getState().auth.username;
             api.dispatch(setCredentials({...refreshResult.data, user}));
