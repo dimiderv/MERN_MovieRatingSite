@@ -7,6 +7,7 @@ import ToastMessage from "./ToastMessage";
 import {useToast} from "../../context/ToastContext";
 import axios from "axios";
 import {axiosPrivate} from "../../fetch/api/axios";
+import {useGetUserFavorites, useGetUserFavoritesMutation} from "../../features/auth/authApiSlice";
 
 export default function Product(props) {
     // className="card" style={{ width: "18rem", margin: "10px"}}
@@ -16,19 +17,20 @@ export default function Product(props) {
     const [dislikeClicked, setDislikeClicked] = useState(false)
     const [show, setShow] = useState(false)
     const [test, setTest] = useState([])
-
+    const [getUserFavorites,{isLoading}] = useGetUserFavoritesMutation()
     const {showToast} = useToast();
     function handleModal() {
         setActive(!active);
     }
     const addToFavorites = async () => {
-       const apiCall =   axiosPrivate.post('http://localhost/favorites',
-            JSON.stringify({ 'title': props.movie.title }),
-            {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: true
-            }
-        );
+        const apiCall = getUserFavorites({ 'title': props.movie.title }).unwrap()
+       // const apiCall =   axiosPrivate.post('http://localhost/favorites',
+       //      JSON.stringify({ 'title': props.movie.title }),
+       //      {
+       //          headers: { 'Content-Type': 'application/json' },
+       //          withCredentials: true
+       //      }
+       //  );
         // console.log(apiCall)
         showToast(apiCall, `Added ${props.movie.title} to favorites`,'');
     };

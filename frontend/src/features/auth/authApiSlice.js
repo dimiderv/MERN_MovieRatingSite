@@ -15,11 +15,19 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 method:'POST',
                 body:{...credentials}
             })
+        }),
+        getUserFavorites: builder.mutation({
+            query:credentials =>({
+                url: '/favorites', //might have to change it to /login, not sure what it does!!
+                method:'POST',
+                body:{...credentials}
+            })
         })
     })
 })
 
 export const {
     useLoginMutation,
-    useUpdatePasswordMutation
+    useUpdatePasswordMutation,
+    useGetUserFavoritesMutation
 } = authApiSlice;
