@@ -294,19 +294,19 @@ app.post("/updateUserDetails", async (req,res)=>{
   console.log(user)
   // Should not be allowed any requests. Fix from frontend
   let areTheSame = 0;
-  user.firstName != firstName ? 
+  user.firstName !== firstName ?
     (user.firstName = firstName): 
     areTheSame++
-  user.lastName != lastName ? 
+  user.lastName !== lastName ?
     (user.lastName = lastName): 
     areTheSame++
     
   const prevEmail = user.email;
-  user.email != email ? 
+  user.email !== email ?
     (user.email = email): 
     areTheSame++
   
-  user.birthday != birthday ? 
+  user.birthday !== birthday ?
     (user.birthday = birthday): 
     areTheSame++
   

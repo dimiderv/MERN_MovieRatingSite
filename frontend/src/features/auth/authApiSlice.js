@@ -22,6 +22,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 method:'POST',
                 body:{...credentials}
             })
+        }),
+        updateUserDetails: builder.mutation({
+            query: credentials =>({
+                url:'/updateUserDetails',
+                method: 'POST',
+                body:{...credentials}
+            })
         })
     })
 })
@@ -29,5 +36,6 @@ export const authApiSlice = apiSlice.injectEndpoints({
 export const {
     useLoginMutation,
     useUpdatePasswordMutation,
-    useGetUserFavoritesMutation
+    useGetUserFavoritesMutation,
+    useUpdateUserDetailsMutation
 } = authApiSlice;

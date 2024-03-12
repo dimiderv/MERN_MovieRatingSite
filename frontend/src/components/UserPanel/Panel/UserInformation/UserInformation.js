@@ -9,6 +9,7 @@ import useAxiosPrivate from '../../../../hooks/useAxiosPrivate';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { object, string, date } from 'yup'
+import {useUpdateUserDetailsMutation} from "../../../../features/auth/authApiSlice";
 
 
 
@@ -21,6 +22,7 @@ const UserInformation = ({ username , firstName, lastName, email, birthday, onCh
     const {auth} = useContext(AuthContext);
     const axiosPrivate = useAxiosPrivate();
     const [loading, setLoading] = useState(false)
+    const [updateUserDetails, {isLoading}]=useUpdateUserDetailsMutation()
     const formik = useFormik({
         initialValues: {
             firstName: firstName ? firstName : '',
@@ -97,19 +99,20 @@ const UserInformation = ({ username , firstName, lastName, email, birthday, onCh
       setLoading(true);
       async function postDetails (){
             try{
-                const responsE = await axiosPrivate.post('/updateUserDetails', 
-                JSON.stringify({'dataObj':dataObj}),
-                {
-                    headers: {"Content-Type": 'application/json'},
-                    withCredentials: true
-                });
+                const responsE = await updateUserDetails({'dataObj':dataObj}).unwrap()
+                // const responsE = await axiosPrivate.post('/updateUserDetails',
+                // JSON.stringify({'dataObj':dataObj}),
+                // {
+                //     headers: {"Content-Type": 'application/json'},
+                //     withCredentials: true
+                // });
                 const resData = responsE;
-                alert(resData.data.message)
+                alert(resData.message)
             }catch(err){
 
-                alert(err.response.data.message)
+                alert(err.data.message)
                 setSubmit(false)
-                handlePrevEmail(err.response.data.prevEmail)
+                handlePrevEmail(err.data.prevEmail)
                 
                 
             }
