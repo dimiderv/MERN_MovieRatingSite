@@ -32,7 +32,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }),
         getFavorites: builder.query({
             query: ()=>('/favorites'),
-            keepUnusedDataFor: 25,
+            // keepUnusedDataFor: 25,
+        }),
+        getMovies: builder.query({
+            query: ()=>('/movies'),
         })
     })
 })
@@ -42,5 +45,6 @@ export const {
     useUpdatePasswordMutation,
     useGetUserFavoritesMutation,
     useUpdateUserDetailsMutation,
-    useGetFavoritesQuery
+    useGetFavoritesQuery,
+    useGetMoviesQuery
 } = authApiSlice;
