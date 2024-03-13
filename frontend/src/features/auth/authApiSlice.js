@@ -29,6 +29,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 method: 'PATCH',
                 body:{...credentials}
             })
+        }),
+        getFavorites: builder.query({
+            query: ()=>('/favorites')
         })
     })
 })
@@ -37,5 +40,6 @@ export const {
     useLoginMutation,
     useUpdatePasswordMutation,
     useGetUserFavoritesMutation,
-    useUpdateUserDetailsMutation
+    useUpdateUserDetailsMutation,
+    useGetFavoritesQuery
 } = authApiSlice;

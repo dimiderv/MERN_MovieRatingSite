@@ -19,6 +19,8 @@ const Favorites = () => {
   const navigate = useNavigate();
   const location = useLocation();
   // const from = location.state?.from?.pathname || "/login";
+
+  //  const { data, error, isLoading } =
   const from = '/login'
   useEffect(function () {
     const controller = new AbortController();

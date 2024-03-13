@@ -18,11 +18,12 @@ import Home from "./components/Pages/Home";
 import Missing from "./components/Pages/Missing";
 import PersistLogin from "./components/authComponents/PersistLogin";
 import Footer from "./components/Footer";
-import useAuth from "./hooks/useAuth";
+// import useAuth from "./hooks/useAuth";
 import Panel from "./components/UserPanel/Panel/Panel";
 import ToastMsgContainer from "./components/ToastMsgContainer";
 import {useSelector} from "react-redux";
 import {selectCurrentToken} from "./features/auth/authSlice";
+import Welcome from "./components/Welcome";
 
 
 function App() {
@@ -35,7 +36,7 @@ function App() {
   //   }
   // }, []);
   const token = useSelector(selectCurrentToken)
-  const { auth } = useAuth();
+  // const { auth } = useAuth();
   document.body.style.backgroundColor = "rgb(25, 25, 37)";
   return (
     <Container className='container' flex='1'>
@@ -55,6 +56,7 @@ function App() {
             {/* Protected Routes */}
           
             <Route element={<RequireAuth />}>
+              <Route path={'welcome'}  element={<Welcome />}/>
               <Route path="home" element={<Home />} />
               <Route path="genre" element={<AddGenres />} />
               <Route path="addmovies" element={<AddMovies />} />
