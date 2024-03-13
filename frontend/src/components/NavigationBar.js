@@ -7,7 +7,8 @@ import { Container, Col, Row, Button } from "react-bootstrap";
 import { Link,useNavigate } from "react-router-dom";
 import useLogout from "../hooks/useLogout";
 import useSearch from "../hooks/useSearch";
-
+import {useDispatch, useSelector} from "react-redux";
+import {selectSearchString, setSearch} from "../features/search/searchSlice";
 
 
 
@@ -25,7 +26,9 @@ import useSearch from "../hooks/useSearch";
 const NavigationBar = ()=>{
   const navigate = useNavigate();
   const logout=useLogout();
-  const {search,setSearch} = useSearch();
+  // const {search,setSearch} = useSearch();
+  const dispatch = useDispatch()
+  const reduxSearch = useSelector(selectSearchString)
   const signOut = async () => {
       // if used in more components, this should be in context 
       // axios to /logout endpoint 
@@ -53,11 +56,16 @@ const confirmAction = () => {
   // if(useExists  ){
   //   decodedToken = jwt.verify(auth.token,"RANDOM-TOKEN");
   // }
-
+  const reduxSearchHandler = (e) =>{
+    dispatch(setSearch(e.target.value))
+  }
   function searchHandler(e){
     // e.preventDefault();
     // console.log("filer works.")
-    setSearch(e.target.value);
+
+
+    // setSearch(e.target.value);
+
     // console.log(search)
     // search.filter(movie => movie.title.toLowerCase().includes(e.target.value.toLowerCase()));
     // console.log(search.filter(movie => movie.title.toLowerCase().includes(e.target.value.toLowerCase())))
@@ -96,8 +104,8 @@ const confirmAction = () => {
                       placeholder="Search"
                       className="me-2"
                       aria-label="Search"
-                      value={search}
-                      onChange={(e) =>searchHandler(e)}
+                      value={reduxSearch}
+                      onChange={(e) =>reduxSearchHandler(e)}
                     />
                     <Button variant="outline-success">Search</Button>
                   </Form>
