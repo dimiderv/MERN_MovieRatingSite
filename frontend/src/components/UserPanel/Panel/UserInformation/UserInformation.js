@@ -99,14 +99,7 @@ const UserInformation = ({ username , firstName, lastName, email, birthday, onCh
       setLoading(true);
       async function postDetails (){
             try{
-                const responsE = await updateUserDetails({'dataObj':dataObj}).unwrap()
-                // const responsE = await axiosPrivate.post('/updateUserDetails',
-                // JSON.stringify({'dataObj':dataObj}),
-                // {
-                //     headers: {"Content-Type": 'application/json'},
-                //     withCredentials: true
-                // });
-                const resData = responsE;
+                const resData = await updateUserDetails({'dataObj':dataObj}).unwrap()
                 alert(resData.message)
             }catch(err){
 

@@ -1,21 +1,21 @@
-import { useNavigate,useLocation } from "react-router-dom";
 import FilterMovies from "../templates/FilterMovies";
 import TryCard from "../templates/TryCard";
-import useLogout from "../../hooks/useLogout";
 import SearchContext from "../../context/SearchProvider";
 import { useEffect,useState,useContext } from "react";
 import Product from "../templates/Product";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import AuthContext from "../../context/AuthProvider";
-import ToastMessage from "../templates/ToastMessage";
-import {useToast} from "../../context/ToastContext";
-import ToastMsgContainer from "../ToastMsgContainer";
-import {useSelector} from "react-redux";
-import {selectCurrentToken, selectCurrentUser} from "../../features/auth/authSlice";
+// import {useToast} from "../../context/ToastContext";
+// import { useNavigate,useLocation } from "react-router-dom";
+// import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+// import AuthContext from "../../context/AuthProvider";
+// import ToastMessage from "../templates/ToastMessage";
+// import ToastMsgContainer from "../ToastMsgContainer";
+// import {useSelector} from "react-redux";
+// import {selectCurrentToken, selectCurrentUser} from "../../features/auth/authSlice";
+// import useLogout from "../../hooks/useLogout";
+
 const Home = () => {
-  const { toastMessages } = useToast();
-  const navigate = useNavigate();
-  const logout = useLogout();
+  // const { toastMessages } = useToast();
+  // const navigate = useNavigate();
   const {search,setSearch} = useContext(SearchContext);
   const [filteredMovies, setFilteredMovies] = useState([]);
   const movies = require("../../data/movies.json")
@@ -31,44 +31,40 @@ const Home = () => {
     }
     return "";
   });
-  const { auth } = useContext(AuthContext);
-  // const signOut = async () => {
-  //   // if used in more components, this should be in context
-  //   // axios to /logout endpoint
-  //   await logout();
-  //   navigate("/linkpage");
-  // };
-  const axiosPrivate = useAxiosPrivate();
-  const token = useSelector(selectCurrentToken)
-  const username = useSelector(selectCurrentUser)
 
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/login";
 
-  useEffect(function () {
-    async function fetchData() {
+  // const { auth } = useContext(AuthContext);
+  // const axiosPrivate = useAxiosPrivate();
+  // const token = useSelector(selectCurrentToken)
+  // const location = useLocation();
+  // const from = location.state?.from?.pathname || "/login";
+  // const username = useSelector(selectCurrentUser)
 
-      try {
-        const response = await axiosPrivate.get('http://localhost/movies',{
-          headers: {Authorization: `Bearer ${token}`}
-        });
-        const resData = response;
-        // setLoadedGoals(resData.data.movies);
-        // setSearch(resData.data.movies);
 
-      } catch (err) {
-        // setError(
-        //   err.message ||
-        //     'Fetching goals failed - the server responsed with an error.'
-        // );
-        navigate(from, { state: { from: location }, replace: true });
-      }
-      
-    }
-
-    fetchData();
-    // console.log(auth)
-  }, [auth, axiosPrivate]);
+  // useEffect(function () {
+  //   async function fetchData() {
+  //
+  //     try {
+  //       const response = await axiosPrivate.get('http://localhost/movies',{
+  //         headers: {Authorization: `Bearer ${token}`}
+  //       });
+  //       const resData = response;
+  //       // setLoadedGoals(resData.data.movies);
+  //       // setSearch(resData.data.movies);
+  //
+  //     } catch (err) {
+  //       // setError(
+  //       //   err.message ||
+  //       //     'Fetching goals failed - the server responsed with an error.'
+  //       // );
+  //       navigate(from, { state: { from: location }, replace: true });
+  //     }
+  //
+  //   }
+  //
+  //   fetchData();
+  //   console.log(auth)
+  // }, [auth, axiosPrivate]);
   
   // Clears the filter option, when it first renders. Deletes previous inputs from other pages. 
   useEffect(()=>{
@@ -120,10 +116,9 @@ const Home = () => {
   :(
           <section>
 
-            <p style={{color:'white'}}>{username}{token}</p>
+            {/*<p style={{color:'white'}}>{username}{token}</p>*/}
             <div className="justify-content-center ">
               <TryCard headline="Newest" indexStart={1237} indexEnd={1247}/>
-
             </div>
             <div className="justify-content-center ">
               <FilterMovies
@@ -139,22 +134,6 @@ const Home = () => {
             <div className="justify-content-center ">
               <TryCard headline="Most Popular" indexStart={200} indexEnd={210}/>
             </div>
-
-            {/* <h1>Home</h1>
-      <br />
-      <p>You are logged in!</p>
-      <br />
-      <Link to="/auth">Go to the Movies page</Link>
-      <br />
-      <a href="/favorites">Press here to check if thats the mistake</a>
-      <Link to="/favorites">Go to the Favorites</Link>
-      <br />
-      <Link to="/addmovies">Go to the AddMovies</Link>
-      <br />
-      <Link to="/linkpage">Go to the link page</Link>
-      <div className="flexGrow">
-        <button onClick={signOut}>Sign Out</button>
-      </div> */}
           </section>
       );
 };

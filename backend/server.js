@@ -222,11 +222,11 @@ app.get("/movies", async (req, res) => {
 app.get("/user",async (req,res)=>{
   // console.log(req)
   // should add await i believe
-  User.findOne({$or: [{ email: req.user.userEmail }, {username: req.user.userName}]})
+  await User.findOne({$or: [{ email: req.user.userEmail }, {username: req.user.userName}]})
   .exec(function(err, result) {
     if (err) {
       // Handle error
-      res.status(500).json({message: 'Failed to get favorites.'})
+      res.status(500).json({message: 'Failed to get user.'})
     } else {
       // Access the populated favorites with genre information
       console.log("This is the user document",result)
@@ -236,24 +236,6 @@ app.get("/user",async (req,res)=>{
 })
 
 
-app.get("/goals", async (req, res) => {
-  console.log("TRYING TO FETCH GOALS");
-  try {
-    const goals = await Goal.find();
-    res.status(200).json({
-      goals: goals.map((goal) => ({
-        id: goal.id,
-        text: goal.text,
-      })),
-    });
-    console.log("FETCHED GOALS");
-    console.log(goals)
-  } catch (err) {
-    console.error("ERROR FETCHING GOALS");
-    console.error(err.message);
-    res.status(500).json({ message: "Failed to load goals." });
-  }
-});
 
 
 app.get("/favorites", async (req, res) => {
@@ -285,13 +267,13 @@ app.get("/favorites", async (req, res) => {
 });
 
 
-app.post("/updateUserDetails", async (req,res)=>{
+app.patch("/updateUserDetails", async (req,res)=>{
   // (More efficient) 2. Check if the data have changed (might do it on the frontend)
 
   
   const {firstName, lastName, birthday,email} = req.body.dataObj;
   const user = await User.findOne({_id: req.user.userId});
-  console.log(user)
+  // console.log(user)
   // Should not be allowed any requests. Fix from frontend
   let areTheSame = 0;
   user.firstName !== firstName ?
@@ -337,7 +319,7 @@ app.post("/updateUserDetails", async (req,res)=>{
 })
 
 
-app.post('/updatePassword',async (req,res)=>{
+app.patch('/updatePassword',async (req,res)=>{
   const userID= req.user.userId;
   console.log(req.body)
   const {currentPassword,newPassword} = req.body.dataObj;
@@ -383,18 +365,18 @@ app.post("/favorites", async (req, res) => {
   const movieTitle = req.body.title || "";  
   if (!movieTitle || movieTitle.trim().length === 0) {
     console.log("INVALID INPUT - NO TEXT");
-    return res.status(422).json({ message: "Invalid goal text." });
+    return res.status(422).json({ message: "Invalid title text." });
   }
-  console.log("title of movie trying to add ",movieTitle )
+  console.log("Title of movie trying to add ",movieTitle )
   const foundMovie = await mySchemas.movies.findOne({title:movieTitle}).exec();
   if(!foundMovie){
     console.log(`No movie with title ${movieTitle}.` )
     return res.status(422).json({ message: `No movie with title ${movieTitle}.` }); //added the return keyword. 10/01
   }
-  console.log(foundMovie)
-  console.log(req.user);
+  // console.log(foundMovie)
+  // console.log(req.user);
   const user = await User.findOne({_id: req.user.userId});
-  console.log("Before attempting to add to favorites",user)
+  // console.log("Before attempting to add to favorites",user)
   //added it 10/01
   if (!user) {
     console.log("User not found");
@@ -438,8 +420,8 @@ app.delete("/deletefavorites", async (req, res) => {
 app.delete('/delete',async (req,res)=>{
   try {
     await mySchemas.movies.deleteMany()
-    res.status(200).json({ message: 'Deleted goal!' });
-    console.log('DELETED GOAL');
+    res.status(200).json({ message: 'Deleted all movies!' });
+    console.log('Deleted All movies');
   } catch (err) {
     console.error('ERROR FETCHING GOALS');
     console.error(err.message);
@@ -473,50 +455,7 @@ app.get('/actor', async (req,res)=>{
     res.status(500).json({ message: "Failed to load goals." });
   }
 })
-app.post("/addmovie",auth, async (req, res) => {
-  console.log("TRYING TO STORE Movie");
-  const postMovie = req.body.movieData;
-  console.log(postMovie)
-  // if (!postGenre || postGenre.trim().length === 0) {
-  //   console.log("INVALID INPUT - NO TEXT");
-  //   return res.status(422).json({ message: "Invalid genre text." });
-  // }
-  let genreSchema = mySchemas.genre;
-  let tempGenres=[];
-  const genres = postMovie.genres;
-  for( var i=0;  i<genres.length;i++){
-    let genreDB = await genreSchema.findOne({name: genres[i]});
-    tempGenres.push(genreDB.id);
-  }
-  // for( var i=0;  i<genres.length;i++){
-  //   let genreDB = await genreSchema.findOne({_id: tempGenres[i]});
-  //   console.log(genreDB)
-  // }
-  console.log(tempGenres)
-  const movie = new mySchemas.movies({
-    title:postMovie.title,
-    thumbnail: postMovie.thumbnail,
-    extract:postMovie.extract,
-    year: postMovie.year,
-    entryDate:postMovie.entryDate,
-    genre: tempGenres, 
-    cast:postMovie.cast,
 
-  });
-console.log(movie)
-  try {
-    await movie.save();
-    res
-      .status(201)
-      .json({ message: "Movie saved", movie: { id: movie.id , title: movie.title } });
-    console.log("STORED NEW Movie");
-    
-  } catch (err) {
-    console.error("ERROR FETCHING Movie");
-    console.error(err.message);
-    res.status(500).json({ message: err.message });
-  }
-});
 
 
 app.get("/genre",auth, async (req, res) => {
