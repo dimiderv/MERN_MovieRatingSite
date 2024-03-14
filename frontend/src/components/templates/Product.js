@@ -12,7 +12,7 @@ export default function Product(props) {
     const [heartClicked, setHeartClicked] = useState(false);
     const [starClicked, setStarClicked] = useState(false);
     const [dislikeClicked, setDislikeClicked] = useState(false)
-    const [getUserFavorites,{isLoading}] = useGetUserFavoritesMutation()
+    const [getUserFavorites] = useGetUserFavoritesMutation()
     const {showToast} = useToast();
     function handleModal() {
         setActive(!active);

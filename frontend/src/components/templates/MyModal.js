@@ -15,7 +15,7 @@ function MyModal(props) {
         }
       }
     }else{
-      for(var i=0; i<genre.length;i++){
+      for( i=0; i<genre.length;i++){
         if(i+1===genre.length){
           genres+=genre[i]+'.'
         }else{

@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Col, Row, Toast} from "react-bootstrap";
-import ReactDOM from 'react-dom';
+import React from 'react';
+import { Col, Row, Toast} from "react-bootstrap";
 import {useToast} from "../../context/ToastContext";
 const ToastMessage = ({show,setShow,test, index}) => {
 
     //doesnt delete the index. Something isn't triggering the effect.
-    const {hideToast,toastMessages  } = useToast();
+    const {hideToast  } = useToast();
 
     // useEffect(() => {
     //     const timer = setTimeout(() => {

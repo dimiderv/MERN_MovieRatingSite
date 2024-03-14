@@ -1,6 +1,5 @@
 import styles from "./FormInput.module.css"
 import { FormGroup, FormLabel, FormControl, FormText } from 'react-bootstrap'
-import { useState } from 'react'
 
 const FormInput =(    {        inpClass='',
             className='', 

@@ -2,7 +2,6 @@ import MultiCarousel from "react-multi-carousel";
 import Product from "./Product";
 import "../trycard.css";
 import "react-multi-carousel/lib/styles.css";
-import ToastMessage from "./ToastMessage";
 
 
 const responsive = {

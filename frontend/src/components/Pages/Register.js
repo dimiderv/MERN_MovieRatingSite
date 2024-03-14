@@ -33,13 +33,15 @@ export default function Register() {
 
     const [register, setRegister] = useState(false);
 
-    const [firstName,setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
+    const [firstName,setFirstName] = useState(" ");
+    const [lastName, setLastName] = useState(" ");
 
 
 
     useEffect(() => {
         setValidUserName(USER_REGEX.test(username));
+        setFirstName(' ')
+        setLastName(' ')
     }, [username])
     useEffect(() => {
         setValidEmail(EMAIL_REGEX.test(email))

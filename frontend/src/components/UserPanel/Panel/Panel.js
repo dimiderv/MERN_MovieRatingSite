@@ -21,7 +21,7 @@ function Panel() {
            return []; // Return an empty array if data fetching failed or data is not available
        }
        setUserDetails(data)
-   },[data])
+   },[data,isSuccess])
     let content
     if (isLoading) {
         content= <Loading />;

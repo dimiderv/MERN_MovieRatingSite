@@ -3,7 +3,6 @@ import styles from './UserProfile.module.css'
 // import other pkgs
 import { Import } from 'iconsax-react'
 import logo from './luffy.png';
-const profile = ''
 
 const UserProfile = ({ userProfile=logo, userBirthday, username, memberSince,userEmail }) => {
     // console.log(typeof memberSince)

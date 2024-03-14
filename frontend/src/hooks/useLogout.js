@@ -15,7 +15,7 @@ import {logOut} from "../features/auth/authSlice";
                 withCredentials:true
             });
             dispatch(logOut())
-            // console.log(response.message)
+            console.log(response?.message)
         }catch(err){
             console.log(err)
         }

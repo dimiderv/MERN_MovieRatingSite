@@ -26,7 +26,7 @@ const AddMovies = () => {
         }
       });
 
-      const resData = await response.json();
+      console.log( await response.json());
       // console.log(resData.movies)
       // if (!response.ok) {
       //   alert(resData.message)
