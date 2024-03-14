@@ -1,141 +1,89 @@
-import FilterMovies from "../templates/FilterMovies";
-import TryCard from "../templates/TryCard";
-import SearchContext from "../../context/SearchProvider";
-import { useEffect,useState,useContext } from "react";
+import { useEffect, useState, useContext, useMemo } from "react";
 import Product from "../templates/Product";
-// import {useToast} from "../../context/ToastContext";
-// import { useNavigate,useLocation } from "react-router-dom";
-// import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-// import AuthContext from "../../context/AuthProvider";
-// import ToastMessage from "../templates/ToastMessage";
-// import ToastMsgContainer from "../ToastMsgContainer";
-// import {useSelector} from "react-redux";
-// import {selectCurrentToken, selectCurrentUser} from "../../features/auth/authSlice";
-// import useLogout from "../../hooks/useLogout";
+import { useSelector } from "react-redux";
+import { selectSearchString } from "../../features/search/searchSlice";
+import TryCard from "../templates/TryCard";
+import FilterMovies from "../templates/FilterMovies";
 
 const Home = () => {
-  // const { toastMessages } = useToast();
-  // const navigate = useNavigate();
-  const {search,setSearch} = useContext(SearchContext);
-  const [filteredMovies, setFilteredMovies] = useState([]);
-  const movies = require("../../data/movies.json")
-  .slice(1200, 1250)
-  .filter((movie) => {
-    if (
-      movie.thumbnail &&
-      movie.cast.length > 0 &&
-      movie.thumbnail_height > 360 &&
-      movie.thumbnail_width > 240 
-    ) {
-      return movie;
-    }
-    return "";
-  });
+    const search = useSelector(selectSearchString);
+    const [movies, setMovies] = useState([]);
+    const [filteredMovies, setFilteredMovies] = useState([]);
 
+    // Fetch movies data and preprocess it
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const moviesData = require("../../data/movies.json")
+                    .slice(1200, 1250)
+                    .filter((movie) => (
+                        movie.thumbnail &&
+                        movie.cast.length > 0 &&
+                        movie.thumbnail_height > 360 &&
+                        movie.thumbnail_width > 240
+                    ));
+                setMovies(moviesData);
+            } catch (error) {
+                console.error("Error fetching movies data:", error);
+            }
+        };
+        fetchData();
+    }, []);
 
-  // const { auth } = useContext(AuthContext);
-  // const axiosPrivate = useAxiosPrivate();
-  // const token = useSelector(selectCurrentToken)
-  // const location = useLocation();
-  // const from = location.state?.from?.pathname || "/login";
-  // const username = useSelector(selectCurrentUser)
+    // Update filteredMovies when search query changes
+    useEffect(() => {
+        if (!search) {
+            setFilteredMovies([]);
+            return;
+        }
 
+        const filteredData = movies.filter((movie) =>
+            movie.title.toLowerCase().includes(search.toLowerCase())
+        );
+        setFilteredMovies(filteredData);
+    }, [search, movies]);
 
-  // useEffect(function () {
-  //   async function fetchData() {
-  //
-  //     try {
-  //       const response = await axiosPrivate.get('http://localhost/movies',{
-  //         headers: {Authorization: `Bearer ${token}`}
-  //       });
-  //       const resData = response;
-  //       // setLoadedGoals(resData.data.movies);
-  //       // setSearch(resData.data.movies);
-  //
-  //     } catch (err) {
-  //       // setError(
-  //       //   err.message ||
-  //       //     'Fetching goals failed - the server responsed with an error.'
-  //       // );
-  //       navigate(from, { state: { from: location }, replace: true });
-  //     }
-  //
-  //   }
-  //
-  //   fetchData();
-  //   console.log(auth)
-  // }, [auth, axiosPrivate]);
-  
-  // Clears the filter option, when it first renders. Deletes previous inputs from other pages. 
-  useEffect(()=>{
-    setSearch('')
-  },[])
-  useEffect(()=>{
-    
-    setFilteredMovies(movies.filter((movie)=>{
-      if(search===""){
-        return movie
-      }else if(movie.title.toLowerCase().includes(search.toLowerCase())){
-        return movie
-      }
+    // Memoize filteredMovies to prevent unnecessary recalculations
+    const memoizedFilteredMovies = useMemo(() => filteredMovies, [filteredMovies]);
 
-    }
-    ))
-  },[search])
-  
-
-  return search ?
-  (
-    
-    <div className="movie-container">
-      {/* <h2>Search results</h2>  */}
-           
-      <ul className ="movie-list p-2">
-        {filteredMovies.map((movie,i) => (
-              <Product
-              title={movie.title}
-              thumbnail={movie.thumbnail}
-              price={"9.99$"}
-              extract={movie.extract}
-              key={movie.title}
-              movie ={{
-                title : movie.title,
-                thumbnail:movie.thumbnail,
-                cast: movie.cast,
-                extract: movie.extract,
-                genre: movie.genres, 
-                year: movie.year
-              }}
-            />
-        ))}
-      </ul> 
-        {/* <MyCarousel /> */}
-    </div>
-    
-  )
-  :(
-          <section>
-
-            {/*<p style={{color:'white'}}>{username}{token}</p>*/}
+    return search ? (
+        <div className="movie-container">
+            <ul className="movie-list p-2">
+                {memoizedFilteredMovies.map((movie, i) => (
+                    <Product
+                        title={movie.title}
+                        thumbnail={movie.thumbnail}
+                        price={"9.99$"}
+                        extract={movie.extract}
+                        key={movie.title}
+                        movie={{
+                            title: movie.title,
+                            thumbnail: movie.thumbnail,
+                            cast: movie.cast,
+                            extract: movie.extract,
+                            genre: movie.genres,
+                            year: movie.year
+                        }}
+                    />
+                ))}
+            </ul>
+        </div>
+    ) : (
+        <section>
             <div className="justify-content-center ">
-              <TryCard headline="Newest" indexStart={1237} indexEnd={1247}/>
+                <TryCard headline="Newest" indexStart={1237} indexEnd={1247} />
             </div>
             <div className="justify-content-center ">
-              <FilterMovies
-                  headline="Comedies"
-                  indexStart={270}
-                  indexEnd={300}
-                  genreFilter={"Comedy"}
-              />
+                <FilterMovies headline="Comedies" indexStart={270} indexEnd={300} genreFilter={"Comedy"} />
             </div>
             <div className="justify-content-center ">
-              <TryCard headline="For you" indexStart={700} indexEnd={710}/>
+                <TryCard headline="For you" indexStart={700} indexEnd={710} />
             </div>
             <div className="justify-content-center ">
-              <TryCard headline="Most Popular" indexStart={200} indexEnd={210}/>
+                <TryCard headline="Most Popular" indexStart={200} indexEnd={210} />
             </div>
-          </section>
-      );
+        </section>
+    );
 };
 
 export default Home;

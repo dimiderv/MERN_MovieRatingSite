@@ -6,19 +6,10 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { Container, Col, Row, Button } from "react-bootstrap";
 import { Link,useNavigate } from "react-router-dom";
 import useLogout from "../hooks/useLogout";
-import useSearch from "../hooks/useSearch";
 import {useDispatch, useSelector} from "react-redux";
 import {selectSearchString, setSearch} from "../features/search/searchSlice";
 
 
-
-// const logout = () => {
-//     // destroy the cookie
-  
-//     cookies.remove("TOKEN", { path: "/" });
-//     // redirect user to the landing page
-//     window.location.href = "/login";
-//   };
 
 
 
@@ -50,27 +41,10 @@ const confirmAction = () => {
     }
   };
 
-  // let decodedToken='';
-  // let useExists = Object.keys(auth).length !== 0
-  // console.log(auth['token'])
-  // if(useExists  ){
-  //   decodedToken = jwt.verify(auth.token,"RANDOM-TOKEN");
-  // }
   const reduxSearchHandler = (e) =>{
     dispatch(setSearch(e.target.value))
   }
-  function searchHandler(e){
-    // e.preventDefault();
-    // console.log("filer works.")
 
-
-    // setSearch(e.target.value);
-
-    // console.log(search)
-    // search.filter(movie => movie.title.toLowerCase().includes(e.target.value.toLowerCase()));
-    // console.log(search.filter(movie => movie.title.toLowerCase().includes(e.target.value.toLowerCase())))
-    //setSearch(search.filter(movie => movie.title.toLowerCase().includes(e.target.value.toLowerCase())))
-  }
   // console.log(search)
     return (
         <Row xs={12} sm={12} md={12} lg={12}>

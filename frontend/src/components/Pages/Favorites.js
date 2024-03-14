@@ -1,5 +1,4 @@
-import {useState, useEffect, useContext, useMemo} from "react";
-import SearchContext from "../../context/SearchProvider";
+import {useMemo} from "react";
 import Product from "../templates/Product";
 import { useGetFavoritesQuery } from "../../features/auth/authApiSlice";
 import {useSelector} from "react-redux";
