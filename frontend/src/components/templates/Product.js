@@ -1,13 +1,10 @@
 import React, {useState} from "react";
-import {Card, Button, Row, Toast, Col} from "react-bootstrap";
+import {Card, Button, Row,} from "react-bootstrap";
 import MyModal from "./MyModal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar, faHeart, faThumbsDown} from "@fortawesome/free-solid-svg-icons";
-import ToastMessage from "./ToastMessage";
 import {useToast} from "../../context/ToastContext";
-import axios from "axios";
-import {axiosPrivate} from "../../fetch/api/axios";
-import {useGetUserFavorites, useGetUserFavoritesMutation} from "../../features/auth/authApiSlice";
+import { useGetUserFavoritesMutation} from "../../features/auth/authApiSlice";
 
 export default function Product(props) {
     // className="card" style={{ width: "18rem", margin: "10px"}}
@@ -15,8 +12,6 @@ export default function Product(props) {
     const [heartClicked, setHeartClicked] = useState(false);
     const [starClicked, setStarClicked] = useState(false);
     const [dislikeClicked, setDislikeClicked] = useState(false)
-    const [show, setShow] = useState(false)
-    const [test, setTest] = useState([])
     const [getUserFavorites,{isLoading}] = useGetUserFavoritesMutation()
     const {showToast} = useToast();
     function handleModal() {
@@ -24,14 +19,6 @@ export default function Product(props) {
     }
     const addToFavorites = async () => {
         const apiCall = getUserFavorites({ 'title': props.movie.title }).unwrap()
-       // const apiCall =   axiosPrivate.post('http://localhost/favorites',
-       //      JSON.stringify({ 'title': props.movie.title }),
-       //      {
-       //          headers: { 'Content-Type': 'application/json' },
-       //          withCredentials: true
-       //      }
-       //  );
-        // console.log(apiCall)
         showToast(apiCall, `Added ${props.movie.title} to favorites`,'');
     };
 
@@ -39,10 +26,7 @@ export default function Product(props) {
     return active ? (
         <MyModal show={active} onHide={handleModal} movie={props.movie}/>
     ) : (
-        // bg={'Dark'} style={{ width: "18rem", margin: "10px",background:'black'}}
         <div>
-            {/*I have to fix this error, message looks fine for now, the idea is looking good*/}
-            {/*//<ToastMessage setShow={setShow} show={show} test={"Hello"}/>*/}
             <Card>
                 <Card.Img
                     variant="top"
@@ -53,15 +37,7 @@ export default function Product(props) {
                     title={props.title}
                 />
 
-                {/* <Card.Body>
-      <Card.Title>{title}</Card.Title>
-
-      <Button style={{justifyContent:'left'}}variant="primary" type='submit' value="Send" onClick={()=>addGoalHandler(title)}>Post</Button>
-        <Button className='ml-auto'style={{justifyContent:'right'}}variant="primary" type='submit' value="Send" onClick={()=>addGoalHandler(title)}>More</Button>
-    </Card.Body> */}
                 <Card.Body className={"favBody "}>
-
-
                     <Row>
                         <div className={"col-auto"}>
                             <Button

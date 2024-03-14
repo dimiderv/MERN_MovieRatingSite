@@ -5,10 +5,8 @@ import Product from "../templates/Product";
 //   if(movie.thumbnail && movie.cast.length >0 && movie.thumbnail_height>360 && movie.thumbnail_width>240){
 //     return movie
 //   }});;
-import {useToast} from "../../context/ToastContext";
-import ToastMsgContainer from "../ToastMsgContainer";
+
 import {useSelector} from "react-redux";
-import {selectCurrentToken} from "../../features/auth/authSlice";
 import {selectSearchString} from "../../features/search/searchSlice";
 import {useGetMoviesQuery} from "../../features/auth/authApiSlice";
 import Loading from "../Loading";

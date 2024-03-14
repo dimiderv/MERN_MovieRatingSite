@@ -21,7 +21,7 @@ const handleLogin = async (req,res) => {
         // check if password matches
         if(!passwordCheck) {
           return res.status(400).send({
-            message: "Passwords do not match",
+            message: "Incorrect password.",
           });
         }
 

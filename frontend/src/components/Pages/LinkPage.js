@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import TryCard from "../templates/TryCard"
 import IntroCards from "../templates/IntroCards"
 const LinkPage = () => {
 

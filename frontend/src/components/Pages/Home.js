@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Product from "../templates/Product";
 import { useSelector } from "react-redux";
 import { selectSearchString } from "../../features/search/searchSlice";

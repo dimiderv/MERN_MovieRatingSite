@@ -1,10 +1,5 @@
-import { PureComponent, useEffect } from 'react'
-
-// import styles of this component
 import styles from "./FormInput.module.css"
-// import react bootstrap components 
 import { FormGroup, FormLabel, FormControl, FormText } from 'react-bootstrap'
-// import pkgs
 import { useState } from 'react'
 
 const FormInput =(    {        inpClass='',
@@ -27,7 +22,7 @@ const FormInput =(    {        inpClass='',
             md,
             lg}) =>{
  
-        const [n,sN] = useState("")
+
        
 
         return (

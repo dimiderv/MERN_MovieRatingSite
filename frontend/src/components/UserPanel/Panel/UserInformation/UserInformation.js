@@ -1,14 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
-
-// import other component
+import { useState } from 'react';
 import FormInput from '../../Forms/FormInput/FormInput';
 import Titles from '../../Titles/Titles';
-import AuthContext from '../../../../context/AuthProvider';
-import useAxiosPrivate from '../../../../hooks/useAxiosPrivate';
-// import other pkg
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import { object, string, date } from 'yup'
+import { object, string, } from 'yup' //date
 import {useUpdateUserDetailsMutation} from "../../../../features/auth/authApiSlice";
 
 
@@ -16,13 +11,8 @@ import {useUpdateUserDetailsMutation} from "../../../../features/auth/authApiSli
 
 const UserInformation = ({ username , firstName, lastName, email, birthday, onChangeInfo,changeFirstName }) => {
     const [submit, setSubmit] = useState(false)
-    const [userName, setUserName] = useState("")
-    const [details,setDetails] =useState("");
-    const [prevEmail, setPrevEmail] = useState("");
-    const {auth} = useContext(AuthContext);
-    const axiosPrivate = useAxiosPrivate();
     const [loading, setLoading] = useState(false)
-    const [updateUserDetails, {isLoading}]=useUpdateUserDetailsMutation()
+    const [updateUserDetails]=useUpdateUserDetailsMutation()
     const formik = useFormik({
         initialValues: {
             firstName: firstName ? firstName : '',
