@@ -10,18 +10,18 @@ import {useLoginMutation} from "../../features/auth/authApiSlice";
 
 export default function Login() {
   // initial state
-  const { persist,setPersist } = useAuth();
-
-  const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/welcome";
   const [errMsg, setErrMsg] = useState('')
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [login, setLogin] = useState(false);
+
+  const { persist,setPersist } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [login] = useLoginMutation();
   const dispatch = useDispatch();
+
+  const from = location.state?.from?.pathname || "/welcome";
+
 
   const togglePersist = ()=>{
     setPersist(prev => !prev);

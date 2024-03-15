@@ -1,3 +1,5 @@
+// noinspection JSXUnresolvedComponent
+
 import * as Icon from "react-bootstrap-icons";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
@@ -20,24 +22,11 @@ const NavigationBar = ()=>{
   // const {search,setSearch} = useSearch();
   const dispatch = useDispatch()
   const reduxSearch = useSelector(selectSearchString)
-  const signOut = async () => {
-      // if used in more components, this should be in context 
-      // axios to /logout endpoint 
-      await logoutHook().then(()=>{
-        navigate('/');
-      })
-  }
-
-const confirmAction = () => {
-    const response = window.confirm("Are you sure you want to do that?");
-  
-    if (response) {
-       signOut().then(()=>{
-         console.log("Logging out")
-       });
-      //alert("Ok was pressed");
-    } else {
-      alert("Cancel was pressed");
+  const signOut = () => {
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
+      logoutHook();
+      navigate('/');
     }
   };
 
@@ -45,7 +34,6 @@ const confirmAction = () => {
     dispatch(setSearch(e.target.value))
   }
 
-  // console.log(search)
     return (
         <Row xs={12} sm={12} md={12} lg={12}>
         <Container fluid>
@@ -90,32 +78,23 @@ const confirmAction = () => {
                         title={<Icon.PersonCircle />}
                         id="navbarScrollingDropdown"
                       >
-                        {/* <NavDropdown.Item disabled href="#">
-                          {decodedToken.userName}
-                        </NavDropdown.Item> */}
-                     {/* { !auth &&  <NavDropdown.Item as={Link} to="/login">
-                          Login
-                        </NavDropdown.Item>} */}
                         <NavDropdown.Item as={Link} to="settings">Settings</NavDropdown.Item>
                         <NavDropdown.Item as={Link} to="favorites">
                           Favorites
                         </NavDropdown.Item>
                         <NavDropdown.Item as={Link} to="linkpage">
-                          linkpage
+                          Link page
                         </NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item
                           // href="login"
-                          onClick={() => confirmAction()}
+                          onClick={ signOut}
                         >
                           Logout
                         </NavDropdown.Item>
                       </NavDropdown>
                     </Nav>
                   </Col>
-                  {/* <Button type="submit" variant="danger" onClick={() => confirmAction()}>
-            Logout
-            </Button>  */}
                 </Navbar.Collapse>
               </Navbar>
             </Col>

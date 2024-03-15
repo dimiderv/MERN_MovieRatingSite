@@ -4,7 +4,7 @@ import MyModal from "./MyModal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar, faHeart, faThumbsDown} from "@fortawesome/free-solid-svg-icons";
 import {useToast} from "../../context/ToastContext";
-import { useGetUserFavoritesMutation} from "../../features/auth/authApiSlice";
+import {useGetUserFavoritesMutation} from "../../features/auth/authApiSlice";
 
 export default function Product(props) {
     // className="card" style={{ width: "18rem", margin: "10px"}}
@@ -14,12 +14,14 @@ export default function Product(props) {
     const [dislikeClicked, setDislikeClicked] = useState(false)
     const [getUserFavorites] = useGetUserFavoritesMutation()
     const {showToast} = useToast();
+
     function handleModal() {
         setActive(!active);
     }
+
     const addToFavorites = async () => {
-        const apiCall = getUserFavorites({ 'title': props.movie.title }).unwrap()
-        showToast(apiCall, `Added ${props.movie.title} to favorites`,'');
+        const apiCall = getUserFavorites({'title': props.movie.title}).unwrap()
+        showToast(apiCall, `Added ${props.movie.title} to favorites`, '');
     };
 
 
