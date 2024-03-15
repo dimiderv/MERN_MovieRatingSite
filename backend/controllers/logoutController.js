@@ -1,6 +1,8 @@
 const User = require('../models/userMode');
 
 const handleLogout = async (req,res) => {
+    console.log('Trying to logout...')
+    console.log(req.method)
     const cookies = req.cookies;
     console.log("Before logout coookies",cookies)
     if(!cookies?.jwt) return res.status(204).json({message:'No cookie found.'}); // no content
@@ -16,8 +18,8 @@ const handleLogout = async (req,res) => {
     // Delete refreshToken in db
     foundUser.refreshToken = '';
     const result = await foundUser.save();
-    console.log("Refresh token deleted..")
-    console.log(result);
+    console.log("Refresh token deleted... User logged out.")
+    //console.log(result);
 
     res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
     res.status(200).json({message: "Logout was successful"});

@@ -6,7 +6,6 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import {AuthProvider} from "./context/AuthProvider";
-import {SearchProvider} from "./context/SearchProvider";
 import {ToastProvider} from "./context/ToastContext";
 import {store} from "./app/store";
 import {Provider} from "react-redux";
@@ -16,13 +15,11 @@ ReactDOM.render(
         <Provider store={store}>
             <BrowserRouter>
                 <AuthProvider>
-                    <SearchProvider>
                         <ToastProvider>
                             <Routes>
                                 <Route path="/*" element={<App/>}/>
                             </Routes>
                         </ToastProvider>
-                    </SearchProvider>
                 </AuthProvider>
             </BrowserRouter>
         </Provider>

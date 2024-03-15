@@ -16,14 +16,14 @@ import {selectSearchString, setSearch} from "../features/search/searchSlice";
 
 const NavigationBar = ()=>{
   const navigate = useNavigate();
-  const logout=useLogout();
+  const logoutHook=useLogout();
   // const {search,setSearch} = useSearch();
   const dispatch = useDispatch()
   const reduxSearch = useSelector(selectSearchString)
   const signOut = async () => {
       // if used in more components, this should be in context 
       // axios to /logout endpoint 
-      await logout().then(()=>{
+      await logoutHook().then(()=>{
         navigate('/');
       })
   }

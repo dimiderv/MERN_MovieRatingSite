@@ -1,9 +1,7 @@
 import React from 'react';
-import {useGetFavoritesQuery} from "../features/auth/authApiSlice";
 
 const Welcome = () => {
-    const { data } = useGetFavoritesQuery()
-    console.log(data)
+
     return (
         <div style={{display:'flex',flexDirection:'column',fontSize:'3rem',color:'white',justifyContent:'center'}}>
             <p>Welcome to MovieDB</p>
