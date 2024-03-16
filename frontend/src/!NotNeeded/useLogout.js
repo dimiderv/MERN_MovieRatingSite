@@ -1,5 +1,5 @@
 import axios from '../fetch/api/axios'
-import useAuth from './useAuth'
+import useAuth from '../hooks/useAuth'
 import {useDispatch} from "react-redux";
 import {logOut} from "../features/auth/authSlice";
 

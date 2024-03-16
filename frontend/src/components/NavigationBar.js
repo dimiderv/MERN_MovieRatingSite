@@ -7,9 +7,10 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Container, Col, Row, Button } from "react-bootstrap";
 import { Link,useNavigate } from "react-router-dom";
-import useLogout from "../hooks/useLogout";
 import {useDispatch, useSelector} from "react-redux";
 import {selectSearchString, setSearch} from "../features/search/searchSlice";
+import {useSendLogoutMutation} from "../features/auth/authApiSlice";
+import {useEffect} from "react";
 
 
 
@@ -18,17 +19,19 @@ import {selectSearchString, setSearch} from "../features/search/searchSlice";
 
 const NavigationBar = ()=>{
   const navigate = useNavigate();
-  const logoutHook=useLogout();
-  // const {search,setSearch} = useSearch();
   const dispatch = useDispatch()
   const reduxSearch = useSelector(selectSearchString)
-  const signOut = () => {
-    const confirmLogout = window.confirm("Are you sure you want to log out?");
-    if (confirmLogout) {
-      logoutHook();
-      navigate('/');
-    }
-  };
+
+  const [sendLogout, {
+    isSuccess,
+  }] = useSendLogoutMutation();
+
+  useEffect(() => {
+    if(isSuccess) navigate('/')
+  }, [isSuccess,navigate]);
+
+
+
 
   const reduxSearchHandler = (e) =>{
     dispatch(setSearch(e.target.value))
@@ -88,7 +91,12 @@ const NavigationBar = ()=>{
                         <NavDropdown.Divider />
                         <NavDropdown.Item
                           // href="login"
-                          onClick={ signOut}
+                          onClick={()=>{
+                            const confirmLogout = window.confirm("Are you sure you want to log out?");
+                            if (confirmLogout) {
+                              sendLogout()
+                            }
+                          }}
                         >
                           Logout
                         </NavDropdown.Item>
