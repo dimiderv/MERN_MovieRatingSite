@@ -53,12 +53,6 @@ const UserChangePassword = ({ password, onChangeInfo }) => {
             console.log(dataObj)
             try{
                 const response = await updatePassword({'dataObj':dataObj}).unwrap()
-                // const response = await axiosPrivate.post('/updatePassword',
-                //     JSON.stringify({'dataObj':dataObj}),
-                //     {
-                //         headers: {"Content-Type": "application/json"},
-                //         withCredentials: true
-                //     });
                     const resData = response;
                     console.log(resData)
                     console.log(resData.message)

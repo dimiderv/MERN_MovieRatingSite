@@ -1,5 +1,5 @@
 import {apiSlice} from "../../app/api/apiSlice";
-import {logOut} from "./authSlice";
+import {logOut, setCredentials} from "./authSlice";
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: builder =>({
@@ -59,6 +59,22 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 }
             }
         }),
+        refresh: builder.mutation({
+            query: ()=>({
+                url:'refresh',
+                method:'GET'
+            }),
+            async onQueryStarted(arg,{dispatch,queryFulfilled}){
+                try {
+                    const {data} = await queryFulfilled
+                    // console.log(data);
+                    const {token} = data
+                    dispatch(setCredentials({token}))
+                }catch (err){
+                    console.log(err)
+                }
+            }
+        })
     })
 })
 
@@ -71,4 +87,5 @@ export const {
     useGetMoviesQuery,
     useGetUserDataQuery,
     useSendLogoutMutation,
+    useRefreshMutation
 } = authApiSlice;

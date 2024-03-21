@@ -241,7 +241,7 @@ app.get("/user",async (req,res)=>{
 app.get("/favorites", async (req, res) => {
   console.log("TRYING TO get Favorites to user populate('favorites')");
   // console.log(req)
-  User.findOne({_id: req.user.userId}).populate({
+ await User.findOne({_id: req.user.userId}).populate({
     path: 'favorites',
     populate: {
       path: 'genre',

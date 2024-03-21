@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const handleRefreshToken = async (req, res) => {
     const cookies = req.cookies;
-    if (!cookies?.jwt) return res.sendStatus(401);
+    if (!cookies?.jwt) return res.status(401).json({message: 'Unauthorized'});
     const refreshToken = cookies.jwt;
 
     const foundUser = await User.findOne({ refreshToken }).exec();
@@ -13,7 +13,7 @@ const handleRefreshToken = async (req, res) => {
         refreshToken,
         'REFRESH-TOKEN',
         (err, decoded) => {
-            if (err || foundUser.username !== decoded.username) return res.sendStatus(403);
+            if (err || foundUser.username !== decoded.username) return res.status(403).json({ message: 'Forbidden' })
             const token = jwt.sign(
                 {
                     userId: foundUser._id,
