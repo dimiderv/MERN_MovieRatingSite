@@ -6,7 +6,16 @@ import {selectSearchString} from "../../features/search/searchSlice";
 
 const Favorites = () => {
     const reduxSearch = useSelector(selectSearchString);
-    const { data, isError, isLoading, isSuccess, error } = useGetFavoritesQuery();
+    const { data, isError, isLoading, isSuccess, error,refetch } = useGetFavoritesQuery();
+    const [deleted, setDeleted] = useState(false);
+    const handleDeleteFavorite = () => {
+        setDeleted(true);
+    };
+
+    if (deleted) {
+        setDeleted(false); // Reset the state
+        refetch(); // Trigger a refetch when a favorite is deleted
+    }
     // const [filteredMovies, setFilteredMovies] = useState([]);
     //
     // useEffect(() => {
@@ -63,6 +72,7 @@ const Favorites = () => {
                                 year: movie.year
                             }}
                             favEnable={true}
+                            onDeleteFavorite={handleDeleteFavorite}
                         />
                     ))}
                     {filteredMovies.length === 0 && <p>No movies</p>}

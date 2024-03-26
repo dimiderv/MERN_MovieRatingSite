@@ -288,7 +288,7 @@ app.delete("/favorites", async (req,res)=>{
 
     user.favorites.splice(index,1);
     await user.save();
-
+    console.log("User after delettion", user)
     return res.status(200).json({message:`Deleted ${movieTitle} from favorites.`})
 
   }catch (err){
