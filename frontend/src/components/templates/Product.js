@@ -33,8 +33,10 @@ const navigate = useNavigate()
         // },500)
     }
     const handleDeleteFavorite = async () => {
-        await deleteFromFavorites();
-        props.onDeleteFavorite();
+        await deleteFromFavorites().then(()=>{
+            props.onDeleteFavorite();
+        })
+
     };
     return active ? (
         <MyModal show={active} onHide={handleModal} movie={props.movie}/>
