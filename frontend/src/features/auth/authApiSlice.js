@@ -24,6 +24,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 body:{...credentials}
             })
         }),
+        deleteFavorite:builder.mutation({
+            query:credentials=>({
+                url:'/favorites',
+                method:'DELETE',
+                body:{...credentials}
+            })
+        }),
         updateUserDetails: builder.mutation({
             query: credentials =>({
                 url:'/updateUserDetails',
@@ -33,7 +40,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }),
         getFavorites: builder.query({
             query: ()=>('/favorites'),
-            // keepUnusedDataFor: 25,
+            keepUnusedDataFor: 1,
         }),
         getMovies: builder.query({
             query: ()=>('/movies'),
@@ -87,5 +94,6 @@ export const {
     useGetMoviesQuery,
     useGetUserDataQuery,
     useSendLogoutMutation,
-    useRefreshMutation
+    useRefreshMutation,
+    useDeleteFavoriteMutation
 } = authApiSlice;

@@ -2,9 +2,11 @@ import React, {useState} from "react";
 import {Card, Button, Row,} from "react-bootstrap";
 import MyModal from "./MyModal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faStar, faHeart, faThumbsDown} from "@fortawesome/free-solid-svg-icons";
+import {faStar, faHeart, faThumbsDown,faTrash} from "@fortawesome/free-solid-svg-icons";
 import {useToast} from "../../context/ToastContext";
-import {useGetUserFavoritesMutation} from "../../features/auth/authApiSlice";
+import {useDeleteFavoriteMutation, useGetUserFavoritesMutation} from "../../features/auth/authApiSlice";
+import {useNavigate} from "react-router-dom";
+// import {useQueryClient} from "react-query";
 
 export default function Product(props) {
     // className="card" style={{ width: "18rem", margin: "10px"}}
@@ -13,17 +15,20 @@ export default function Product(props) {
     const [starClicked, setStarClicked] = useState(false);
     const [dislikeClicked, setDislikeClicked] = useState(false)
     const [getUserFavorites] = useGetUserFavoritesMutation()
+    const [deleteFavorite] = useDeleteFavoriteMutation()
     const {showToast} = useToast();
-
     function handleModal() {
         setActive(!active);
     }
-
+const navigate = useNavigate()
     const addToFavorites = async () => {
         const apiCall = getUserFavorites({'title': props.movie.title}).unwrap()
         showToast(apiCall, `Added ${props.movie.title} to favorites`, '');
     };
-
+    const deleteFromFavorites = async ()=>{
+        const apiCall= deleteFavorite({'title':props.movie.title}).unwrap();
+        showToast(apiCall,`Deleted ${props.movie.title} from favorites`,'');
+    }
 
     return active ? (
         <MyModal show={active} onHide={handleModal} movie={props.movie}/>
@@ -56,22 +61,38 @@ export default function Product(props) {
 
                         <div className={"col-auto"}>
 
-                            <FontAwesomeIcon icon={faHeart}
-                                             className={!heartClicked ? 'favHeart m-2' : 'favHeartLike m-2'}
-                                             onClick={() => {
-                                                 addToFavorites()
-                                                 // setTimeout(()=>{
-                                                 //     fetch('https://jsonplaceholder.typicode.com/todos/1')
-                                                 //         .then(response => response.json())
-                                                 //         .then(json => {
-                                                 //             console.log(json);
-                                                 //             setTest(json);
-                                                 //             setShow(true)
-                                                 //         })
-                                                 // },1000)
 
-                                                 setHeartClicked(!heartClicked)
-                                             }} size="xl"/>
+                            {
+                                props.favEnable?
+                                    <FontAwesomeIcon icon={faTrash} className={!starClicked ? 'dislike m-2' : 'dislikeClicked m-2'}
+                                                     onClick={() => {
+                                                         deleteFromFavorites()
+                                                         setDislikeClicked(!dislikeClicked)
+
+                                                     }}
+                                                     size="xl"
+                                                     title={"Trash"}
+                                    />
+                                    :
+                                    <FontAwesomeIcon icon={faHeart}
+                                                     className={!heartClicked ? 'favHeart m-2' : 'favHeartLike m-2'}
+                                                     onClick={() => {
+                                                         addToFavorites()
+                                                         // setTimeout(()=>{
+                                                         //     fetch('https://jsonplaceholder.typicode.com/todos/1')
+                                                         //         .then(response => response.json())
+                                                         //         .then(json => {
+                                                         //             console.log(json);
+                                                         //             setTest(json);
+                                                         //             setShow(true)
+                                                         //         })
+                                                         // },1000)
+                                                         setHeartClicked(!heartClicked)
+                                                     }}
+                                                     size="xl"
+                                    />
+
+                            }
 
                             <FontAwesomeIcon icon={faStar} className={!starClicked ? 'star m-2' : 'starClicked m-2'}
                                              onClick={() => setStarClicked(!starClicked)} size="xl" title={"Star"}/>

@@ -1,13 +1,27 @@
-import {useMemo} from "react";
+import {useEffect, useMemo, useState} from "react";
 import Product from "../templates/Product";
 import { useGetFavoritesQuery } from "../../features/auth/authApiSlice";
 import {useSelector} from "react-redux";
 import {selectSearchString} from "../../features/search/searchSlice";
 
 const Favorites = () => {
-
     const reduxSearch = useSelector(selectSearchString);
     const { data, isError, isLoading, isSuccess, error } = useGetFavoritesQuery();
+    // const [filteredMovies, setFilteredMovies] = useState([]);
+    //
+    // useEffect(() => {
+    //     if (isSuccess && data) {
+    //         let filteredData;
+    //         if (reduxSearch.trim() === '') {
+    //             filteredData = data;
+    //         } else {
+    //             filteredData = data.filter(movie =>
+    //                 movie.title.toLowerCase().includes(reduxSearch.toLowerCase())
+    //             );
+    //         }
+    //         setFilteredMovies(filteredData);
+    //     }
+    // }, [data, isSuccess, reduxSearch, deleteFav]);
 
     const filteredMovies = useMemo(() => {
         if (!isSuccess || !data) {
@@ -23,6 +37,7 @@ const Favorites = () => {
         );
         return filteredData;
     }, [data, isSuccess, reduxSearch]);
+
 
     let content;
     if (isLoading) {
@@ -47,6 +62,7 @@ const Favorites = () => {
                                 genre: movie.genre,
                                 year: movie.year
                             }}
+                            favEnable={true}
                         />
                     ))}
                     {filteredMovies.length === 0 && <p>No movies</p>}

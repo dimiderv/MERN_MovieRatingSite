@@ -257,15 +257,45 @@ app.get("/favorites", async (req, res) => {
       res.status(200).json(result.favorites)
     }
   });
-    // .then((result)=>{
-    //     console.log("Before attempting to add to favorites",result.favorites[0].genre)
-    //     res.status(200).json(result.favorites)
-    // }).catch(()=>{
-    //     res.status(500).json({message: 'Failed to get favorites.'})
-    // })
-
 });
 
+//test api
+app.get("/favoritesArray", async (req,res)=>{
+  const user = await User.findOne({_id: req.user.userId});
+  console.log(user)
+  return res.status(200).json(user?.favorites);
+})
+
+app.delete("/favorites", async (req,res)=>{
+  const movieTitle = req.body.title || "";
+  const userId = req.user.userId;
+
+  if(!movieTitle){
+    return res.status(400).json({message: 'No movie title in the request'});
+  }
+
+  try {
+    const user = await User.findById(userId).populate('favorites','title');
+    if(!user){
+      return res.status(404).json({message: 'User not found'});
+    }
+    console.log(user)
+    const index = user.favorites.findIndex(movie=>movie.title ===movieTitle);
+    if(index===-1){
+      return  res.status(404).json({message: 'Movie not found in favorites'});
+    }
+    console.log(index)
+
+    user.favorites.splice(index,1);
+    await user.save();
+
+    return res.status(200).json({message:`Deleted ${movieTitle} from favorites.`})
+
+  }catch (err){
+    console.error('Error removing movie from favorites',err);
+    res.status(500).json({message: 'Failed to remove movie from favorites'});
+  }
+})
 
 app.patch("/updateUserDetails", async (req,res)=>{
   // (More efficient) 2. Check if the data have changed (might do it on the frontend)
