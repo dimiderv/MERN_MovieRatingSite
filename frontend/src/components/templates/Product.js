@@ -28,11 +28,14 @@ const navigate = useNavigate()
     const deleteFromFavorites = async ()=>{
         const apiCall= deleteFavorite({'title':props.movie.title}).unwrap();
         showToast(apiCall,`Deleted ${props.movie.title} from favorites`,'');
-        setTimeout(()=>{
-            props.onDeleteFavorite();
-        },500)
+        // setTimeout(()=>{
+        //     props.onDeleteFavorite();
+        // },500)
     }
-
+    const handleDeleteFavorite = async () => {
+        await deleteFromFavorites();
+        props.onDeleteFavorite();
+    };
     return active ? (
         <MyModal show={active} onHide={handleModal} movie={props.movie}/>
     ) : (
@@ -69,7 +72,7 @@ const navigate = useNavigate()
                                 props.favEnable?
                                     <FontAwesomeIcon icon={faTrash} className={!starClicked ? 'dislike m-2' : 'dislikeClicked m-2'}
                                                      onClick={() => {
-                                                         deleteFromFavorites()
+                                                         handleDeleteFavorite()
                                                          setDislikeClicked(!dislikeClicked)
 
                                                      }}
