@@ -7,7 +7,8 @@ const handleRefreshToken = async (req, res) => {
     const refreshToken = cookies.jwt;
 
     const foundUser = await User.findOne({ refreshToken }).exec();
-    if (!foundUser) return res.sendStatus(403); //Forbidden 
+    if (!foundUser) return res.sendStatus(403); //Forbidden
+    console.log(`Method ${req.method}, Endpoint: /refresh`)
     // evaluate jwt 
     jwt.verify(
         refreshToken,

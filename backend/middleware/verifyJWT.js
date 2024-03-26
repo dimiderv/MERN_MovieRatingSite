@@ -17,8 +17,8 @@ const verifyJWT = (req, res, next) => {
                 return res.status(403).json({message:"Forbidden"})
             }
             console.log('==========Verified===========')
-            console.log("This is from the verifyJWT",decoded)
-            console.log('------------------------------------')
+            // console.log("This is from the verifyJWT",decoded)
+            // console.log('------------------------------------')
             req.user = decoded; //might be wrong
             next();
         }

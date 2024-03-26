@@ -66,15 +66,12 @@ const navigate = useNavigate()
                         <div className={"col-0"}></div>
 
                         <div className={"col-auto"}>
-
-
                             {
                                 props.favEnable?
                                     <FontAwesomeIcon icon={faTrash} className={!starClicked ? 'dislike m-2' : 'dislikeClicked m-2'}
                                                      onClick={() => {
                                                          handleDeleteFavorite()
                                                          setDislikeClicked(!dislikeClicked)
-
                                                      }}
                                                      size="xl"
                                                      title={"Trash"}
@@ -99,7 +96,6 @@ const navigate = useNavigate()
                                     />
 
                             }
-
                             <FontAwesomeIcon icon={faStar} className={!starClicked ? 'star m-2' : 'starClicked m-2'}
                                              onClick={() => setStarClicked(!starClicked)} size="xl" title={"Star"}/>
                             <FontAwesomeIcon icon={faThumbsDown}
@@ -108,10 +104,7 @@ const navigate = useNavigate()
                                              title={"Dislike"}/>
                         </div>
                     </Row>
-
-
                 </Card.Body>
-
             </Card>
         </div>
     );

@@ -194,10 +194,10 @@ app.post("/addmovie", async (req, res) => {
 app.use(verifyJWT)
 /**====================================End of Authentication===========================**/
 app.get("/movies", async (req, res) => {
-  console.log("TRYING TO FETCH Movies");
+  console.log(`Method ${req.method}, endpoint /movies`)
   try {
     const movieData = await mySchemas.movies.find().populate('genre');
-    res.status(200).json({
+    return res.status(200).json({
       movies: movieData.map((movie) => ({
         id: movie.id,
         title: movie.title,
@@ -210,27 +210,27 @@ app.get("/movies", async (req, res) => {
 
       })),
     });
-    console.log("FETCHED Movies");
     //console.log(movieData)
   } catch (err) {
     console.error("ERROR FETCHING Movies");
     console.error(err.message);
-    res.status(500).json({ message: "Failed to load goals." });
+    return res.status(500).json({ message: "Failed to load goals." });
   }
 });
 
 app.get("/user",async (req,res)=>{
   // console.log(req)
   // should add await i believe
+  console.log(`Method ${req.method}, endpoint /user`)
   await User.findOne({$or: [{ email: req.user.userEmail }, {username: req.user.userName}]})
   .exec(function(err, result) {
     if (err) {
       // Handle error
-      res.status(500).json({message: 'Failed to get user.'})
+     return res.status(500).json({message: 'Failed to get user.'})
     } else {
       // Access the populated favorites with genre information
-      console.log("This is the user document",result)
-      res.status(200).json(result)
+      // console.log("This is the user document",result)
+      return res.status(200).json(result)
     }
   });
 })
@@ -239,7 +239,7 @@ app.get("/user",async (req,res)=>{
 
 
 app.get("/favorites", async (req, res) => {
-  console.log("TRYING TO get Favorites to user populate('favorites')");
+  console.log(`Method ${req.method}, endpoint /favorites`)
   // console.log(req)
  await User.findOne({_id: req.user.userId}).populate({
     path: 'favorites',
@@ -250,11 +250,11 @@ app.get("/favorites", async (req, res) => {
   .exec(function(err, result) {
     if (err) {
       // Handle error
-      res.status(500).json({message: 'Failed to get favorites.'})
+      return res.status(500).json({message: 'Failed to get favorites.'})
     } else {
       // Access the populated favorites with genre information
-      console.log("Before attempting to add to favorites",result)
-      res.status(200).json(result.favorites)
+      // console.log("Before attempting to add to favorites",result)
+      return res.status(200).json(result.favorites)
     }
   });
 });
@@ -268,6 +268,8 @@ app.get("/favoritesArray", async (req,res)=>{
 
 app.delete("/favorites", async (req,res)=>{
   const movieTitle = req.body.title || "";
+  console.log(`Method ${req.method}, endpoint /favorites, Title: ${movieTitle}`)
+
   const userId = req.user.userId;
 
   if(!movieTitle){
@@ -279,27 +281,27 @@ app.delete("/favorites", async (req,res)=>{
     if(!user){
       return res.status(404).json({message: 'User not found'});
     }
-    console.log(user)
+    // console.log(user)
     const index = user.favorites.findIndex(movie=>movie.title ===movieTitle);
     if(index===-1){
       return  res.status(404).json({message: 'Movie not found in favorites'});
     }
-    console.log(index)
+    console.log('Index in favorites: ',index)
 
     user.favorites.splice(index,1);
     await user.save();
-    console.log("User after delettion", user)
+    console.log("User after delettion", user.favorites)
     return res.status(200).json({message:`Deleted ${movieTitle} from favorites.`})
 
   }catch (err){
     console.error('Error removing movie from favorites',err);
-    res.status(500).json({message: 'Failed to remove movie from favorites'});
+    return res.status(500).json({message: 'Failed to remove movie from favorites'});
   }
 })
 
 app.patch("/updateUserDetails", async (req,res)=>{
   // (More efficient) 2. Check if the data have changed (might do it on the frontend)
-
+  console.log(`Method ${req.method}, endpoint /updateUserDetails`)
   
   const {firstName, lastName, birthday,email} = req.body.dataObj;
   const user = await User.findOne({_id: req.user.userId});
@@ -323,7 +325,7 @@ app.patch("/updateUserDetails", async (req,res)=>{
     areTheSame++
   
   if(areTheSame===4){
-    res.status(500).send({
+    return res.status(500).send({
       message: "You didn't change any information.",
       prevEmail:prevEmail,
     })
@@ -331,14 +333,14 @@ app.patch("/updateUserDetails", async (req,res)=>{
     user.save()
     .then((result)=>{
       console.log(result);
-      res.status(200).send({
+      return res.status(200).send({
         message:"Successfully updated details!"
         
       })
     }).catch((error)=>{
 
       // Try throw error or if condition on frontend
-      res.status(500).send({
+     return res.status(500).send({
         message: `Error code ${error.code}. Email already exists.`,
         prevEmail:prevEmail,
         error
@@ -350,8 +352,9 @@ app.patch("/updateUserDetails", async (req,res)=>{
 
 
 app.patch('/updatePassword',async (req,res)=>{
+  console.log(`Method ${req.method}, endpoint /updatePassword`)
   const userID= req.user.userId;
-  console.log(req.body)
+  // console.log(req.body)
   const {currentPassword,newPassword} = req.body.dataObj;
   console.log(currentPassword,newPassword)
   console.log(currentPassword,newPassword, userID)
@@ -391,7 +394,7 @@ app.patch('/updatePassword',async (req,res)=>{
 
 // I am here
 app.post("/favorites", async (req, res) => {
-  console.log("TRYING TO add favorites to user");
+  console.log(`Method ${req.method}, endpoint /favorites`)
   const movieTitle = req.body.title || "";  
   if (!movieTitle || movieTitle.trim().length === 0) {
     console.log("INVALID INPUT - NO TEXT");
@@ -418,7 +421,7 @@ app.post("/favorites", async (req, res) => {
     res.status(422).json({ message: `${movieTitle} already exists in favorites.` });
   }else{
       user.favorites.push(foundMovie._id)
-      console.log(user)
+      // console.log(user)
   user.save()
     .then((result)=>{
       console.log(result);
@@ -436,6 +439,7 @@ app.post("/favorites", async (req, res) => {
 
 });
 app.delete("/deletefavorites", async (req, res) => {
+  console.log(`Method ${req.method}, endpoint /deleteFavorites`)
   try {
     // Delete all documents in the "favorites" collection
     await User.updateMany({}, { $set: { favorites: [] } });
@@ -448,6 +452,7 @@ app.delete("/deletefavorites", async (req, res) => {
 });
 
 app.delete('/delete',async (req,res)=>{
+  console.log(`Method ${req.method}, endpoint /delete`)
   try {
     await mySchemas.movies.deleteMany()
     res.status(200).json({ message: 'Deleted all movies!' });
@@ -459,6 +464,7 @@ app.delete('/delete',async (req,res)=>{
   }
 })
 app.delete('/deleteUsers',async (req,res)=>{
+  console.log(`Method ${req.method}, endpoint: /deleteUsers`)
   try {
     await User.deleteMany()
     res.status(200).json({ message: 'Deleted Users!' });
@@ -472,6 +478,7 @@ app.delete('/deleteUsers',async (req,res)=>{
 
 
 app.get('/actor', async (req,res)=>{
+  console.log(`Method ${req.method}, endpoint /actor`)
   try {
     const movieData = await mySchemas.movies.findOne({cast:'Stephan James'});
     res.status(200).json({
