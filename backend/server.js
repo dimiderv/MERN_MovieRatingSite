@@ -87,33 +87,10 @@ app.use('/login',require('./routes/login'));
 app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
 
+//This use verifyJWT
+app.use('/favorites',require('./routes/favorites'));
+app.use('/user',require('./routes/user'));
 
-
-app.post("/goals", async (req, res) => {
-  console.log("TRYING TO STORE GOAL");
-  const goalText = req.body.text;
-
-  if (!goalText || goalText.trim().length === 0) {
-    console.log("INVALID INPUT - NO TEXT");
-    return res.status(422).json({ message: "Invalid goal text." });
-  }
-
-  const goal = new Goal({
-    text: goalText,
-  });
-
-  try {
-    await goal.save();
-    res
-      .status(201)
-      .json({ message: "Goal save•••••••••••••••d", goal: { id: goal.id, text: goalText } });
-    console.log("STORED NEW GOAL");
-  } catch (err) {
-    console.error("ERROR FETCHING GOALS");
-    console.error(err.message);
-    res.status(500).json({ message: "Failed to save goal." });
-  }
-});
 
 app.post("/genre", async (req, res) => {
   console.log("TRYING TO STORE Genre");
@@ -218,46 +195,8 @@ app.get("/movies", async (req, res) => {
   }
 });
 
-app.get("/user",async (req,res)=>{
-  // console.log(req)
-  // should add await i believe
-  console.log(`Method ${req.method}, endpoint /user`)
-  await User.findOne({$or: [{ email: req.user.userEmail }, {username: req.user.userName}]})
-  .exec(function(err, result) {
-    if (err) {
-      // Handle error
-     return res.status(500).json({message: 'Failed to get user.'})
-    } else {
-      // Access the populated favorites with genre information
-      // console.log("This is the user document",result)
-      return res.status(200).json(result)
-    }
-  });
-})
 
 
-
-
-app.get("/favorites", async (req, res) => {
-  console.log(`Method ${req.method}, endpoint /favorites`)
-  // console.log(req)
- await User.findOne({_id: req.user.userId}).populate({
-    path: 'favorites',
-    populate: {
-      path: 'genre',
-    }
-  })
-  .exec(function(err, result) {
-    if (err) {
-      // Handle error
-      return res.status(500).json({message: 'Failed to get favorites.'})
-    } else {
-      // Access the populated favorites with genre information
-      // console.log("Before attempting to add to favorites",result)
-      return res.status(200).json(result.favorites)
-    }
-  });
-});
 
 //test api
 app.get("/favoritesArray", async (req,res)=>{
@@ -266,178 +205,7 @@ app.get("/favoritesArray", async (req,res)=>{
   return res.status(200).json(user?.favorites);
 })
 
-app.delete("/favorites", async (req,res)=>{
-  const movieTitle = req.body.title || "";
-  console.log(`Method ${req.method}, endpoint /favorites, Title: ${movieTitle}`)
 
-  const userId = req.user.userId;
-
-  if(!movieTitle){
-    return res.status(400).json({message: 'No movie title in the request'});
-  }
-
-  try {
-    const user = await User.findById(userId).populate('favorites','title');
-    if(!user){
-      return res.status(404).json({message: 'User not found'});
-    }
-    // console.log(user)
-    const index = user.favorites.findIndex(movie=>movie.title ===movieTitle);
-    if(index===-1){
-      return  res.status(404).json({message: 'Movie not found in favorites'});
-    }
-    console.log('Index in favorites: ',index)
-
-    user.favorites.splice(index,1);
-    await user.save();
-    console.log("User after delettion", user.favorites)
-    return res.status(200).json({message:`Deleted ${movieTitle} from favorites.`})
-
-  }catch (err){
-    console.error('Error removing movie from favorites',err);
-    return res.status(500).json({message: 'Failed to remove movie from favorites'});
-  }
-})
-
-app.patch("/updateUserDetails", async (req,res)=>{
-  // (More efficient) 2. Check if the data have changed (might do it on the frontend)
-  console.log(`Method ${req.method}, endpoint /updateUserDetails`)
-  
-  const {firstName, lastName, birthday,email} = req.body.dataObj;
-  const user = await User.findOne({_id: req.user.userId});
-  // console.log(user)
-  // Should not be allowed any requests. Fix from frontend
-  let areTheSame = 0;
-  user.firstName !== firstName ?
-    (user.firstName = firstName): 
-    areTheSame++
-  user.lastName !== lastName ?
-    (user.lastName = lastName): 
-    areTheSame++
-    
-  const prevEmail = user.email;
-  user.email !== email ?
-    (user.email = email): 
-    areTheSame++
-  
-  user.birthday !== birthday ?
-    (user.birthday = birthday): 
-    areTheSame++
-  
-  if(areTheSame===4){
-    return res.status(500).send({
-      message: "You didn't change any information.",
-      prevEmail:prevEmail,
-    })
-  }else{
-    user.save()
-    .then((result)=>{
-      console.log(result);
-      return res.status(200).send({
-        message:"Successfully updated details!"
-        
-      })
-    }).catch((error)=>{
-
-      // Try throw error or if condition on frontend
-     return res.status(500).send({
-        message: `Error code ${error.code}. Email already exists.`,
-        prevEmail:prevEmail,
-        error
-      })
-    })
-
-  }
-})
-
-
-app.patch('/updatePassword',async (req,res)=>{
-  console.log(`Method ${req.method}, endpoint /updatePassword`)
-  const userID= req.user.userId;
-  // console.log(req.body)
-  const {currentPassword,newPassword} = req.body.dataObj;
-  console.log(currentPassword,newPassword)
-  console.log(currentPassword,newPassword, userID)
-  await User.findOne({_id:userID}).then((user)=>{
-    bcrypt.compare(currentPassword, user.password)
-      .then(( passwordCheck)=>{
-        if(!passwordCheck){
-          console.log('Passwords dont match')
-          return res.status(400).send({
-            message:'Passwords do not match'
-          });
-        }
-        if(currentPassword === newPassword){
-          return res.status(400).send({
-            message:'Current and new password cant be the same'
-          })
-        }
-        bcrypt
-        .hash(newPassword, 10)
-        .then((hashedPassword)=>{
-          user.password = hashedPassword;
-          // console.log(user)
-          console.log(`Password was updated successfully!`)
-          user.save().then(result=>{
-            res.status(200).json({
-              message:"Successfully updated password"
-            })
-          })
-        })
-  }).catch((err)=>{
-    console.error(err)
-  })
-
-
-})
-})
-
-// I am here
-app.post("/favorites", async (req, res) => {
-  console.log(`Method ${req.method}, endpoint /favorites`)
-  const movieTitle = req.body.title || "";  
-  if (!movieTitle || movieTitle.trim().length === 0) {
-    console.log("INVALID INPUT - NO TEXT");
-    return res.status(422).json({ message: "Invalid title text." });
-  }
-  console.log("Title of movie trying to add ",movieTitle )
-  const foundMovie = await mySchemas.movies.findOne({title:movieTitle}).exec();
-  if(!foundMovie){
-    console.log(`No movie with title ${movieTitle}.` )
-    return res.status(422).json({ message: `No movie with title ${movieTitle}.` }); //added the return keyword. 10/01
-  }
-  // console.log(foundMovie)
-  // console.log(req.user);
-  const user = await User.findOne({_id: req.user.userId});
-  // console.log("Before attempting to add to favorites",user)
-  //added it 10/01
-  if (!user) {
-    console.log("User not found");
-    return res.status(404).json({ message: "User not found." });
-  }
-  //crashes if the movie doesn't exist
-  if(user.favorites.includes(foundMovie._id)){
-    console.log(`${movieTitle} already exists in Favorites`);
-    res.status(422).json({ message: `${movieTitle} already exists in favorites.` });
-  }else{
-      user.favorites.push(foundMovie._id)
-      // console.log(user)
-  user.save()
-    .then((result)=>{
-      console.log(result);
-      res.status(200).send({
-        message:`Successfully saved ${movieTitle} to favorites`
-      })
-    }).catch((error)=>{
-      console.log(error)
-      res.status(500).send({
-        message: "Error adding to favorites.",
-        error
-      })
-    })
-  }
-
-});
 app.delete("/deletefavorites", async (req, res) => {
   console.log(`Method ${req.method}, endpoint /deleteFavorites`)
   try {

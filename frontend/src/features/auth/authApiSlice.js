@@ -12,8 +12,8 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }),
         updatePassword: builder.mutation({
             query:credentials =>({
-                url: '/updatePassword', //might have to change it to /login, not sure what it does!!
-                method:'PATCH',
+                url: '/user', //might have to change it to /login, not sure what it does!!
+                method:'PUT',
                 body:{...credentials}
             })
         }),
@@ -33,7 +33,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }),
         updateUserDetails: builder.mutation({
             query: credentials =>({
-                url:'/updateUserDetails',
+                url:'/user',
                 method: 'PATCH',
                 body:{...credentials}
             })
